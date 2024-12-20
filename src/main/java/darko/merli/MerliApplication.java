@@ -8,11 +8,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class MerliApplication {
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext context = SpringApplication.run(MerliApplication.class, args);
-
-		Automobil a = context.getBean(Automobil.class);
-
-		a.show();
+		SpringApplication.run(MerliApplication.class, args);
 	}
 
 
