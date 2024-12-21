@@ -1,0 +1,12 @@
+insert into Channel (id,channel_name,subscribers) values (1,'PewDiePie',110304078);
+insert into Channel (id,channel_name,subscribers) values (2,'SerbianGamesBL',1200034);
+insert into Channel (id,channel_name,subscribers) values (3,'Darko',32);
+insert into Channel (id,channel_name,subscribers) values (4,'CoolChannel',542);
+insert into Channel (id,channel_name,subscribers) values (5, 'GreatChannel',203043);
+insert into Channel (id,channel_name,subscribers) values (6, 'AmazingChannel',43030);
+insert into Channel (id,channel_name,subscribers) values (7,'SimRacing',110304);
+insert into Channel (id,channel_name,subscribers) values (8,'Mudja',1800034);
+insert into Channel (id,channel_name,subscribers) values (9,'Darko123',3232);
+insert into Channel (id,channel_name,subscribers) values (10,'CoolChannel123',5424);
+insert into Channel (id,channel_name,subscribers) values (11, 'GreatChannel321',2030434);
+insert into Channel (id,channel_name,subscribers) values (12, 'AmazingChannel2',430303);
