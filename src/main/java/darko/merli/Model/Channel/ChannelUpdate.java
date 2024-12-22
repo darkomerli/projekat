@@ -1,15 +1,11 @@
 package darko.merli.Model.Channel;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class ChannelSearch {
+public class ChannelUpdate {
     private String channelName;
-    private long subscribers;
-    private long user_id;
     private String description;
 }
