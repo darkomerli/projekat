@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
+//Class that has 3 attributes and which the app uses to throw and exception
 public class ApiException {
     private final String message;
 
