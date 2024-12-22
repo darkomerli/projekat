@@ -1,4 +1,4 @@
-package darko.merli.Model.Channel;
+package darko.merli.Model.ChannelDTOS;
 
 import darko.merli.Model.User.User;
 import jakarta.persistence.*;

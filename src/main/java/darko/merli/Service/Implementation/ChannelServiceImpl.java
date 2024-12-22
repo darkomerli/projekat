@@ -1,10 +1,9 @@
 package darko.merli.Service.Implementation;
 
-import darko.merli.Exception.ApiExceptionHandler;
-import darko.merli.Model.Channel.Channel;
-import darko.merli.Model.Channel.ChannelCreation;
-import darko.merli.Model.Channel.ChannelSearch;
-import darko.merli.Model.Channel.ChannelUpdate;
+import darko.merli.Model.ChannelDTOS.Channel;
+import darko.merli.Model.ChannelDTOS.ChannelCreation;
+import darko.merli.Model.ChannelDTOS.ChannelSearch;
+import darko.merli.Model.ChannelDTOS.ChannelUpdate;
 import darko.merli.Model.User.User;
 import darko.merli.Repository.ChannelRepository;
 import darko.merli.Repository.UserRepository;
@@ -78,7 +77,6 @@ public class ChannelServiceImpl implements ChannelService {
     @Override
     public String subscribeChannel(String name, long userId) throws IllegalAccessException {
         Channel channel = channelRepository.findByName(name);
-        channel.setSubscribers(channel.getSubscribers() + 1);
         List<User> users = channel.getUsers();
         Optional<User> user = userRepository.findById(userId);
         if(user.isPresent()){
@@ -93,6 +91,7 @@ public class ChannelServiceImpl implements ChannelService {
                     List<Channel> listofChannels = user.get().getSubscribedChannelsList();
                     listofChannels.add(channel);
                     user.get().setSubscribedChannelsList(listofChannels);
+                    channel.setSubscribers(channel.getSubscribers() + 1);
                     userRepository.save(user.get());
                     channelRepository.save(channel);
                     return "Successfully subscribed to channel " + name;
@@ -102,6 +101,34 @@ public class ChannelServiceImpl implements ChannelService {
             throw new EntityNotFoundException("User not found");
         }
 
+    }
+
+    @Override
+    public String unsubscribeChannel(String name, long userId) throws IllegalAccessException {
+        Channel channel = channelRepository.findByName(name);
+        List<User> users = channel.getUsers();
+        Optional<User> user = userRepository.findById(userId);
+        if(user.isPresent()){
+            if(channel.getUser().getUser_id() == userId){
+                throw new IllegalAccessException("You can't unsubscribe from your own channel because you are not a subscriber");
+            } else {
+                if(users.contains(user.get())){
+                    users.remove(user.get());
+                    channel.setUsers(users);
+                    List<Channel> listofChannels = user.get().getSubscribedChannelsList();
+                    listofChannels.remove(channel);
+                    user.get().setSubscribedChannelsList(listofChannels);
+                    channel.setSubscribers(channel.getSubscribers() - 1);
+                    userRepository.save(user.get());
+                    channelRepository.save(channel);
+                    return "User with ID: "+ user.get().getUser_id()+"Successfully unsubscribed from channel " + name;
+                } else {
+                    throw new IllegalAccessException("This user is not subscribed to this channel");
+                }
+            }
+        } else {
+            throw new EntityNotFoundException("User not found");
+        }
     }
 
     //channel to searched channel
