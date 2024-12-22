@@ -1,4 +1,4 @@
-package darko.merli.Model.Channel;
+package darko.merli.Model.ChannelDTOS;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

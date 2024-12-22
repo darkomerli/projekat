@@ -1,6 +1,6 @@
 package darko.merli.Model.User;
 
-import darko.merli.Model.Channel.Channel;
+import darko.merli.Model.ChannelDTOS.Channel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

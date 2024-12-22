@@ -1,9 +1,8 @@
 package darko.merli.Controller;
 
-import darko.merli.Model.Channel.Channel;
-import darko.merli.Model.Channel.ChannelCreation;
-import darko.merli.Model.Channel.ChannelSearch;
-import darko.merli.Model.Channel.ChannelUpdate;
+import darko.merli.Model.ChannelDTOS.ChannelCreation;
+import darko.merli.Model.ChannelDTOS.ChannelSearch;
+import darko.merli.Model.ChannelDTOS.ChannelUpdate;
 import darko.merli.Service.ChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -23,7 +22,7 @@ public class ChannelController {
         return channelService.searchChannel(name);
     }
 
-    //creation of the channel, for now all users can create the channel
+
     @PostMapping("/createChannel")
     public String createChannel(@RequestBody ChannelCreation channel){
         channelService.createChannel(channel);
@@ -46,5 +45,11 @@ public class ChannelController {
     @PutMapping("/@{name}/subscribe/{id}")
     public String subscribeToChannel(@PathVariable long id, @PathVariable String name) throws IllegalAccessException {
         return channelService.subscribeChannel(name, id);
+    }
+
+    //unsubscribing from a channel
+    @PutMapping("/@{name}/unsubscribe/{id}")
+    public String unsubscribeFromChannel(@PathVariable long id, @PathVariable String name) throws IllegalAccessException {
+        return channelService.unsubscribeChannel(name,id);
     }
 }

@@ -1,9 +1,9 @@
 package darko.merli.Service;
 
-import darko.merli.Model.Channel.Channel;
-import darko.merli.Model.Channel.ChannelCreation;
-import darko.merli.Model.Channel.ChannelSearch;
-import darko.merli.Model.Channel.ChannelUpdate;
+import darko.merli.Model.ChannelDTOS.Channel;
+import darko.merli.Model.ChannelDTOS.ChannelCreation;
+import darko.merli.Model.ChannelDTOS.ChannelSearch;
+import darko.merli.Model.ChannelDTOS.ChannelUpdate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,4 +19,6 @@ public interface ChannelService{
     public ChannelSearch updateChannel(String name, ChannelUpdate channel);
 
     public String subscribeChannel(String name, long userId) throws IllegalAccessException;
+
+    public String unsubscribeChannel(String name, long userId) throws IllegalAccessException;
 }
