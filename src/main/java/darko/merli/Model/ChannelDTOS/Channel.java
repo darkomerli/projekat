@@ -1,6 +1,6 @@
 package darko.merli.Model.ChannelDTOS;
 
-import darko.merli.Model.UserDTOS.User;
+import darko.merli.Model.UserDTOS.Users;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +26,7 @@ public class Channel {
     private String description;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users user;
 
     @ManyToMany
     @JoinTable(
@@ -34,5 +34,5 @@ public class Channel {
             joinColumns = @JoinColumn(name = "channel_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> users;
+    private List<Users> users;
 }

@@ -4,7 +4,7 @@ import darko.merli.Model.ChannelDTOS.Channel;
 import darko.merli.Model.ChannelDTOS.ChannelCreation;
 import darko.merli.Model.ChannelDTOS.ChannelSearch;
 import darko.merli.Model.ChannelDTOS.ChannelUpdate;
-import darko.merli.Model.UserDTOS.User;
+import darko.merli.Model.UserDTOS.Users;
 import darko.merli.Repository.ChannelRepository;
 import darko.merli.Repository.UserRepository;
 import darko.merli.Service.ChannelService;
@@ -77,8 +77,8 @@ public class ChannelServiceImpl implements ChannelService {
     @Override
     public String subscribeChannel(String name, long userId) throws IllegalAccessException {
         Channel channel = channelRepository.findByName(name);
-        List<User> users = channel.getUsers();
-        Optional<User> user = userRepository.findById(userId);
+        List<Users> users = channel.getUsers();
+        Optional<Users> user = userRepository.findById(userId);
         if(user.isPresent()){
             if(channel.getUser().getUser_id() == userId){
                 throw new IllegalAccessException("You can't subscribe to your own channel");
@@ -106,8 +106,8 @@ public class ChannelServiceImpl implements ChannelService {
     @Override
     public String unsubscribeChannel(String name, long userId) throws IllegalAccessException {
         Channel channel = channelRepository.findByName(name);
-        List<User> users = channel.getUsers();
-        Optional<User> user = userRepository.findById(userId);
+        List<Users> users = channel.getUsers();
+        Optional<Users> user = userRepository.findById(userId);
         if(user.isPresent()){
             if(channel.getUser().getUser_id() == userId){
                 throw new IllegalAccessException("You can't unsubscribe from your own channel because you are not a subscriber");
@@ -151,7 +151,7 @@ public class ChannelServiceImpl implements ChannelService {
         channel.setChannelName(creation.getChannelName());
         channel.setSubscribers(0);
         channel.setDescription(creation.getDescription());
-        Optional<User> user = userRepository.findById(creation.getUser_id());
+        Optional<Users> user = userRepository.findById(creation.getUser_id());
         if(user.isPresent()){
             channel.setUser(user.get());
         } else {
