@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ public class ChannelController {
     //searching the channel by channel name
     @Operation(summary = "Search the channel", description = "Search the channel by its name")
     @GetMapping("/channel/@{name}")
+    @Valid
     @SecurityRequirements
     public ChannelSearch searchChannel(@PathVariable String name) {
         return channelService.searchChannel(name);
