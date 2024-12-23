@@ -4,12 +4,17 @@ import darko.merli.Model.ChannelDTOS.ChannelCreation;
 import darko.merli.Model.ChannelDTOS.ChannelSearch;
 import darko.merli.Model.ChannelDTOS.ChannelUpdate;
 import darko.merli.Service.ChannelService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Validated
+@Tag(name = "1. Channels")
 //controller class that hold the apis regarding the channels
 public class ChannelController {
 
@@ -17,38 +22,44 @@ public class ChannelController {
     ChannelService channelService;
 
     //searching the channel by channel name
-    @GetMapping("/@{name}")
+    @Operation(summary = "Search the channel", description = "Search the channel by its name")
+    @GetMapping("/channel/@{name}")
+    @SecurityRequirements
     public ChannelSearch searchChannel(@PathVariable String name) {
         return channelService.searchChannel(name);
     }
 
-
-    @PostMapping("/createChannel")
+    @Operation(summary = "Create a new channel", description = "Create the new channel by selecting its name and description.")
+    @PostMapping("/channel/createChannel")
     public String createChannel(@RequestBody ChannelCreation channel){
         channelService.createChannel(channel);
         return "Channel created successfully.";
     }
 
     //deletion of the channel, for now, all users can delete every channel
-    @DeleteMapping("/deleteChannel/{name}")
+    @Operation(summary = "Delete the channel", description = "Delete the channel by typing in channel name.")
+    @DeleteMapping("/channel/deleteChannel/{name}")
     public String deleteChannel(@PathVariable String name){
         return channelService.deleteChannel(name);
     }
 
     //updating the channel data such as name and description
-    @PutMapping("/updateChannel/{name}")
+    @Operation(summary = "Update the channel", description = "Update channel name or description")
+    @PutMapping("/channel/updateChannel/{name}")
     public ChannelSearch updateChannel(@PathVariable String name, @RequestBody ChannelUpdate channel){
         return channelService.updateChannel(name, channel);
     }
 
     //subscribing to a channel
-    @PutMapping("/@{name}/subscribe/{id}")
+    @Operation(summary = "Subscribe to the channel", description = "Subscribe to the channel with channel name")
+    @PutMapping("/channel/@{name}/subscribe/{id}")
     public String subscribeToChannel(@PathVariable long id, @PathVariable String name) throws IllegalAccessException {
         return channelService.subscribeChannel(name, id);
     }
 
     //unsubscribing from a channel
-    @PutMapping("/@{name}/unsubscribe/{id}")
+    @Operation(summary = "Unsubscribe from the channel", description = "Unsubscribe from the channel by using channel name")
+    @PutMapping("/channel/@{name}/unsubscribe/{id}")
     public String unsubscribeFromChannel(@PathVariable long id, @PathVariable String name) throws IllegalAccessException {
         return channelService.unsubscribeChannel(name,id);
     }
