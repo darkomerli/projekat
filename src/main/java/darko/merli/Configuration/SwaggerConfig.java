@@ -22,7 +22,6 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI(){
         return new OpenAPI()
-                .info(new Info().title("YouMerli"))
                 .addSecurityItem(new SecurityRequirement().addList("MerliSecurityScheme"))
                 .components(new Components().addSecuritySchemes("MerliSecurityScheme", new SecurityScheme().name("MerliSecurityScheme").type(SecurityScheme.Type.HTTP).scheme("basic")));
     }
