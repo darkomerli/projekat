@@ -4,7 +4,7 @@ import darko.merli.Model.ChannelDTOS.Channel;
 import darko.merli.Model.ChannelDTOS.ChannelCreation;
 import darko.merli.Model.ChannelDTOS.ChannelSearch;
 import darko.merli.Model.ChannelDTOS.ChannelUpdate;
-import darko.merli.Model.User.User;
+import darko.merli.Model.UserDTOS.User;
 import darko.merli.Repository.ChannelRepository;
 import darko.merli.Repository.UserRepository;
 import darko.merli.Service.ChannelService;

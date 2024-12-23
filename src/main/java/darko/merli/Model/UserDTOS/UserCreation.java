@@ -1,4 +1,4 @@
-package darko.merli.Model.User;
+package darko.merli.Model.UserDTOS;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
