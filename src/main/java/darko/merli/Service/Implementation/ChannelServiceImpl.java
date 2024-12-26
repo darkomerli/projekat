@@ -11,6 +11,8 @@ import darko.merli.Service.ChannelService;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +25,8 @@ public class ChannelServiceImpl implements ChannelService {
     ChannelRepository channelRepository;
     @Autowired
     UserRepository userRepository;
+
+//    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 
     public Channel createChannel(ChannelCreation creation){
@@ -145,18 +149,15 @@ public class ChannelServiceImpl implements ChannelService {
     public Channel channelCreationToChannel(ChannelCreation creation){
         Channel channel = new Channel();
         Channel chn = channelRepository.findByName(creation.getChannelName());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(chn != null){
             throw new EntityExistsException("Channel " + creation.getChannelName() + " already exists");
         }
         channel.setChannelName(creation.getChannelName());
         channel.setSubscribers(0);
         channel.setDescription(creation.getDescription());
-        Optional<Users> user = userRepository.findById(creation.getUser_id());
-        if(user.isPresent()){
-            channel.setUser(user.get());
-        } else {
-            throw new EntityNotFoundException("User with ID: " + creation.getUser_id() + " not found");
-        }
+        Optional<Users> user = userRepository.findById(userRepository.findByUsername(auth.getName()).get().getUser_id());
+        channel.setUser(user.get());
         return channel;
     }
 }
