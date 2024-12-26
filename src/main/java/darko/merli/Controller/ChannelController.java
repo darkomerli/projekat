@@ -24,7 +24,8 @@ public class ChannelController {
 
     //searching the channel by channel name
     @Operation(summary = "Search the channel", description = "Search the channel by its name")
-    @GetMapping("/channel/@{name}")
+    @GetMapping("/channel/{name}")
+    @SecurityRequirements
     public ChannelSearch searchChannel(@PathVariable String name) {
         return channelService.searchChannel(name);
     }
@@ -52,14 +53,14 @@ public class ChannelController {
 
     //subscribing to a channel
     @Operation(summary = "Subscribe to the channel", description = "Subscribe to the channel with channel name")
-    @PutMapping("/channel/@{name}/subscribe")
+    @PutMapping("/channel/{name}/subscribe")
     public String subscribeToChannel(@PathVariable String name) throws IllegalAccessException {
         return channelService.subscribeChannel(name);
     }
 
     //unsubscribing from a channel
     @Operation(summary = "Unsubscribe from the channel", description = "Unsubscribe from the channel by using channel name")
-    @PutMapping("/channel/@{name}/unsubscribe")
+    @PutMapping("/channel/{name}/unsubscribe")
     public String unsubscribeFromChannel(@PathVariable String name) throws IllegalAccessException {
         return channelService.unsubscribeChannel(name);
     }
