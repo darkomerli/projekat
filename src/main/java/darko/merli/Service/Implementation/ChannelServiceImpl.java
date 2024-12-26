@@ -52,7 +52,7 @@ public class ChannelServiceImpl implements ChannelService {
         } else {
             if(channel.getUser().getUser_id() == userRepository.findByUsername(auth.getName()).get().getUser_id()){
                 channelRepository.delete(channelRepository.findByName(name));
-                return "Channel deleted";
+                return "Channel "+channel.getChannelName()+" deleted";
             } else {
                 throw new IllegalAccessException("You are not the owner of this channel, therefore, you cannot delete it.");
             }
