@@ -25,8 +25,6 @@ public class ChannelController {
     //searching the channel by channel name
     @Operation(summary = "Search the channel", description = "Search the channel by its name")
     @GetMapping("/channel/@{name}")
-    @Valid
-    @SecurityRequirements
     public ChannelSearch searchChannel(@PathVariable String name) {
         return channelService.searchChannel(name);
     }
@@ -41,28 +39,28 @@ public class ChannelController {
     //deletion of the channel, for now, all users can delete every channel
     @Operation(summary = "Delete the channel", description = "Delete the channel by typing in channel name.")
     @DeleteMapping("/channel/deleteChannel/{name}")
-    public String deleteChannel(@PathVariable String name){
+    public String deleteChannel(@PathVariable String name) throws IllegalAccessException {
         return channelService.deleteChannel(name);
     }
 
     //updating the channel data such as name and description
     @Operation(summary = "Update the channel", description = "Update channel name or description")
     @PutMapping("/channel/updateChannel/{name}")
-    public ChannelSearch updateChannel(@PathVariable String name, @RequestBody ChannelUpdate channel){
+    public ChannelSearch updateChannel(@PathVariable String name, @RequestBody ChannelUpdate channel) throws IllegalAccessException {
         return channelService.updateChannel(name, channel);
     }
 
     //subscribing to a channel
     @Operation(summary = "Subscribe to the channel", description = "Subscribe to the channel with channel name")
-    @PutMapping("/channel/@{name}/subscribe/{id}")
-    public String subscribeToChannel(@PathVariable long id, @PathVariable String name) throws IllegalAccessException {
-        return channelService.subscribeChannel(name, id);
+    @PutMapping("/channel/@{name}/subscribe")
+    public String subscribeToChannel(@PathVariable String name) throws IllegalAccessException {
+        return channelService.subscribeChannel(name);
     }
 
     //unsubscribing from a channel
     @Operation(summary = "Unsubscribe from the channel", description = "Unsubscribe from the channel by using channel name")
-    @PutMapping("/channel/@{name}/unsubscribe/{id}")
-    public String unsubscribeFromChannel(@PathVariable long id, @PathVariable String name) throws IllegalAccessException {
-        return channelService.unsubscribeChannel(name,id);
+    @PutMapping("/channel/@{name}/unsubscribe")
+    public String unsubscribeFromChannel(@PathVariable String name) throws IllegalAccessException {
+        return channelService.unsubscribeChannel(name);
     }
 }

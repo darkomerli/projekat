@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class ChannelCreation {
     private String channelName;
     private String description;
-    private long user_id;
 }
