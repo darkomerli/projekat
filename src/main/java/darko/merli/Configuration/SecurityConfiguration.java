@@ -54,7 +54,8 @@ public class SecurityConfiguration{
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers(WHITE_LIST_URL).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/channel").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/channel/{name}").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/users/create").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic().authenticationEntryPoint(restAuthenticationEntryPoint);
