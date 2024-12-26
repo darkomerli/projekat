@@ -44,34 +44,44 @@ public class ChannelServiceImpl implements ChannelService {
         }
     }
 
-    public String deleteChannel(String name){
+    public String deleteChannel(String name) throws IllegalAccessException {
         Channel channel = channelRepository.findByName(name);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(channel == null){
             throw new EntityNotFoundException("Channel not found");
         } else {
-            channelRepository.delete(channelRepository.findByName(name));
-            return "Channel deleted";
+            if(channel.getUser().getUser_id() == userRepository.findByUsername(auth.getName()).get().getUser_id()){
+                channelRepository.delete(channelRepository.findByName(name));
+                return "Channel deleted";
+            } else {
+                throw new IllegalAccessException("You are not the owner of this channel, therefore, you cannot delete it.");
+            }
         }
     }
 
-    public ChannelSearch updateChannel(String name, ChannelUpdate channelU){
+    public ChannelSearch updateChannel(String name, ChannelUpdate channelU) throws IllegalAccessException {
         Optional<Channel> channel = channelRepository.findById(channelRepository.findByName(name).getId());
         boolean update = false;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(channel.isPresent()){
-            Channel channelUpdated = channel.get();
-            if(channelU.getChannelName() != null){
-                update = true;
-                channelUpdated.setChannelName(channelU.getChannelName());
-            }
-            if(channelU.getDescription() != null){
-                update = true;
-                channelUpdated.setDescription(channelU.getDescription());
-            }
-            if(update == true){
-                channelRepository.save(channelUpdated);
-                return channelToChannelSearch(channelUpdated);
+            if(channel.get().getUser().getUser_id() != userRepository.findByUsername(auth.getName()).get().getUser_id()){
+                throw new IllegalAccessException("You are not the owner of this channel, therefore, you cannot update it.");
             } else {
-                throw new IllegalArgumentException("Please provide new channel name or description");
+                Channel channelUpdated = channel.get();
+                if(channelU.getChannelName() != null){
+                    update = true;
+                    channelUpdated.setChannelName(channelU.getChannelName());
+                }
+                if(channelU.getDescription() != null){
+                    update = true;
+                    channelUpdated.setDescription(channelU.getDescription());
+                }
+                if(update){
+                    channelRepository.save(channelUpdated);
+                    return channelToChannelSearch(channelUpdated);
+                } else {
+                    throw new IllegalArgumentException("Please provide new channel name or description");
+                }
             }
         } else {
             throw new EntityNotFoundException("Channel not found");
@@ -79,59 +89,58 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-    public String subscribeChannel(String name, long userId) throws IllegalAccessException {
+    public String subscribeChannel(String name) throws IllegalAccessException {
         Channel channel = channelRepository.findByName(name);
-        List<Users> users = channel.getUsers();
-        Optional<Users> user = userRepository.findById(userId);
-        if(user.isPresent()){
-            if(channel.getUser().getUser_id() == userId){
-                throw new IllegalAccessException("You can't subscribe to your own channel");
-            } else {
-                if(users.contains(user.get())){
-                    throw new IllegalAccessException("This user is already subscribed to this channel");
-                } else {
-                    users.add(user.get());
-                    channel.setUsers(users);
-                    List<Channel> listofChannels = user.get().getSubscribedChannelsList();
-                    listofChannels.add(channel);
-                    user.get().setSubscribedChannelsList(listofChannels);
-                    channel.setSubscribers(channel.getSubscribers() + 1);
-                    userRepository.save(user.get());
-                    channelRepository.save(channel);
-                    return "Successfully subscribed to channel " + name;
-                }
-            }
-        } else {
-            throw new EntityNotFoundException("User not found");
+        if(channel == null){
+            throw new EntityNotFoundException("Channel: "+ name +" not found");
         }
-
+        List<Users> users = channel.getUsers();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Users user = userRepository.findById(userRepository.findByUsername(auth.getName()).get().getUser_id()).get();
+        if(channel.getUser().getUser_id() == user.getUser_id()){
+            throw new IllegalAccessException("You can't subscribe to your own channel");
+        } else {
+            if (users.contains(user)) {
+                throw new IllegalAccessException("You are already subscribed to this channel");
+            } else {
+                users.add(user);
+                channel.setUsers(users);
+                List<Channel> listofChannels = user.getSubscribedChannelsList();
+                listofChannels.add(channel);
+                user.setSubscribedChannelsList(listofChannels);
+                channel.setSubscribers(channel.getSubscribers() + 1);
+                userRepository.save(user);
+                channelRepository.save(channel);
+                return "Successfully subscribed to channel " + name;
+            }
+        }
     }
 
     @Override
-    public String unsubscribeChannel(String name, long userId) throws IllegalAccessException {
+    public String unsubscribeChannel(String name) throws IllegalAccessException {
         Channel channel = channelRepository.findByName(name);
+        if(channel == null){
+            throw new EntityNotFoundException("Channel: "+ name +" not found");
+        }
         List<Users> users = channel.getUsers();
-        Optional<Users> user = userRepository.findById(userId);
-        if(user.isPresent()){
-            if(channel.getUser().getUser_id() == userId){
-                throw new IllegalAccessException("You can't unsubscribe from your own channel because you are not a subscriber");
-            } else {
-                if(users.contains(user.get())){
-                    users.remove(user.get());
-                    channel.setUsers(users);
-                    List<Channel> listofChannels = user.get().getSubscribedChannelsList();
-                    listofChannels.remove(channel);
-                    user.get().setSubscribedChannelsList(listofChannels);
-                    channel.setSubscribers(channel.getSubscribers() - 1);
-                    userRepository.save(user.get());
-                    channelRepository.save(channel);
-                    return "User with ID: "+ user.get().getUser_id()+"Successfully unsubscribed from channel " + name;
-                } else {
-                    throw new IllegalAccessException("This user is not subscribed to this channel");
-                }
-            }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Users user = userRepository.findById(userRepository.findByUsername(auth.getName()).get().getUser_id()).get();
+        if(channel.getUser().getUser_id() == user.getUser_id()){
+            throw new IllegalAccessException("You can't unsubscribe from your own channel because you are not a subscriber");
         } else {
-            throw new EntityNotFoundException("User not found");
+            if(users.contains(user)){
+                users.remove(user);
+                channel.setUsers(users);
+                List<Channel> listofChannels = user.getSubscribedChannelsList();
+                listofChannels.remove(channel);
+                user.setSubscribedChannelsList(listofChannels);
+                channel.setSubscribers(channel.getSubscribers() - 1);
+                userRepository.save(user);
+                channelRepository.save(channel);
+                return "You have successfully unsubscribed from channel " + name;
+            } else {
+                throw new IllegalAccessException("You are not subscribed to this channel");
+            }
         }
     }
 

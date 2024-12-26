@@ -14,11 +14,11 @@ public interface ChannelService{
 
     public ChannelSearch searchChannel(String name);
 
-    public String deleteChannel(String name);
+    public String deleteChannel(String name) throws IllegalAccessException;
 
-    public ChannelSearch updateChannel(String name, ChannelUpdate channel);
+    public ChannelSearch updateChannel(String name, ChannelUpdate channel) throws IllegalAccessException;
 
-    public String subscribeChannel(String name, long userId) throws IllegalAccessException;
+    public String subscribeChannel(String name) throws IllegalAccessException;
 
-    public String unsubscribeChannel(String name, long userId) throws IllegalAccessException;
+    public String unsubscribeChannel(String name) throws IllegalAccessException;
 }
