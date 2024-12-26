@@ -21,4 +21,7 @@ public interface ChannelService{
     public String subscribeChannel(String name) throws IllegalAccessException;
 
     public String unsubscribeChannel(String name) throws IllegalAccessException;
+
+    public ChannelSearch channelToChannelSearch(Channel channel);
+
 }

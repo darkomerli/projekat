@@ -56,6 +56,7 @@ public class SecurityConfiguration{
                         .requestMatchers(WHITE_LIST_URL).permitAll()
                         .requestMatchers(HttpMethod.GET, "/channel/{name}").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users/create").permitAll()
+                        .requestMatchers(HttpMethod.GET, "users/{name}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic().authenticationEntryPoint(restAuthenticationEntryPoint);
