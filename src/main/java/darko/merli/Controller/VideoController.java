@@ -1,6 +1,7 @@
 package darko.merli.Controller;
 
 import darko.merli.Model.VideoDTOS.VideoSearch;
+import darko.merli.Model.VideoDTOS.VideoUpdate;
 import darko.merli.Model.VideoDTOS.VideoUpload;
 import darko.merli.Service.VideoService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
@@ -26,5 +27,15 @@ public class VideoController {
     @SecurityRequirements
     public VideoSearch getVideo(@PathVariable long id){
         return videoService.searchVideo(id);
+    }
+
+    @DeleteMapping("/videos/{id}/delete")
+    public String deleteVideo(@PathVariable long id) throws IllegalAccessException {
+        return videoService.deleteVideo(id);
+    }
+
+    @PutMapping("/videos/{id}")
+    public VideoSearch updateVideo(@PathVariable long id, @RequestBody VideoUpdate video) throws IllegalAccessException {
+        return videoService.updateVideo(id, video);
     }
 }

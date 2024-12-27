@@ -31,6 +31,9 @@ public class ChannelServiceImpl implements ChannelService {
 
     public Channel createChannel(ChannelCreation creation){
         Channel channel = channelCreationToChannel(creation);
+        if(creation.getChannelName().equals("") || creation.getDescription().equals("")){
+            throw new IllegalArgumentException("Please provide a valid name and description");
+        }
         channelRepository.save(channel);
         return channel;
     }
@@ -68,11 +71,11 @@ public class ChannelServiceImpl implements ChannelService {
                 throw new IllegalAccessException("You are not the owner of this channel, therefore, you cannot update it.");
             } else {
                 Channel channelUpdated = channel.get();
-                if(channelU.getChannelName() != null){
+                if(channelU.getChannelName() != null && !channelU.getChannelName().equals("")){
                     update = true;
                     channelUpdated.setChannelName(channelU.getChannelName());
                 }
-                if(channelU.getDescription() != null){
+                if(channelU.getDescription() != null && !channelU.getDescription().equals("")){
                     update = true;
                     channelUpdated.setDescription(channelU.getDescription());
                 }

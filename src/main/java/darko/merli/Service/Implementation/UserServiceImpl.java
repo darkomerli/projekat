@@ -42,12 +42,12 @@ public class UserServiceImpl implements UserService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Users userCurrent = userRepository.findByUsername(auth.getName()).get();
         boolean update = false;
-        if(user.getUsername() != null){
+        if(user.getUsername() != null && !user.getUsername().equals("")){
             userCurrent.setUsername(user.getUsername());
             System.out.println("Updated username.");
             update = true;
         }
-        if(user.getPassword() != null){
+        if(user.getPassword() != null && !user.getPassword().equals("")){
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             userCurrent.setPassword(encoder.encode(user.getPassword()));
             System.out.println("Updated password.");
