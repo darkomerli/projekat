@@ -30,6 +30,9 @@ public class UserServiceImpl implements UserService {
 
     public Users createUser(UserCreation users) {
         Users user = new Users();
+        if(users.getUsername().equals("") || users.getPassword().equals("")) {
+            throw new IllegalArgumentException("Username and password cannot be empty");
+        }
         user.setUsername(users.getUsername());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(users.getPassword()));
