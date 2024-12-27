@@ -1,6 +1,7 @@
 package darko.merli.Model.UserDTOS;
 
 import darko.merli.Model.ChannelDTOS.Channel;
+import darko.merli.Model.CommentDTOS.Comment;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,4 +28,7 @@ public class Users {
 
     @ManyToMany(mappedBy = "users")
     private List<Channel> subscribedChannelsList;
+
+    @OneToMany(mappedBy= "userComm")
+    private List<Comment> commentList;
 }

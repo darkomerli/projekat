@@ -1,6 +1,7 @@
 package darko.merli.Model.ChannelDTOS;
 
 import darko.merli.Model.UserDTOS.Users;
+import darko.merli.Model.VideoDTOS.Video;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,4 +36,7 @@ public class Channel {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private List<Users> users;
+
+    @OneToMany(mappedBy = "postedChannel")
+    private List<Video> videos;
 }
