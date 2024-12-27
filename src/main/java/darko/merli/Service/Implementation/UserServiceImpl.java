@@ -30,6 +30,9 @@ public class UserServiceImpl implements UserService {
 
     public Users createUser(UserCreation users) {
         Users user = new Users();
+        if(users.getUsername().equals("") || users.getPassword().equals("")) {
+            throw new IllegalArgumentException("Username and password cannot be empty");
+        }
         user.setUsername(users.getUsername());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(users.getPassword()));
@@ -42,12 +45,12 @@ public class UserServiceImpl implements UserService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Users userCurrent = userRepository.findByUsername(auth.getName()).get();
         boolean update = false;
-        if(user.getUsername() != null){
+        if(user.getUsername() != null && !user.getUsername().equals("")){
             userCurrent.setUsername(user.getUsername());
             System.out.println("Updated username.");
             update = true;
         }
-        if(user.getPassword() != null){
+        if(user.getPassword() != null && !user.getPassword().equals("")){
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             userCurrent.setPassword(encoder.encode(user.getPassword()));
             System.out.println("Updated password.");

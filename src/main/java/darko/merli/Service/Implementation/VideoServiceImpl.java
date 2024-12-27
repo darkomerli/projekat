@@ -3,6 +3,7 @@ package darko.merli.Service.Implementation;
 import darko.merli.Model.ChannelDTOS.Channel;
 import darko.merli.Model.VideoDTOS.Video;
 import darko.merli.Model.VideoDTOS.VideoSearch;
+import darko.merli.Model.VideoDTOS.VideoUpdate;
 import darko.merli.Model.VideoDTOS.VideoUpload;
 import darko.merli.Repository.ChannelRepository;
 import darko.merli.Repository.UserRepository;
@@ -49,6 +50,57 @@ public class VideoServiceImpl implements VideoService {
             return videoToSearch(video.get());
         }
         else {
+            throw new IllegalArgumentException("Video with id: "+ id +" not found");
+        }
+    }
+
+    @Override
+    public String deleteVideo(long id) throws IllegalAccessException {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<Video> video = videoRepository.findById(id);
+        if(video.isPresent()){
+            Video videoReal = video.get();
+            long idOfUser = videoReal.getPostedChannel().getUser().getUser_id();
+            if(idOfUser == userRepository.findByUsername(auth.getName()).get().getUser_id()){
+                videoRepository.deleteById(id);
+                return "Video with id "+ id +" deleted";
+            } else {
+                throw new IllegalAccessException("You cannot delete this video. You are not the owner of this channel.");
+            }
+        } else {
+            throw new IllegalArgumentException("Video with id: "+ id +" not found");
+        }
+    }
+
+    @Override
+    public VideoSearch updateVideo(long id, VideoUpdate video) throws IllegalAccessException {
+        Optional<Video> videoReal = videoRepository.findById(id);
+        if(videoReal.isPresent()){
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            Video video1 = videoReal.get();
+            long idOfUser = video1.getPostedChannel().getUser().getUser_id();
+            if(idOfUser == userRepository.findByUsername(auth.getName()).get().getUser_id()){
+                boolean update = false;
+                if(video.getDescription() != null && !video.getDescription().equals("")){
+                    update = true;
+                    video1.setDescription(video.getDescription());
+                }
+                if(video.getTitle() != null && !video.getTitle().equals("")){
+                    update = true;
+                    video1.setTitle(video.getTitle());
+                }
+                if(update){
+                    videoRepository.save(video1);
+                    return videoToSearch(video1);
+                } else {
+                    throw new IllegalArgumentException("Please provide a new title or description.");
+                }
+
+            }
+            else {
+                throw new IllegalAccessException("You cannot update this video. You are not the owner of this channel.");
+            }
+        } else {
             throw new IllegalArgumentException("Video with id: "+ id +" not found");
         }
     }
