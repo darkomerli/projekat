@@ -24,7 +24,6 @@ public class Video {
     @Column(nullable = false)
     private String description;
     private long likes;
-    private long dislikes;
     private long noOfComments;
     private String videoUrl;
 

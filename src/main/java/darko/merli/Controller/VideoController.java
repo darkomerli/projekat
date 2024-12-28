@@ -43,4 +43,9 @@ public class VideoController {
     public String likeVideo(@PathVariable long id) throws IllegalAccessException {
         return videoService.likeVideo(id);
     }
+
+    @PutMapping("/videos/{id}/unlike")
+    public String unlikeVideo(@PathVariable long id) throws IllegalAccessException {
+        return videoService.unlikeVideo(id);
+    }
 }

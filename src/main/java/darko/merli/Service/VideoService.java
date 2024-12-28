@@ -16,4 +16,6 @@ public interface VideoService {
     public VideoSearch updateVideo(long id, VideoUpdate video) throws IllegalAccessException;
 
     public String likeVideo(long id) throws IllegalAccessException;
+
+    public String unlikeVideo(long id) throws IllegalAccessException;
 }

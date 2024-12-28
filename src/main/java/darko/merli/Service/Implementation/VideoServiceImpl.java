@@ -142,13 +142,38 @@ public class VideoServiceImpl implements VideoService {
         }
     }
 
+    @Override
+    public String unlikeVideo(long id) throws IllegalAccessException {
+        Optional<Video> video = videoRepository.findById(id);
+        if(video.isPresent()){
+            Video videoReal = video.get();
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            Users user = userRepository.findByUsername(auth.getName()).get();
+            List<Users> listOfUsers = videoReal.getUsers();
+            if(listOfUsers.contains(user)){
+                listOfUsers.remove(user);
+                videoReal.setUsers(listOfUsers);
+                List<Video> listOfVideos = user.getLikedVideoList();
+                listOfVideos.remove(videoReal);
+                user.setLikedVideoList(listOfVideos);
+                videoReal.setLikes(listOfUsers.size());
+                videoRepository.save(videoReal);
+                userRepository.save(user);
+                return "Video unliked";
+            } else {
+                throw new IllegalAccessException("You have not liked this video.");
+            }
+        } else {
+            throw new IllegalArgumentException("Video with id: "+ id +" not found");
+        }
+    }
+
     public VideoSearch videoToSearch(Video video){
         VideoSearch videoSearch = new VideoSearch();
         videoSearch.setTitle(video.getTitle());
         videoSearch.setDescription(video.getDescription());
         videoSearch.setVideoUrl(video.getVideoUrl());
         videoSearch.setLikes(video.getLikes());
-        videoSearch.setDislikes(video.getDislikes());
         if(video.getComments() == null){
             videoSearch.setComments(null);
         } else {
@@ -171,7 +196,6 @@ public class VideoServiceImpl implements VideoService {
         videoReal.setNoOfComments(0);
         videoReal.setVideoUrl(video.getVideoUrl());
         videoReal.setLikes(0);
-        videoReal.setDislikes(0);
         return videoReal;
     }
 }
