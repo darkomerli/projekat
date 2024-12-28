@@ -54,6 +54,7 @@ public class ChannelServiceImpl implements ChannelService {
             throw new EntityNotFoundException("Channel not found");
         } else {
             if(channel.getUser().getUser_id() == userRepository.findByUsername(auth.getName()).get().getUser_id()){
+                channelRepository.deleteFromVideos(channelRepository.findByName(name).getId());
                 channelRepository.delete(channelRepository.findByName(name));
                 return "Channel "+channel.getChannelName()+" deleted";
             } else {

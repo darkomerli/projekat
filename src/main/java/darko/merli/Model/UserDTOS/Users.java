@@ -2,6 +2,7 @@ package darko.merli.Model.UserDTOS;
 
 import darko.merli.Model.ChannelDTOS.Channel;
 import darko.merli.Model.CommentDTOS.Comment;
+import darko.merli.Model.VideoDTOS.Video;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +29,9 @@ public class Users {
 
     @ManyToMany(mappedBy = "users")
     private List<Channel> subscribedChannelsList;
+
+    @ManyToMany(mappedBy = "users")
+    private List<Video> likedVideoList;
 
     @OneToMany(mappedBy= "userComm")
     private List<Comment> commentList;

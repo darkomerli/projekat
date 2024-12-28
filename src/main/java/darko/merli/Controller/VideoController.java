@@ -38,4 +38,9 @@ public class VideoController {
     public VideoSearch updateVideo(@PathVariable long id, @RequestBody VideoUpdate video) throws IllegalAccessException {
         return videoService.updateVideo(id, video);
     }
+
+    @PutMapping("/videos/{id}/like")
+    public String likeVideo(@PathVariable long id) throws IllegalAccessException {
+        return videoService.likeVideo(id);
+    }
 }

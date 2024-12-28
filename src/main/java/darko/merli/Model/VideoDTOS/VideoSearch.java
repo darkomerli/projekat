@@ -1,6 +1,5 @@
 package darko.merli.Model.VideoDTOS;
 
-import darko.merli.Model.CommentDTOS.Comment;
 import darko.merli.Model.CommentDTOS.CommentReturn;
 import lombok.AllArgsConstructor;
 import lombok.Data;

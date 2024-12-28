@@ -3,6 +3,7 @@ package darko.merli.Service.Implementation;
 import darko.merli.Model.ChannelDTOS.Channel;
 import darko.merli.Model.CommentDTOS.Comment;
 import darko.merli.Model.CommentDTOS.CommentReturn;
+import darko.merli.Model.UserDTOS.Users;
 import darko.merli.Model.VideoDTOS.Video;
 import darko.merli.Model.VideoDTOS.VideoSearch;
 import darko.merli.Model.VideoDTOS.VideoUpdate;
@@ -69,7 +70,9 @@ public class VideoServiceImpl implements VideoService {
             Video videoReal = video.get();
             long idOfUser = videoReal.getPostedChannel().getUser().getUser_id();
             if(idOfUser == userRepository.findByUsername(auth.getName()).get().getUser_id()){
-                videoRepository.deleteById(id);
+                videoRepository.deleteFromDatabase(videoReal.getId());
+                videoRepository.deleteFromComments(videoReal.getId());
+                videoRepository.delete(videoReal);
                 return "Video with id "+ id +" deleted";
             } else {
                 throw new IllegalAccessException("You cannot delete this video. You are not the owner of this channel.");
@@ -108,6 +111,33 @@ public class VideoServiceImpl implements VideoService {
                 throw new IllegalAccessException("You cannot update this video. You are not the owner of this channel.");
             }
         } else {
+            throw new IllegalArgumentException("Video with id: "+ id +" not found");
+        }
+    }
+
+    @Override
+    public String likeVideo(long id) throws IllegalAccessException {
+        Optional<Video> video = videoRepository.findById(id);
+        if(video.isPresent()){
+            Video videoReal = video.get();
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            Users user = userRepository.findByUsername(auth.getName()).get();
+            List<Users> listOfUsers = videoReal.getUsers();
+            if(listOfUsers.contains(user)){
+                throw new IllegalAccessException("You have already liked this video.");
+            } else {
+                listOfUsers.add(user);
+                videoReal.setUsers(listOfUsers);
+                List<Video> listOfVideos = user.getLikedVideoList();
+                listOfVideos.add(videoReal);
+                videoReal.setLikes(listOfUsers.size());
+                user.setLikedVideoList(listOfVideos);
+                videoRepository.save(videoReal);
+                userRepository.save(user);
+                return "Video liked";
+            }
+        }
+        else {
             throw new IllegalArgumentException("Video with id: "+ id +" not found");
         }
     }
