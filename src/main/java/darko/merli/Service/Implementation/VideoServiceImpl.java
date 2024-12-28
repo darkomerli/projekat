@@ -1,6 +1,9 @@
 package darko.merli.Service.Implementation;
 
 import darko.merli.Model.ChannelDTOS.Channel;
+import darko.merli.Model.CommentDTOS.Comment;
+import darko.merli.Model.CommentDTOS.CommentReturn;
+import darko.merli.Model.UserDTOS.Users;
 import darko.merli.Model.VideoDTOS.Video;
 import darko.merli.Model.VideoDTOS.VideoSearch;
 import darko.merli.Model.VideoDTOS.VideoUpdate;
@@ -14,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,6 +32,9 @@ public class VideoServiceImpl implements VideoService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CommentServiceImpl commentService;
 
     public String postVideo(String name, VideoUpload video) throws IllegalAccessException {
         Channel channel = channelRepository.findByName(name);
@@ -62,7 +70,9 @@ public class VideoServiceImpl implements VideoService {
             Video videoReal = video.get();
             long idOfUser = videoReal.getPostedChannel().getUser().getUser_id();
             if(idOfUser == userRepository.findByUsername(auth.getName()).get().getUser_id()){
-                videoRepository.deleteById(id);
+                videoRepository.deleteFromDatabase(videoReal.getId());
+                videoRepository.deleteFromComments(videoReal.getId());
+                videoRepository.delete(videoReal);
                 return "Video with id "+ id +" deleted";
             } else {
                 throw new IllegalAccessException("You cannot delete this video. You are not the owner of this channel.");
@@ -105,17 +115,74 @@ public class VideoServiceImpl implements VideoService {
         }
     }
 
+    @Override
+    public String likeVideo(long id) throws IllegalAccessException {
+        Optional<Video> video = videoRepository.findById(id);
+        if(video.isPresent()){
+            Video videoReal = video.get();
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            Users user = userRepository.findByUsername(auth.getName()).get();
+            List<Users> listOfUsers = videoReal.getUsers();
+            if(listOfUsers.contains(user)){
+                throw new IllegalAccessException("You have already liked this video.");
+            } else {
+                listOfUsers.add(user);
+                videoReal.setUsers(listOfUsers);
+                List<Video> listOfVideos = user.getLikedVideoList();
+                listOfVideos.add(videoReal);
+                videoReal.setLikes(listOfUsers.size());
+                user.setLikedVideoList(listOfVideos);
+                videoRepository.save(videoReal);
+                userRepository.save(user);
+                return "Video liked";
+            }
+        }
+        else {
+            throw new IllegalArgumentException("Video with id: "+ id +" not found");
+        }
+    }
+
+    @Override
+    public String unlikeVideo(long id) throws IllegalAccessException {
+        Optional<Video> video = videoRepository.findById(id);
+        if(video.isPresent()){
+            Video videoReal = video.get();
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            Users user = userRepository.findByUsername(auth.getName()).get();
+            List<Users> listOfUsers = videoReal.getUsers();
+            if(listOfUsers.contains(user)){
+                listOfUsers.remove(user);
+                videoReal.setUsers(listOfUsers);
+                List<Video> listOfVideos = user.getLikedVideoList();
+                listOfVideos.remove(videoReal);
+                user.setLikedVideoList(listOfVideos);
+                videoReal.setLikes(listOfUsers.size());
+                videoRepository.save(videoReal);
+                userRepository.save(user);
+                return "Video unliked";
+            } else {
+                throw new IllegalAccessException("You have not liked this video.");
+            }
+        } else {
+            throw new IllegalArgumentException("Video with id: "+ id +" not found");
+        }
+    }
+
     public VideoSearch videoToSearch(Video video){
         VideoSearch videoSearch = new VideoSearch();
         videoSearch.setTitle(video.getTitle());
         videoSearch.setDescription(video.getDescription());
         videoSearch.setVideoUrl(video.getVideoUrl());
         videoSearch.setLikes(video.getLikes());
-        videoSearch.setDislikes(video.getDislikes());
         if(video.getComments() == null){
             videoSearch.setComments(null);
         } else {
-            videoSearch.setComments(video.getComments());
+            List<Comment> list = video.getComments();
+            List<CommentReturn> listReturn = new ArrayList<>();
+            for(Comment comment : list){
+                listReturn.add(commentService.commentToCommentReturn(comment));
+            }
+            videoSearch.setComments(listReturn);
         }
         videoSearch.setNoOfComments(video.getNoOfComments());
         return videoSearch;
@@ -129,7 +196,6 @@ public class VideoServiceImpl implements VideoService {
         videoReal.setNoOfComments(0);
         videoReal.setVideoUrl(video.getVideoUrl());
         videoReal.setLikes(0);
-        videoReal.setDislikes(0);
         return videoReal;
     }
 }
