@@ -1,6 +1,7 @@
 package darko.merli.Model.VideoDTOS;
 
 import darko.merli.Model.CommentDTOS.Comment;
+import darko.merli.Model.CommentDTOS.CommentReturn;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,5 +19,5 @@ public class VideoSearch {
     private long likes;
     private long dislikes;
     private long noOfComments;
-    private List<Comment> comments;
+    private List<CommentReturn> comments;
 }

@@ -1,6 +1,8 @@
 package darko.merli.Service.Implementation;
 
 import darko.merli.Model.ChannelDTOS.Channel;
+import darko.merli.Model.CommentDTOS.Comment;
+import darko.merli.Model.CommentDTOS.CommentReturn;
 import darko.merli.Model.VideoDTOS.Video;
 import darko.merli.Model.VideoDTOS.VideoSearch;
 import darko.merli.Model.VideoDTOS.VideoUpdate;
@@ -14,6 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,6 +31,9 @@ public class VideoServiceImpl implements VideoService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CommentServiceImpl commentService;
 
     public String postVideo(String name, VideoUpload video) throws IllegalAccessException {
         Channel channel = channelRepository.findByName(name);
@@ -115,7 +122,12 @@ public class VideoServiceImpl implements VideoService {
         if(video.getComments() == null){
             videoSearch.setComments(null);
         } else {
-            videoSearch.setComments(video.getComments());
+            List<Comment> list = video.getComments();
+            List<CommentReturn> listReturn = new ArrayList<>();
+            for(Comment comment : list){
+                listReturn.add(commentService.commentToCommentReturn(comment));
+            }
+            videoSearch.setComments(listReturn);
         }
         videoSearch.setNoOfComments(video.getNoOfComments());
         return videoSearch;
