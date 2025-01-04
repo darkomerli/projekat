@@ -37,7 +37,7 @@ public class ChannelController {
         return "Channel created successfully.";
     }
 
-    //deletion of the channel, for now, all users can delete every channel
+    //deletion of the channel
     @Operation(summary = "Delete the channel", description = "Delete the channel by typing in channel name.")
     @DeleteMapping("/channel/deleteChannel/{name}")
     public String deleteChannel(@PathVariable String name) throws IllegalAccessException {
