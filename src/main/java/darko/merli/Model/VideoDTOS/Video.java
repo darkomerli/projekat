@@ -26,6 +26,7 @@ public class Video {
     private String description;
     private long likes;
     private long noOfComments;
+    private long views;
     private String videoUrl;
 
     @ManyToOne

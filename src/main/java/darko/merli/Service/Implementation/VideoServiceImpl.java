@@ -57,6 +57,8 @@ public class VideoServiceImpl implements VideoService {
     public VideoSearch searchVideo(long id) {
         Optional<Video> video = videoRepository.findById(id);
         if(video.isPresent()){
+            video.get().setViews(video.get().getViews() + 1);
+            videoRepository.save(video.get());
             return videoToSearch(video.get());
         }
         else {
@@ -181,6 +183,7 @@ public class VideoServiceImpl implements VideoService {
         videoSearch.setDescription(video.getDescription());
         videoSearch.setVideoUrl(video.getVideoUrl());
         videoSearch.setLikes(video.getLikes());
+        videoSearch.setViews(video.getViews());
         if(video.getComments() == null){
             videoSearch.setComments(null);
         } else {
@@ -204,6 +207,7 @@ public class VideoServiceImpl implements VideoService {
         videoReal.setNoOfComments(0);
         videoReal.setVideoUrl(video.getVideoUrl());
         videoReal.setLikes(0);
+        videoReal.setViews(0);
         return videoReal;
     }
 }
