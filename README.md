@@ -4,7 +4,7 @@ Posle toga kreiraću autentifikaciju pomoću koje će se svakom korisniku omogu�
 Nakon nekog vremena dodaću i mogućnost ubacivanja videa gde će svaki user imati mogućnost da kreira kanal po njegovoj želji.
 Ovo je projekat jednog studenta 3. godine Ekonomskog fakulteta u Subotici.
 
-### UPDATE 04.01.2025. 14:45:23 ###
+### UPDATE 04.01.2025. 15:36:20 ###
 
 Trenutno stanje je sledece:
 
