@@ -33,3 +33,5 @@ Planiram sledece da uradim:
     3.Proucavanje dodatne spring boot dokumentacije, nalazenje boljih praksi i novih ideja i mogucnosti
 
     4.Pokusacu da napravim sitan cron job i poziv na neki eksterni API.
+
+    5. Nauciti mocking i testiranje svih poziva
