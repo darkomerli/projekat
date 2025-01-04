@@ -26,9 +26,6 @@ public class ChannelServiceImpl implements ChannelService {
     @Autowired
     UserRepository userRepository;
 
-//    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-
     public Channel createChannel(ChannelCreation creation){
         Channel channel = channelCreationToChannel(creation);
         if(creation.getChannelName().equals("") || creation.getDescription().equals("")){

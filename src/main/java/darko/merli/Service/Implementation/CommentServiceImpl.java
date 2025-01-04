@@ -28,9 +28,6 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     VideoRepository videoRepository;
 
-    @Autowired
-    UserServiceImpl userServiceImpl;
-
     @Override
     public CommentReturn createComment(long id, CommentCreate comment) {
         Optional<Video> video = videoRepository.findById(id);
