@@ -7,8 +7,11 @@ Ovo je projekat jednog studenta 3. godine Ekonomskog fakulteta u Subotici.
 ### UPDATE 04.01.2025. 14:45:23 ###
 
 Trenutno stanje je sledece:
+
   1.Kreiran channel,
+
   2.Kreiran user,
+
   3.Kreiran video,
   4.Kreiran comment,
   5.Kreirane implementacije servisa, sve kontrolerske klase imaju odgovarajuce API, sem komentara, koje cu dodati u naredna 2 sata,
