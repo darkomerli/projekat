@@ -5,10 +5,8 @@ import darko.merli.Model.ChannelDTOS.ChannelSearch;
 import darko.merli.Model.ChannelDTOS.ChannelUpdate;
 import darko.merli.Service.ChannelService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +35,7 @@ public class ChannelController {
         return "Channel created successfully.";
     }
 
-    //deletion of the channel, for now, all users can delete every channel
+    //deletion of the channel
     @Operation(summary = "Delete the channel", description = "Delete the channel by typing in channel name.")
     @DeleteMapping("/channel/deleteChannel/{name}")
     public String deleteChannel(@PathVariable String name) throws IllegalAccessException {

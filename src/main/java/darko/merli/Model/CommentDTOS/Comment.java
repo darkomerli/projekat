@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "comment")
+//comment class represents the comments which users leave in videos
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

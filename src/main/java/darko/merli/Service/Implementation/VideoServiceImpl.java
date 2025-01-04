@@ -36,6 +36,7 @@ public class VideoServiceImpl implements VideoService {
     @Autowired
     private CommentServiceImpl commentService;
 
+    //upload a video to selected channel name
     public String postVideo(String name, VideoUpload video) throws IllegalAccessException {
         Channel channel = channelRepository.findByName(name);
         if(channel == null){
@@ -51,6 +52,7 @@ public class VideoServiceImpl implements VideoService {
         return "Video posted";
     }
 
+    //search the video with id
     @Override
     public VideoSearch searchVideo(long id) {
         Optional<Video> video = videoRepository.findById(id);
@@ -62,6 +64,7 @@ public class VideoServiceImpl implements VideoService {
         }
     }
 
+    //delete the video with id
     @Override
     public String deleteVideo(long id) throws IllegalAccessException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -82,6 +85,7 @@ public class VideoServiceImpl implements VideoService {
         }
     }
 
+    //update the video with id
     @Override
     public VideoSearch updateVideo(long id, VideoUpdate video) throws IllegalAccessException {
         Optional<Video> videoReal = videoRepository.findById(id);
@@ -115,6 +119,7 @@ public class VideoServiceImpl implements VideoService {
         }
     }
 
+    //like the video with id
     @Override
     public String likeVideo(long id) throws IllegalAccessException {
         Optional<Video> video = videoRepository.findById(id);
@@ -142,6 +147,7 @@ public class VideoServiceImpl implements VideoService {
         }
     }
 
+    //remove the like from video with id
     @Override
     public String unlikeVideo(long id) throws IllegalAccessException {
         Optional<Video> video = videoRepository.findById(id);
@@ -168,6 +174,7 @@ public class VideoServiceImpl implements VideoService {
         }
     }
 
+    //object mapping, Video -> VideoSearch
     public VideoSearch videoToSearch(Video video){
         VideoSearch videoSearch = new VideoSearch();
         videoSearch.setTitle(video.getTitle());
@@ -188,6 +195,7 @@ public class VideoServiceImpl implements VideoService {
         return videoSearch;
     }
 
+    //object mapping: VideoUpload -> Video
     public Video uploadToVideo(VideoUpload video) {
         Video videoReal = new Video();
         videoReal.setTitle(video.getTitle());

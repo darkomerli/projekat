@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "video")
+//we use objects of this type to see which videos the user uploaded to a certain channel
 public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

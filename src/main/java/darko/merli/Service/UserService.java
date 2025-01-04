@@ -1,7 +1,5 @@
 package darko.merli.Service;
 
-import darko.merli.Model.ChannelDTOS.Channel;
-import darko.merli.Model.ChannelDTOS.ChannelSearch;
 import darko.merli.Model.UserDTOS.UserCreation;
 import darko.merli.Model.UserDTOS.UserSearch;
 import darko.merli.Model.UserDTOS.UserUpdate;
