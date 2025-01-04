@@ -18,5 +18,6 @@ public class VideoSearch {
     private String videoUrl;
     private long likes;
     private long noOfComments;
+    private long views;
     private List<CommentReturn> comments;
 }
