@@ -51,6 +51,38 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 
+    @Override
+    public String deleteComment(long id, long ids) throws IllegalAccessException {
+        Optional<Video> video = videoRepository.findById(id);
+        if(video.isPresent()) {
+            Optional<Comment> comment1 = commentRepository.findById(ids);
+            if(comment1.isPresent()) {
+                Comment comment2 = comment1.get();
+                Video video2 = video.get();
+                List<Comment> listOfComments = video2.getComments();
+                if(listOfComments.contains(comment2)) {
+                    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                    if((video2.getPostedChannel().getUser().getUser_id() == userRepository.findByUsername(auth.getName()).get().getUser_id()) || (comment2.getUserComm().getUser_id() == userRepository.findByUsername(auth.getName()).get().getUser_id())) {
+                        listOfComments.remove(comment2);
+                        video2.setComments(listOfComments);
+                        video2.setNoOfComments(listOfComments.size());
+                        videoRepository.save(video2);
+                        commentRepository.delete(comment2);
+                        return "Comment deleted";
+                    } else {
+                        throw new IllegalAccessException("You are not allowed to delete this comment.");
+                    }
+                } else {
+                    throw new IllegalArgumentException("This video does not contain this comment.");
+                }
+            } else {
+                throw new IllegalArgumentException("Comment with id " + ids + " not found");
+            }
+        } else {
+            throw new IllegalArgumentException("Video with id " + id + " not found");
+        }
+    }
+
     public CommentReturn commentToCommentReturn(Comment comment) {
         CommentReturn commentReturn = new CommentReturn();
         commentReturn.setContent(comment.getContent());
