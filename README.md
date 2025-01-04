@@ -36,7 +36,7 @@ Trenutno stanje je sledece:
         4.3 user_id,
         4.4 video_id
 
-    5. Kreirane implementacije servisa, sve kontrolerske klase imaju odgovarajuce API, sem komentara, koje cu dodati u naredna 2 sata,
+    5. Kreirane implementacije servisa, sve kontrolerske klase imaju odgovarajuce API,
 
     6. Basic auth za user-a,
 
