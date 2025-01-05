@@ -1,8 +1,11 @@
 Ovo je projekat koji radim u Javi pomoću Spring Boot-a. 😃
 
-U ovom projektu cilj mi je kreirati osnovnu strukturu koja će se sastojati od bazičnih API poput create, delete, update i tako dalje. 
-Posle toga kreiraću autentifikaciju pomoću koje će se svakom korisniku omogućiti upravljanje sopstvenim profilom i njegovim kanalima. 
-Nakon nekog vremena dodaću i mogućnost ubacivanja videa gde će svaki user imati mogućnost da kreira kanal po njegovoj želji.
+U ovom projektu cilj mi je kreirati back-end strukturu koja će se sastojati od mnoštva API koji se tiču korisnika, kanala koji su u 
+vlasništvu korisnika, videa koji se kače na kanale i komentara. 
+Cilj mi je da kreiram autentifikaciju pomoću koje će se svakom korisniku omogućiti upravljanje sopstvenim profilom i njegovim kanalima,
+kao i kačenje videa na kanale po sopstvenom izboru, čime će se osposobiti bolja personalizacija svakog kanala i kreiranje kanala po sopstvenim željama. 
+Cilj mi je kreirati i export u CSV fajl pomoću kojeg će se videti pregled svih korisnika (njihov username).
+Uraditi sitne primere Cron Job-a koji će mi automatizovati određene stvari poput čuvanja fajlova.
 Ovo je projekat jednog studenta 3. godine Ekonomskog fakulteta u Subotici.
 
 Dokumentaciju za projekat vodim pomoću Swagger. Na njemu se nalaze svi API kreirani na projektu.
