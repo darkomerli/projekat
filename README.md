@@ -5,6 +5,8 @@ Posle toga kreiraću autentifikaciju pomoću koje će se svakom korisniku omogu�
 Nakon nekog vremena dodaću i mogućnost ubacivanja videa gde će svaki user imati mogućnost da kreira kanal po njegovoj želji.
 Ovo je projekat jednog studenta 3. godine Ekonomskog fakulteta u Subotici.
 
+Dokumentaciju za projekat vodim pomoću Swagger. Na njemu se nalaze svi API kreirani na projektu.
+
 ### UPDATE 04.01.2025. ###
 
 Trenutno stanje je sledece:
