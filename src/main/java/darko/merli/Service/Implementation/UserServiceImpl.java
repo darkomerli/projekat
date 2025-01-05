@@ -164,7 +164,7 @@ public class UserServiceImpl implements UserService {
         return file;
     }
 
-    @Scheduled(cron = "0 0 * * * *")
+    @Scheduled(cron = "0 * * * * *")
     public String newUsers() {
         int num = 0;
         List<Users> list = userRepository.findAll();
@@ -189,6 +189,6 @@ public class UserServiceImpl implements UserService {
                 }
             }
         }
-        return "Users created in last hour: "+num;
+        return "Users created in the last hour: "+num;
     }
 }
