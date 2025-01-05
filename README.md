@@ -19,7 +19,9 @@ Trenutno stanje je sledece:
     2. Kreiran user ✔️
         2.1 user_id,
         2.2 password (encrypted),
-        2.3 username
+        2.3 username,
+        2.4 created_at,
+        2.5 updated_at
 
     3. Kreiran video ✔️
         3.1 id,
