@@ -1,6 +1,5 @@
 package darko.merli.Service.Implementation;
 
-import com.opencsv.CSVWriter;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
@@ -11,11 +10,7 @@ import darko.merli.Model.UserDTOS.*;
 import darko.merli.Repository.UserRepository;
 import darko.merli.Service.ChannelService;
 import darko.merli.Service.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
@@ -28,7 +23,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.time.LocalDateTime;
-import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -127,11 +121,13 @@ public class UserServiceImpl implements UserService {
     public UserExport userToUserExport(Users user){
         UserExport userExport = new UserExport();
         userExport.setUserName(user.getUsername());
+        //doing this because I have null values in db for created_At
         if(user.getCreated_at() == null){
             userExport.setCreatedAt(LocalDateTime.now());
         } else {
             userExport.setCreatedAt(user.getCreated_at());
         }
+        //doing this because I have null values in db for updated_At
         if(user.getUpdated_at() == null){
             userExport.setUpdatedAt(LocalDateTime.now());
         } else {
@@ -176,6 +172,7 @@ public class UserServiceImpl implements UserService {
         int minute = now.getMinute();
         int second = now.getSecond();
         for(Users user : list){
+            //doing this because I have null values in db for created_At
             if(user.getCreated_at() == null){
                 continue;
             }
