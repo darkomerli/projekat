@@ -53,11 +53,11 @@ Trenutno stanje je sledece:
 
 Pored svega ovoga imam i dodatne tabele:
 
-    1. Subscriptions
+    1. Subscriptions ✔️
         1.1 channel_id - id kanala na koji je pretplaćen korisnik,
         1.2 user_id - id korisnika koji je pretplaćen na kanal
 
-    2. Liked_videos
+    2. Liked_videos ✔️
         2.1 video_id - id videa koji je lajkovao korisnik,
         2.2 user_id - id korisnika koji je lajkovao video
 ### UPDATE 05.01.2025. ###
