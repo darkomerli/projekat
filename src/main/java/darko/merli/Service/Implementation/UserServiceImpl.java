@@ -1,20 +1,34 @@
 package darko.merli.Service.Implementation;
 
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import darko.merli.Model.ChannelDTOS.Channel;
 import darko.merli.Model.ChannelDTOS.ChannelSearch;
-import darko.merli.Model.UserDTOS.UserCreation;
-import darko.merli.Model.UserDTOS.UserSearch;
-import darko.merli.Model.UserDTOS.UserUpdate;
-import darko.merli.Model.UserDTOS.Users;
+import darko.merli.Model.UserDTOS.*;
 import darko.merli.Repository.UserRepository;
 import darko.merli.Service.ChannelService;
 import darko.merli.Service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -104,5 +118,35 @@ public class UserServiceImpl implements UserService {
             return userSearch;
         }
 
+    }
+
+    public UserExport userToUserExport(Users user){
+        UserExport userExport = new UserExport();
+        userExport.setUserName(user.getUsername());
+        return userExport;
+    }
+
+    @Autowired
+    Environment env;
+
+    @Scheduled(cron = "0 0 * * * *")
+    public File smallCron() throws IOException, CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss");
+        String formatedDateTime = now.format(formatter);
+        String path = env.getProperty("path.folder");
+        File file = new File(path+"\\Users "+formatedDateTime+".csv");
+        Writer writer = new FileWriter(file);
+        StatefulBeanToCsv<UserExport> users = new StatefulBeanToCsvBuilder<UserExport>(writer).build();
+        List<Users> list = userRepository.findAll();
+        List<UserExport> converted = new ArrayList<>();
+        for(Users user : list){
+            UserExport userX = userToUserExport(user);
+            converted.add(userX);
+        }
+        System.out.println(converted.size() +" "+ formatedDateTime);
+        users.write(converted);
+        writer.close();
+        return file;
     }
 }

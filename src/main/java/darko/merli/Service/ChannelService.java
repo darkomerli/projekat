@@ -10,18 +10,18 @@ import org.springframework.stereotype.Service;
 public interface ChannelService{
 
 
-    public Channel createChannel(ChannelCreation channel);
+    Channel createChannel(ChannelCreation channel);
 
-    public ChannelSearch searchChannel(String name);
+    ChannelSearch searchChannel(String name);
 
-    public String deleteChannel(String name) throws IllegalAccessException;
+    String deleteChannel(String name) throws IllegalAccessException;
 
-    public ChannelSearch updateChannel(String name, ChannelUpdate channel) throws IllegalAccessException;
+    ChannelSearch updateChannel(String name, ChannelUpdate channel) throws IllegalAccessException;
 
-    public String subscribeChannel(String name) throws IllegalAccessException;
+    String subscribeChannel(String name) throws IllegalAccessException;
 
-    public String unsubscribeChannel(String name) throws IllegalAccessException;
+    String unsubscribeChannel(String name) throws IllegalAccessException;
 
-    public ChannelSearch channelToChannelSearch(Channel channel);
+    ChannelSearch channelToChannelSearch(Channel channel);
 
 }
