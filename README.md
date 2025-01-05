@@ -6,9 +6,10 @@ Cilj mi je da kreiram autentifikaciju pomoću koje će se svakom korisniku omogu
 kao i kačenje videa na kanale po sopstvenom izboru, čime će se osposobiti bolja personalizacija svakog kanala i kreiranje kanala po sopstvenim željama. 
 Cilj mi je kreirati i export u CSV fajl pomoću kojeg će se videti pregled svih korisnika (njihov username).
 Uraditi sitne primere Cron Job-a koji će mi automatizovati određene stvari poput čuvanja fajlova.
-Ovo je projekat jednog studenta 3. godine Ekonomskog fakulteta u Subotici.
 
-Dokumentaciju za projekat vodim pomoću Swagger. Na njemu se nalaze svi API kreirani na projektu.
+Ovo je projekat studenta 3. godine Ekonomskog fakulteta u Subotici, smer Poslovna Informatika.
+
+Dokumentaciju za projekat vodim pomoću Swagger. Na njemu se nalazi lista svih API kreiranih na projektu.
 
 ### UPDATE 04.01.2025. ###
 
@@ -50,6 +51,15 @@ Trenutno stanje je sledece:
 
     7. Upravljanje kanalima samo za datog usera koji je trenutno ulogovan ✔️
 
+Pored svega ovoga imam i dodatne tabele:
+
+    1. Subscriptions
+        1.1 channel_id - id kanala na koji je pretplaćen korisnik,
+        1.2 user_id - id korisnika koji je pretplaćen na kanal
+
+    2. Liked_videos
+        2.1 video_id - id videa koji je lajkovao korisnik,
+        2.2 user_id - id korisnika koji je lajkovao video
 ### UPDATE 05.01.2025. ###
 
     8. Cron job sa izvozom liste usera u csv fajl, smisljam i dodatni use-case ✔️
