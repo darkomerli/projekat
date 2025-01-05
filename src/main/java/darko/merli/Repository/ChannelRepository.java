@@ -12,10 +12,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ChannelRepository extends JpaRepository<Channel, Long> {
     @Query(value = "SELECT * FROM channel where channel_name = ?1", nativeQuery=true)
-    public Channel findByName(String channel_name);
+    Channel findByName(String channel_name);
 
     @Query(value = "DELETE FROM video where channel_id = ?1", nativeQuery=true)
     @Modifying
     @Transactional
-    public void deleteFromVideos(long channel_id);
+    void deleteFromVideos(long channel_id);
 }

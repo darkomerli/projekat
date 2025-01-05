@@ -6,5 +6,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface UsersFromDB extends UserDetailsService {
-    public Users getCurrentUser();
+    Users getCurrentUser();
 }

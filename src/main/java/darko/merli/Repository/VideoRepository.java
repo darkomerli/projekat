@@ -14,10 +14,10 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     @Query(value = "DELETE FROM liked_videos WHERE video_id = ?1", nativeQuery = true)
     @Transactional
     @Modifying
-    public void deleteFromDatabase(long video_id);
+    void deleteFromDatabase(long video_id);
 
     @Query(value = "DELETE FROM comment WHERE video_id = ?1", nativeQuery = true)
     @Modifying
     @Transactional
-    public void deleteFromComments(long video_id);
+    void deleteFromComments(long video_id);
 }

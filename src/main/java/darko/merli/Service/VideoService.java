@@ -7,15 +7,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface VideoService {
-    public String postVideo(String name, VideoUpload video) throws IllegalAccessException;
+    String postVideo(String name, VideoUpload video) throws IllegalAccessException;
 
-    public VideoSearch searchVideo(long id);
+    VideoSearch searchVideo(long id);
 
-    public String deleteVideo(long id) throws IllegalAccessException;
+    String deleteVideo(long id) throws IllegalAccessException;
 
-    public VideoSearch updateVideo(long id, VideoUpdate video) throws IllegalAccessException;
+    VideoSearch updateVideo(long id, VideoUpdate video) throws IllegalAccessException;
 
-    public String likeVideo(long id) throws IllegalAccessException;
+    String likeVideo(long id) throws IllegalAccessException;
 
-    public String unlikeVideo(long id) throws IllegalAccessException;
+    String unlikeVideo(long id) throws IllegalAccessException;
 }
