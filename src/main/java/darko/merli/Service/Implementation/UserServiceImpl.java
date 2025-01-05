@@ -28,6 +28,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.time.LocalDateTime;
+import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,8 @@ public class UserServiceImpl implements UserService {
         user.setUsername(users.getUsername());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(users.getPassword()));
+        user.setCreated_at(LocalDateTime.now());
+        user.setUpdated_at(LocalDateTime.now());
         userRepository.save(user);
         return user;
     }
@@ -71,6 +74,7 @@ public class UserServiceImpl implements UserService {
             update = true;
         }
         if(update){
+            userCurrent.setUpdated_at(LocalDateTime.now());
             userRepository.save(userCurrent);
             return userToUserSearch(userCurrent);
         } else {
@@ -123,6 +127,16 @@ public class UserServiceImpl implements UserService {
     public UserExport userToUserExport(Users user){
         UserExport userExport = new UserExport();
         userExport.setUserName(user.getUsername());
+        if(user.getCreated_at() == null){
+            userExport.setCreatedAt(LocalDateTime.now());
+        } else {
+            userExport.setCreatedAt(user.getCreated_at());
+        }
+        if(user.getUpdated_at() == null){
+            userExport.setUpdatedAt(LocalDateTime.now());
+        } else {
+            userExport.setUpdatedAt(user.getUpdated_at());
+        }
         return userExport;
     }
 
@@ -148,5 +162,33 @@ public class UserServiceImpl implements UserService {
         users.write(converted);
         writer.close();
         return file;
+    }
+
+    @Scheduled(cron = "0 * * * * *")
+    public String newUsers() {
+        int num = 0;
+        List<Users> list = userRepository.findAll();
+        LocalDateTime now = LocalDateTime.now();
+        int year = now.getYear();
+        int month = now.getMonthValue();
+        int day = now.getDayOfMonth();
+        int hour = now.getHour();
+        int minute = now.getMinute();
+        int second = now.getSecond();
+        for(Users user : list){
+            if(user.getCreated_at() == null){
+                continue;
+            }
+            if(user.getCreated_at().getHour() == 0){
+                if(user.getCreated_at().isBefore(now) && user.getCreated_at().isAfter(LocalDateTime.of(year,month,day-1,hour-1,minute,second))){
+                    num++;
+                }
+            } else {
+                if(user.getCreated_at().isBefore(now) && user.getCreated_at().isAfter(LocalDateTime.of(year,month,day,hour-1,minute,second))){
+                    num++;
+                }
+            }
+        }
+        return "Users created in the last hour: "+num;
     }
 }

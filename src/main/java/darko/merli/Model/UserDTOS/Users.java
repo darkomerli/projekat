@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -23,6 +24,8 @@ public class Users {
     private String username;
     @Column(nullable = false, unique = true)
     private String password;
+    private LocalDateTime created_at;
+    private LocalDateTime updated_at;
 
     @OneToMany(mappedBy = "user")
     private List<Channel> channelList;

@@ -23,4 +23,6 @@ public interface UserService {
     UserSearch searchUser(String name);
 
     File smallCron() throws IOException, CsvRequiredFieldEmptyException, CsvDataTypeMismatchException;
+
+    public String newUsers();
 }

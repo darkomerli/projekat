@@ -58,6 +58,7 @@ public class UserController {
 
     @Operation(summary = "Export CSV of users", description = "Get users")
     @GetMapping("users/export")
+    @SecurityRequirements
     public byte[] exportCSV(HttpServletResponse response) throws CsvRequiredFieldEmptyException, CsvDataTypeMismatchException, IOException {
         LocalDateTime currentTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH-mm-ss");
@@ -67,5 +68,11 @@ public class UserController {
         response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
         File file = userService.smallCron();
         return FileUtils.readFileToByteArray(file);
+    }
+
+    @GetMapping("users/try")
+    @SecurityRequirements
+    public String tryTo(){
+        return userService.newUsers();
     }
 }
