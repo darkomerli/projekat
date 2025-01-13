@@ -160,7 +160,6 @@ public class UserServiceImpl implements UserService {
         return file;
     }
 
-    @Scheduled(cron = "0 * * * * *")
     public String newUsers() {
         int num = 0;
         List<Users> list = userRepository.findAll();
