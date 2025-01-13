@@ -19,6 +19,17 @@ header {
     justify-content: space-between;
 }
 
+.registerMain{
+    display:block;
+    height:650px;
+    width:100%;
+    background-color:lightblue;
+    border-style:solid;
+    border-color:black;
+    padding-bottom:1%;
+    padding-top:2%;
+}
+
 main{
     display:block;
     height:750px;
@@ -61,6 +72,17 @@ footer{
     margin: 3px 1px;
 }
 
+.buttonsConfirm{
+    background-color: #04AA6D;
+    border: solid;
+    border-color:black;
+    color: white;
+    font-size: 15px;
+    text-align: center;
+    margin: 3px 1px;
+    padding: 15px 25px;
+}
+
 #items{
     display:block;
     gap:5px;
@@ -89,5 +111,19 @@ footer{
 #mainTitle{
     text-align: center;
     font-size:35px;
+}
+
+.form{
+    width:40%;
+    height:60%;
+    border:2px solid black;
+    text-align: center;
+    margin-left:30%;
+}
+
+.forms{
+    display:block;
+    width:50%;
+    margin-left:25%;
 }
 
