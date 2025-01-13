@@ -59,7 +59,9 @@ public class SecurityConfiguration{
                         .requestMatchers(HttpMethod.GET, "users/{name}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/videos/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "users/try").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/home").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/index.html").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/register.html").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/login.html").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic().authenticationEntryPoint(restAuthenticationEntryPoint);

@@ -6,9 +6,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class PageController {
 
-    @GetMapping ("/home")
+    @GetMapping ("/index.html")
     public String index() {
         return "index";
+    }
+
+    @GetMapping("/register.html")
+    public String register(){
+        return "register";
+    }
+
+    @GetMapping("/login.html")
+    public String login(){
+        return "login";
     }
 
 }

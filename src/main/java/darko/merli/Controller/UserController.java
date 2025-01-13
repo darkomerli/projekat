@@ -33,7 +33,8 @@ public class UserController {
     @Operation(summary = "Create a User", description = "Create the user with username and password")
     @PostMapping("/users/create")
     @SecurityRequirements
-    public Users createUser(@RequestBody UserCreation user) throws IllegalAccessException {
+    //inside paramateres I have removed @RequestBody, which was causing an error when i send data from the browser in my custom register page
+    public Users createUser(UserCreation user) throws IllegalAccessException {
         return userService.createUser(user);
     }
 

@@ -9,5 +9,52 @@
     <link th:rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-    <h1> Darko's YouTube copy</h1>
+
+    <header>
+        <h1> Darko's YouTube copy</h1>
+        <div class = "users">
+            <a th:href="@{login.html}"><button class="buttonsUsers"> Login </button></a>
+            <a th:href="@{register.html}"><button class="buttonsUsers"> Register </button></a>
+        </div>
+    </header>
+    <br>
+
+    <main>
+        <h2 id = "mainTitle">Today's top picks</h2>
+        <br>
+        <div id = "items">
+            <div id="items1">
+                <div class = item>
+
+                </div>
+                <div class = item>
+
+                </div>
+                <div class = item>
+
+                </div>
+            </div>
+            <br>
+            <br>
+            <div id="items2">
+                <div class = item>
+
+                </div>
+                <div class = item>
+
+                </div>
+                <div class = item>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+    <br>
+
+    <footer>
+        <div class = "contents">
+            <p id = "contents_text">This site was made by a student from Subotica</p>
+        </div>
+    </footer>
 </body>

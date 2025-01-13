@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Youtube Page - Register</title>
+  <link th:rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+  <header>
+      <h1> Registration </h1>
+      <div class = "users">
+        <a th:href="@{index.html}"><button class="buttonsUsers"> Back to Main Page </button></a>
+      </div>
+  </header>
+  <br>
+  <main>
+      <form action="users/create" method="post">
+          <div class = "forms">
+              <label>User Name:</label>
+              <input type = "text" name="username">
+          </div>
+          <div class = "forms">
+              <label>Password:</label>
+              <input type = "text" name="password">
+          </div>
+          <div>
+              <button type="submit"> Submit </button>
+          </div>
+      </form>
+  </main>
+  <br>
+  <footer>
+      <div class = "contents">
+          <p id = "contents_text">This site was made by a student from Subotica</p>
+      </div>
+  </footer>
+</body>
+</html>
