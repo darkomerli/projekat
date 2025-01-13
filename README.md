@@ -1,3 +1,5 @@
+KASNO JE, NECU DA DUZIM, SUTRA CU POSTAVITI CITAV README. Uglavnom, kreirao sam frontend i pokusavam da citav backend napravim funkcionalnim sa html stranicama. Sutra vise o tome.
+
 Ovo je projekat koji radim u Javi pomoću Spring Boot-a. 😃
 
 U ovom projektu cilj mi je kreirati back-end strukturu koja će se sastojati od mnoštva API koji se tiču korisnika, kanala koji su u 
