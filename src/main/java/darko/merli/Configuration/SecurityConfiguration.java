@@ -22,7 +22,7 @@ public class SecurityConfiguration{
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
     private static final String[] WHITE_LIST_URL = {
-            "/v3/api-docs", "/v3/api-docs/**", "/swagger-resources", "/swagger-resources/**", "/swagger-ui/**",
+            "/v3/api-docs", "/resources/**", "/static/**", "/css/**", "/js/**", "/images/**","/vendor/**","/fonts/**", "/v3/api-docs/**", "/swagger-resources", "/swagger-resources/**", "/swagger-ui/**",
     };
 
     @Autowired
@@ -56,11 +56,17 @@ public class SecurityConfiguration{
                         .requestMatchers(WHITE_LIST_URL).permitAll()
                         .requestMatchers(HttpMethod.GET, "/channel/{name}").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users/create").permitAll()
-                        .requestMatchers(HttpMethod.GET, "users/{name}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "users/search/{name}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/videos/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "users/try").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/index.html").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/register.html").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/login.html").permitAll()
                         .anyRequest().authenticated()
                 )
+                .formLogin(httpSecurityFormLoginConfigurer -> {
+                    httpSecurityFormLoginConfigurer.loginPage("/login").permitAll();
+                })
                 .httpBasic().authenticationEntryPoint(restAuthenticationEntryPoint);
         return http.build();
     }
