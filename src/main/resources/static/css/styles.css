@@ -127,3 +127,8 @@ footer{
     margin-left:25%;
 }
 
+.navigation{
+    list-style-type:none;
+    display:flex;
+}
+

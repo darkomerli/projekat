@@ -64,6 +64,9 @@ public class SecurityConfiguration{
                         .requestMatchers(HttpMethod.GET, "/login.html").permitAll()
                         .anyRequest().authenticated()
                 )
+                .formLogin(httpSecurityFormLoginConfigurer -> {
+                    httpSecurityFormLoginConfigurer.loginPage("/login").permitAll();
+                })
                 .httpBasic().authenticationEntryPoint(restAuthenticationEntryPoint);
         return http.build();
     }

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,8 +14,12 @@
     <header>
         <h1> Darko's YouTube copy</h1>
         <div class = "users">
-            <a th:href="@{login.html}"><button class="buttonsUsers"> Login </button></a>
-            <a th:href="@{register.html}"><button class="buttonsUsers"> Register </button></a>
+            <ul class="navigation">
+                <li class="nav" sec:authorize="!isAuthenticated()"><a th:href="@{login.html}"><button class="buttonsUsers"> Login </button></a></li>
+                <li class="nav" sec:authorize="!isAuthenticated()"><a th:href="@{register.html}"><button class="buttonsUsers"> Register </button></a></li>
+                <li class="nav" sec:authorize="isAuthenticated()"><a th:href="@{loggedOut.html}"><button class="buttonsUsers"> Log Out</button></a></li>
+            </ul>
+
         </div>
     </header>
     <br>
