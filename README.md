@@ -1,6 +1,7 @@
 Ovo je projekat koji radim u Javi pomoću Spring Boot-a. 😃
 
 KASNO JE, NECU DA DUZIM, SUTRA CU POSTAVITI CITAV README. Uglavnom, kreirao sam frontend i pokusavam da citav backend napravim funkcionalnim sa html stranicama. Sutra vise o tome.
+
 U ovom projektu cilj mi je kreirati back-end strukturu koja će se sastojati od mnoštva API koji se tiču korisnika, kanala koji su u 
 vlasništvu korisnika, videa koji se kače na kanale i komentara. 
 Cilj mi je da kreiram autentifikaciju pomoću koje će se svakom korisniku omogućiti upravljanje sopstvenim profilom i njegovim kanalima,
