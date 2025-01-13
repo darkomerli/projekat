@@ -56,7 +56,7 @@ public class SecurityConfiguration{
                         .requestMatchers(WHITE_LIST_URL).permitAll()
                         .requestMatchers(HttpMethod.GET, "/channel/{name}").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users/create").permitAll()
-                        .requestMatchers(HttpMethod.GET, "users/{name}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "users/search/{name}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/videos/{id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "users/try").permitAll()
                         .requestMatchers(HttpMethod.GET, "/index.html").permitAll()

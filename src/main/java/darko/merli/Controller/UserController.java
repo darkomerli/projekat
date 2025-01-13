@@ -51,7 +51,7 @@ public class UserController {
     }
 
     @Operation(summary = "Search the user", description = "Get the user with selected name")
-    @GetMapping("users/{name}")
+    @GetMapping("users/search/{name}")
     @SecurityRequirements
     public UserSearch searchUser(@PathVariable String name){
         return userService.searchUser(name);
