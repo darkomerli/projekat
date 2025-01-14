@@ -39,6 +39,7 @@ public class PageController {
         model.addAttribute("newUsers", newUsers);
         return "index";
     }
+    //test
 
     @GetMapping("/")
     public String index2(Model model) {
