@@ -62,6 +62,7 @@ public class SecurityConfiguration{
                         .requestMatchers(HttpMethod.GET, "/index.html").permitAll()
                         .requestMatchers(HttpMethod.GET, "/register.html").permitAll()
                         .requestMatchers(HttpMethod.GET, "/login.html").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(httpSecurityFormLoginConfigurer -> {
