@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -20,4 +21,5 @@ public class VideoSearch {
     private long noOfComments;
     private long views;
     private List<CommentReturn> comments;
+    private LocalDateTime createdAt;
 }

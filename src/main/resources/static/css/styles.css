@@ -86,22 +86,32 @@ footer{
 #items{
     display:block;
     gap:5px;
+    width:90%;
+    margin:auto;
+}
+
+.newUsersInHour{
+    margin:auto;
+    font-weight:600;
+    font-size:18px;
 }
 
 #items1{
     display:flex;
     justify-content: space-evenly;
+    gap:20px;
     height:20%;
 }
 
 #items2{
     display:flex;
     justify-content: space-evenly;
+    gap:20px;
     height:20%;
 }
 
 .item{
-    width:18%;
+    width:300px;
     height:250px;
     border:solid;
     border-width:1px;
@@ -131,4 +141,44 @@ footer{
     list-style-type:none;
     display:flex;
 }
+
+.imgThumb{
+    width:100%;
+    height:68%;
+}
+
+.underPhoto{
+    width:90%;
+    height:25%;
+    display:block;
+    padding-left:5%;
+    padding-right:10%;
+    padding-bottom:5%;
+}
+
+.underUsername, .usersname{
+    display:flex;
+    height:50%;
+    justify-content:space-between;
+}
+
+.dataDiv{
+    display:block;
+    height:70%;
+}
+
+.titleDiv{
+    height:30%;
+    margin-top:-15px;
+    word-wrap:break-word;
+}
+
+.title{
+    font-size:17px;
+}
+
+.userName,.date,.views{
+    font-size:12px;
+}
+
 

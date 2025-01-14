@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -48,6 +49,7 @@ public class VideoServiceImpl implements VideoService {
         }
         Video videoReal = uploadToVideo(video);
         videoReal.setPostedChannel(channel);
+        videoReal.setDatePosted(LocalDateTime.now());
         videoRepository.save(videoReal);
         return "Video posted";
     }
@@ -184,6 +186,7 @@ public class VideoServiceImpl implements VideoService {
         videoSearch.setVideoUrl(video.getVideoUrl());
         videoSearch.setLikes(video.getLikes());
         videoSearch.setViews(video.getViews());
+        videoSearch.setCreatedAt(video.getDatePosted());
         if(video.getComments() == null){
             videoSearch.setComments(null);
         } else {
