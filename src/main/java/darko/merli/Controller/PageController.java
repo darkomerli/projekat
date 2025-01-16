@@ -1,6 +1,8 @@
 package darko.merli.Controller;
 
+import darko.merli.Model.UserDTOS.Users;
 import darko.merli.Model.VideoDTOS.Video;
+import darko.merli.Repository.UserRepository;
 import darko.merli.Repository.VideoRepository;
 import darko.merli.Service.UserService;
 import darko.merli.Service.VideoService;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class PageController {
@@ -30,6 +33,10 @@ public class PageController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserRepository userRepository;
+
+
     @GetMapping ("/index.html")
     public String index(Model model) {
         model.addAttribute("videos", videoRepository.findAll());
@@ -39,7 +46,6 @@ public class PageController {
         model.addAttribute("newUsers", newUsers);
         return "index";
     }
-    //test
 
     @GetMapping("/")
     public String index2(Model model) {
@@ -48,6 +54,15 @@ public class PageController {
         List<String> newUsers = new ArrayList<>();
         newUsers.add(news);
         model.addAttribute("newUsers", newUsers);
+        List<Users> listUsers = new ArrayList<>();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Optional<Users> user = userRepository.findByUsername(auth.getName());
+        if(user.isPresent()) {
+            listUsers.add(user.get());
+        }
+        if(listUsers.size()>0){
+            model.addAttribute("listUsers", listUsers);
+        }
         return "index";
     }
 
@@ -87,4 +102,8 @@ public class PageController {
         return "loggedOut";
     }
 
+    @GetMapping("/successfullCreation.html")
+    public String confirmedRegistration(){
+        return "successfullCreation";
+    }
 }

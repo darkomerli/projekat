@@ -12,12 +12,15 @@
 <body>
 
     <header>
-        <h1> Darko's YouTube copy</h1>
+        <a th:href="@{/}" class="titlesLink"><h1 class="titles"> Darko's YouTube copy</h1></a>
         <div class = "users">
             <p th:each="string, iStat : ${newUsers}" th:text="${string.toString()}" class="newUsersInHour"></p>
             <ul class="navigation">
                 <li class="nav" sec:authorize="!isAuthenticated()"><a th:href="@{login.html}"><button class="buttonsUsers"> Login </button></a></li>
                 <li class="nav" sec:authorize="!isAuthenticated()"><a th:href="@{register.html}"><button class="buttonsUsers"> Register </button></a></li>
+                <th:block th:each="users:${listUsers}">
+                    <li class="nav" sec:authorize="isAuthenticated()"><a th:href="'/users/'+${users.getUser_id()}"><button class="buttonsUsers">My Profile</button></a></li>
+                </th:block>
                 <li class="nav" sec:authorize="isAuthenticated()"><a th:href="@{loggedOut.html}"><button class="buttonsUsers"> Log Out</button></a></li>
             </ul>
 
@@ -31,6 +34,7 @@
         <div id = "items">
             <div id="items1">
                 <div class = item th:each = "video, iStat : ${videos}" th:if="${iStat.index <= 4}">
+                    <a th:href="'/videos/'+${video.getId()}">
                     <img src="https://www.ef.uns.ac.rs/za-buduce-studente/slike/efsu2015x2.jpg" class="imgThumb">
                     <div class="underPhoto">
                         <div class="titleDiv">
@@ -46,12 +50,14 @@
                             </div>
                         </div>
                     </div>
+                    </a>
                 </div>
             </div>
             <br>
             <br>
             <div id="items2">
                 <div class = item th:each = "video, iStat : ${videos}" th:if="${iStat.index > 4 and iStat.index<8}">
+                    <a th:href="'/videos/'+${video.getId()}">
                     <img src="https://www.ef.uns.ac.rs/za-buduce-studente/slike/efsu2015x2.jpg" class="imgThumb">
                     <div class="underPhoto">
                         <div class="titleDiv">
@@ -67,6 +73,7 @@
                             </div>
                         </div>
                     </div>
+                    </a>
                 </div>
             </div>
         </div>
