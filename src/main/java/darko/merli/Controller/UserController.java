@@ -2,10 +2,12 @@ package darko.merli.Controller;
 
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import darko.merli.Model.ChannelDTOS.Channel;
 import darko.merli.Model.UserDTOS.UserCreation;
 import darko.merli.Model.UserDTOS.UserSearch;
 import darko.merli.Model.UserDTOS.UserUpdate;
 import darko.merli.Model.UserDTOS.Users;
+import darko.merli.Model.VideoDTOS.Video;
 import darko.merli.Repository.UserRepository;
 import darko.merli.Service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -54,6 +56,12 @@ public class UserController {
         List<Users> usersList = new ArrayList<>();
         usersList.add(user);
         model.addAttribute("usersList", usersList);
+        List<Channel> channels = user.getChannelList();
+        model.addAttribute("channels", channels);
+        List<Channel> subscribedTo = user.getSubscribedChannelsList();
+        model.addAttribute("subscribedTo", subscribedTo);
+        List<Video> likedVideos = user.getLikedVideoList();
+        model.addAttribute("likedVideos", likedVideos);
         return "myProfile";
     }
 

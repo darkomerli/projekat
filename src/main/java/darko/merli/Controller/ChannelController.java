@@ -8,10 +8,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @Validated
 @Tag(name = "1. Channels")
 //controller class that hold the apis regarding the channels
@@ -59,7 +60,7 @@ public class ChannelController {
     //unsubscribing from a channel
     @Operation(summary = "Unsubscribe from the channel", description = "Unsubscribe from the channel by using channel name")
     @PutMapping("/channel/{name}/unsubscribe")
-    public String unsubscribeFromChannel(@PathVariable String name) throws IllegalAccessException {
-        return channelService.unsubscribeChannel(name);
+    public void unsubscribeFromChannel(@PathVariable String name) throws IllegalAccessException {
+        channelService.unsubscribeChannel(name);
     }
 }

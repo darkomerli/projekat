@@ -8,10 +8,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @Validated
 @Tag(name="4. Videos")
 //controller class which holds the apis for videos
@@ -51,9 +53,17 @@ public class VideoController {
         return videoService.likeVideo(id);
     }
 
+//    @Operation(summary = "Remove a like from video", description = "Remove a like from video with selected id")
+//    @PutMapping("/videos/{id}/unlike")
+//    public String unlikeVideo(@PathVariable long id) throws IllegalAccessException {
+//        videoService.unlikeVideo(id);
+//        return "redirect:/videos/" + id;
+//    }
+
     @Operation(summary = "Remove a like from video", description = "Remove a like from video with selected id")
-    @PutMapping("/videos/{id}/unlike")
-    public String unlikeVideo(@PathVariable long id) throws IllegalAccessException {
-        return videoService.unlikeVideo(id);
+    @GetMapping("/videos/{id}/unlike")
+    public String unlikeVideo(@PathVariable long id, Model model) throws IllegalAccessException {
+        videoService.unlikeVideo(id);
+        return "MyProfile";
     }
 }

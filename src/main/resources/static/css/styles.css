@@ -169,6 +169,12 @@ footer{
     text-decoration: none;
 }
 
+.greeting{
+    width:20%;
+    font-size:30px;
+    margin-left:10%;
+}
+
 .underUsername, .usersname{
     display:flex;
     height:50%;
@@ -192,6 +198,32 @@ footer{
 
 .userName,.date,.views{
     font-size:12px;
+}
+
+.myProfileChannelLists{
+    list-style-type:none;
+    margin-left:-6%;
+}
+
+.itemChannelsVideos{
+    display:flex;
+    gap:30px;
+    margin-left:42%;
+}
+
+.myProfileLists{
+    width:90%;
+    margin:auto;
+    display:flex;
+    justify-content: space-evenly;
+}
+
+.listColumn{
+    width:40%;
+    display:block;
+    text-align:center;
+    justify-content: center;
+
 }
 
 
