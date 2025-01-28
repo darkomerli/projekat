@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Youtube Page</title>
+  <title>My Youtube Page - My Profile</title>
   <link th:rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
@@ -23,7 +23,42 @@
 
 <main>
   <th:block th:each="users:${usersList}">
-    <h2 th:text="'Hello, '+ ${users.getUsername()}"></h2>
+    <h2 th:text="'Hello, '+ ${users.getUsername()}" class="greeting"></h2>
+    <div class = "myProfileLists">
+      <div class="listColumn">
+        <h3>Channels you own</h3>
+        <ul class="myProfileChannelLists">
+          <li th:if="${channels.isEmpty()}">You dont have any channels yet.</li>
+          <li th:each="channel:${channels}">
+            <a th:href="'/channel/'+${channel.getChannelName()}" th:text="${channel.getChannelName()}"></a>
+          </li>
+        </ul>
+      </div>
+      <div class="listColumn">
+        <h3>Channels you have subscribed to</h3>
+        <ul class="myProfileChannelLists">
+          <li th:if="${subscribedTo.isEmpty()}">You haven't subscribed to any channel yet.</li>
+          <li th:each="channel:${subscribedTo}">
+            <div class="itemChannelsVideos">
+              <a th:href="'/channel/'+${channel.getChannelName()}" th:text="${channel.getChannelName()}"></a>
+              <a th:href="'/channel/'+${channel.getChannelName()}+'/unsubscribeFrom'"><button>X</button></a>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="listColumn">
+        <h3>Some of the videos you have liked</h3>
+        <ul class="myProfileChannelLists">
+          <li th:if="${likedVideos.isEmpty()}">You haven't liked any videos yet.</li>
+          <li th:each="video, iStat:${likedVideos}" th:if="${iStat.index<5}">
+            <div class="itemChannelsVideos">
+              <a th:href="'/videos/'+${video.getId()}" th:text="${video.getTitle()}"></a>
+              <a th:href="'/videos/'+${video.getId()}+'/unlike'"><button>X</button></a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
   </th:block>
   <br>
 
