@@ -148,12 +148,13 @@ footer{
 }
 
 .underPhoto{
-    width:80%;
+    width:100%;
     height:25%;
     display:block;
-    padding-left:5%;
+    padding-left:10%;
     padding-right:10%;
     padding-bottom:5%;
+    margin-left:-5%;
 }
 
 .titles{
@@ -175,10 +176,31 @@ footer{
     margin-left:10%;
 }
 
-.underUsername, .usersname{
+.underUsername{
     display:flex;
     height:50%;
     justify-content:space-between;
+    padding-right:10%;
+}
+
+.usersname{
+    width:100%;
+}
+
+.userName{
+    position:absolute;
+}
+
+a:link{
+    color:#04AA6D;
+}
+
+a:visited{
+    color:#04AA6D;
+}
+
+a{
+    text-decoration: none;
 }
 
 .dataDiv{
@@ -223,7 +245,7 @@ footer{
     display:block;
     text-align:center;
     justify-content: center;
-
 }
+
 
 

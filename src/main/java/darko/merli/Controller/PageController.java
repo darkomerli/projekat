@@ -99,7 +99,7 @@ public class PageController {
         if(auth != null){
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        return "loggedOut";
+        return "redirect:/";
     }
 
     @GetMapping("/successfullCreation.html")

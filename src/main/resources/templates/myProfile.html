@@ -41,7 +41,7 @@
           <li th:each="channel:${subscribedTo}">
             <div class="itemChannelsVideos">
               <a th:href="'/channel/'+${channel.getChannelName()}" th:text="${channel.getChannelName()}"></a>
-              <a th:href="'/channel/'+${channel.getChannelName()}+'/unsubscribe'"><button>X</button></a>
+              <a th:href="'/channel/'+${channel.getChannelName()}+'/unsubscribeFrom'"><button>X</button></a>
             </div>
           </li>
         </ul>

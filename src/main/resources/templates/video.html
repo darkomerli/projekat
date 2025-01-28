@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Youtube Page - My Profile</title>
+  <link th:rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<header>
+  <a th:href="@{/}" class="titlesLink"><h1 class="titles"> Darko's YouTube copy</h1></a>
+  <div class = "users">
+    <ul class="navigation">
+      <li class="nav"><a th:href="@{/}"><button class="buttonsUsers"> Back to Home Page </button></a></li>
+    </ul>
+  </div>
+</header>
+<br>
+
+<main>
+  <p>Video page</p>
+</main>
+<br>
+
+<footer>
+  <div class = "contents">
+    <p id = "contents_text">This site was made by a student from Subotica</p>
+  </div>
+</footer>
+</body>
