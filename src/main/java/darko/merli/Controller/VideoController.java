@@ -1,10 +1,14 @@
 package darko.merli.Controller;
 
+import darko.merli.Model.CommentDTOS.Comment;
+import darko.merli.Model.CommentDTOS.CommentCreate;
 import darko.merli.Model.UserDTOS.Users;
+import darko.merli.Model.VideoDTOS.Video;
 import darko.merli.Model.VideoDTOS.VideoSearch;
 import darko.merli.Model.VideoDTOS.VideoUpdate;
 import darko.merli.Model.VideoDTOS.VideoUpload;
 import darko.merli.Repository.UserRepository;
+import darko.merli.Repository.VideoRepository;
 import darko.merli.Service.UserService;
 import darko.merli.Service.VideoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,6 +22,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @Validated
 @Tag(name="4. Videos")
@@ -26,6 +32,8 @@ public class VideoController {
 
     @Autowired
     private VideoService videoService;
+    @Autowired
+    private VideoRepository videoRepository;
 
     @Autowired
     private UserService userService;
@@ -41,7 +49,30 @@ public class VideoController {
     @Operation(summary = "Find a video with id", description = "Find a video that has selected video id")
     @GetMapping("/videos/{id}")
     @SecurityRequirements
-    public String getVideo(@PathVariable long id){
+    public String getVideo(@PathVariable long id, Model model){
+        boolean commentsCheck = false;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(!auth.getName().equals("anonymousUser")){
+            Users user = userRepository.findByUsername(auth.getName()).get();
+            long idOfUser = user.getUser_id();
+            System.out.println(idOfUser);
+            model.addAttribute("idOfUser", idOfUser);
+        }
+        List<Video> listOfVideos = videoRepository.findAll();
+        model.addAttribute("listOfVideos", listOfVideos);
+        model.addAttribute("MainId", id);
+        Video video = videoRepository.findById(id).get();
+        model.addAttribute("video", video);
+        if(!video.getComments().isEmpty()){
+            commentsCheck = true;
+        }
+        model.addAttribute("commentsCheck", commentsCheck);
+        if(commentsCheck){
+            List<Comment> commentList = video.getComments();
+            model.addAttribute("comments", commentList);
+            CommentCreate commentCreate = new CommentCreate();
+            model.addAttribute("commentCreate", commentCreate);
+        }
         videoService.searchVideo(id);
         return "video";
     }

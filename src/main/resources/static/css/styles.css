@@ -49,6 +49,7 @@ footer{
     border-style:solid;
     border-color:black;
     justify-content: center;
+
 }
 
 .users{
@@ -248,4 +249,103 @@ a{
 }
 
 
+#video-items{
+    width:60%;
+    height:500px;
+    padding-left:5%;
+}
+
+.video-player{
+    border: solid black;
+    width:100%;
+    height:90%;
+    text-align:center;
+}
+
+#video-main{
+    display:block;
+    height:1500px;
+    width:100%;
+    background-color:lightblue;
+    border-style:solid;
+    border-color:black;
+    padding-bottom:1%;
+    padding-top:2%;
+}
+
+#this-is-the-video{
+}
+
+#under-vid{
+    display:flex;
+    justify-content: space-between;
+    width:94%;
+}
+
+#under-vid, #video-desc{
+    padding-left:3%;
+}
+
+.video-desc-comments{
+    padding-left:3%;
+    font-size:20px;
+}
+
+#channel-name{
+    margin-top:1.6%;
+}
+
+#leave-a-comment{
+    display:flex;
+}
+
+#form-leave-a-comment{
+    display:flex;
+    gap:10px;
+}
+
+#comment-contents{
+    padding-left:2%;
+    display:flex;
+    justify-content: space-between;
+}
+
+.buttonForDeleting{
+    display:none;
+}
+
+.pokusaj:hover .buttonForDeleting{
+    display:block;
+}
+
+.video-list{
+    border: solid black;
+    display:block;
+    width:25%;
+    height:auto;
+}
+
+.contentsOfPage{
+    display:flex;
+    justify-content:space-between;
+}
+
+#left-side{
+    width:90%;
+    justify-items:center;
+    margin-left:-10%;
+}
+
+#right-side{
+    width:20%;
+    margin-right:10%;
+    justify-items:center;
+    padding-top:-5%;
+    height:1000px;
+}
+
+.video-list{
+    width:80%;
+    height:150px;
+}
 

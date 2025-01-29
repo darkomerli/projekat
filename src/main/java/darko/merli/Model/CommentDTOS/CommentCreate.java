@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 //we send object of this class to create a comment
 public class CommentCreate {
-    private String content;
+    public String content;
 }
