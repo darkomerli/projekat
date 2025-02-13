@@ -23,7 +23,7 @@
 </header>
 <br>
 
-<main id="video-main">
+<main>
     <p th:text="${video.getTitle()}" class="greeting"></p>
     <div class="contentsOfPage">
         <div id="left-side">
@@ -35,6 +35,16 @@
                 <div id="under-vid">
                     <a th:href="'/channel/' + ${video.getPostedChannel().getChannelName()}"
                        th:text="${video.getPostedChannel().getChannelName()}" id="channel-name"></a>
+                    <p th:text="'Subscribers: '+${video.getPostedChannel().getSubscribers()}"></p>
+                    <th:block>
+                        <a sec:authorize="isAuthenticated()" th:if="${video.getPostedChannel().getUser().getUsername()} != ${username} and ${!exists}"  th:href="'/channel/'+${video.getPostedChannel().getChannelName()}+'/subscribeFromVideo/'+${video.getId()}"><button class="buttonsUsers">Subscribe</button></a>
+                        <a sec:authorize="isAuthenticated()" th:if="${exists}" th:href="'/channel/'+${video.getPostedChannel().getChannelName()}+'/unsubscribeFromVideo/'+${video.getId()}"><button class="buttonsUsers">Unsubscribe</button></a>
+                    </th:block>
+                    <th:block>
+                        <a sec:authorize="isAuthenticated()" th:if="${!hasLiked}"  th:href="'/videos/'+${video.getId()}+'/like'"><button class="buttonsUsers">Like</button></a>
+                        <a sec:authorize="isAuthenticated()" th:if="${hasLiked}" th:href="'/videos/'+${video.getId()}+'/unlikeFromVideo'"><button class="buttonsUsers">Unlike</button></a>
+                    </th:block>
+                    <p th:text="'Likes: ' + ${video.getLikes()}"></p>
                     <p th:text="'Views: ' + ${video.getViews()}"></p>
                 </div>
                 <p class="video-desc-comments"><b>Description: </b></p>
@@ -55,7 +65,7 @@
                     </th:block>
                     <th:block th:if="${commentsCheck}">
                         <ul class="myProfileChannelLists">
-                            <li th:each="comment, iStat : ${comments}" th:if="${iStat.index}<5" class="comment-item">
+                            <li th:each="comment, iStat : ${comments}" class="comment-item">
                                 <div class="pokusaj">
                                     <p th:text="${comment.getUserComm().getUsername()}"></p>
                                     <div id="comment-contents">
@@ -77,7 +87,7 @@
             </div>
         </div>
         <div id="right-side">
-            <ul th:each="video, iStat : ${listOfVideos}" th:if="${video.getId()} != ${MainId} and ${iStat.index<5}" class="myProfileChannelLists">
+            <ul th:each="video, iStat : ${listOfVideos}" th:if="${video.getId()} != ${MainId}" class="myProfileChannelLists">
                 <br>
                 <li>
                     <div class="item">

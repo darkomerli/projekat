@@ -1,5 +1,6 @@
 package darko.merli.Controller;
 
+import darko.merli.Model.ChannelDTOS.Channel;
 import darko.merli.Model.CommentDTOS.Comment;
 import darko.merli.Model.CommentDTOS.CommentCreate;
 import darko.merli.Model.UserDTOS.Users;
@@ -51,17 +52,30 @@ public class VideoController {
     @SecurityRequirements
     public String getVideo(@PathVariable long id, Model model){
         boolean commentsCheck = false;
+        boolean exists = false;
+        boolean hasLiked = false;
+        Video video = videoRepository.findById(id).get();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if(!auth.getName().equals("anonymousUser")){
             Users user = userRepository.findByUsername(auth.getName()).get();
             long idOfUser = user.getUser_id();
             System.out.println(idOfUser);
             model.addAttribute("idOfUser", idOfUser);
+            Channel channel = video.getPostedChannel();
+            List<Users> listOfSubscribed = channel.getUsers();
+            if(listOfSubscribed.contains(userRepository.findByUsername(auth.getName()).get())){
+                exists = true;
+            }
+            List<Users> listOfLikes = video.getUsers();
+            if(listOfLikes.contains(userRepository.findByUsername(auth.getName()).get())){
+                hasLiked = true;
+            }
+            model.addAttribute("hasLiked", hasLiked);
+            model.addAttribute("exists", exists);
         }
         List<Video> listOfVideos = videoRepository.findAll();
         model.addAttribute("listOfVideos", listOfVideos);
         model.addAttribute("MainId", id);
-        Video video = videoRepository.findById(id).get();
         model.addAttribute("video", video);
         if(!video.getComments().isEmpty()){
             commentsCheck = true;
@@ -73,6 +87,7 @@ public class VideoController {
             CommentCreate commentCreate = new CommentCreate();
             model.addAttribute("commentCreate", commentCreate);
         }
+        model.addAttribute("username", auth.getName());
         videoService.searchVideo(id);
         return "video";
     }
@@ -90,9 +105,13 @@ public class VideoController {
     }
 
     @Operation(summary = "Like the video", description = "Like the video with the selected id")
-    @PutMapping("/videos/{id}/like")
+    @GetMapping("/videos/{id}/like")
     public String likeVideo(@PathVariable long id) throws IllegalAccessException {
-        return videoService.likeVideo(id);
+        videoService.likeVideo(id);
+        Video video = videoRepository.findById(id).get();
+        video.setViews(video.getViews() - 1);
+        videoRepository.save(video);
+        return "redirect:/videos/"+id;
     }
 
 //    @Operation(summary = "Remove a like from video", description = "Remove a like from video with selected id")
@@ -110,5 +129,15 @@ public class VideoController {
         long idUser = user.getUser_id();
         videoService.unlikeVideo(id);
         return "redirect:/users/"+idUser;
+    }
+
+    @Operation(summary = "Remove a like from video", description = "Remove a like from video with selected id")
+    @GetMapping("/videos/{id}/unlikeFromVideo")
+    public String unlikeVideoFromVideo(@PathVariable long id, Model model) throws IllegalAccessException {
+        videoService.unlikeVideo(id);
+        Video video = videoRepository.findById(id).get();
+        video.setViews(video.getViews() - 1);
+        videoRepository.save(video);
+        return "redirect:/videos/"+id;
     }
 }
