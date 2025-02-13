@@ -314,6 +314,15 @@ a{
     display:none;
 }
 
+.pokusaj{
+    padding:10px;
+}
+
+.pokusaj:hover{
+    border:1px solid black;
+    padding:9px;
+}
+
 .pokusaj:hover .buttonForDeleting{
     display:block;
 }

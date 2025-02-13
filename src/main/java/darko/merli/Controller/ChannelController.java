@@ -6,9 +6,12 @@ import darko.merli.Model.ChannelDTOS.ChannelSearch;
 import darko.merli.Model.ChannelDTOS.ChannelUpdate;
 import darko.merli.Model.UserDTOS.Users;
 import darko.merli.Model.VideoDTOS.Video;
+import darko.merli.Model.VideoDTOS.VideoSearch;
 import darko.merli.Repository.ChannelRepository;
 import darko.merli.Repository.UserRepository;
+import darko.merli.Repository.VideoRepository;
 import darko.merli.Service.ChannelService;
+import darko.merli.Service.VideoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,6 +38,8 @@ public class ChannelController {
     ChannelRepository channelRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    VideoRepository videoRepository;
 
     //searching the channel by channel name
     @Operation(summary = "Search the channel", description = "Search the channel by its name")
@@ -93,9 +98,6 @@ public class ChannelController {
     @Operation(summary = "Unsubscribe from the channel", description = "Unsubscribe from the channel by using channel name")
     @GetMapping("/channel/{name}/unsubscribe")
     public String unsubscribeFromChannel(@PathVariable String name) throws IllegalAccessException {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Users user = userRepository.findByUsername(auth.getName()).get();
-        long idUser = user.getUser_id();
         channelService.unsubscribeChannel(name);
         return "redirect:/channel/"+name;
     }
@@ -109,4 +111,26 @@ public class ChannelController {
         channelService.unsubscribeChannel(name);
         return "redirect:/users/"+idUser;
     }
+
+    @Operation(summary = "Unsubscribe from the channel", description = "Unsubscribe from the channel by using channel name")
+    @GetMapping("/channel/{name}/unsubscribeFromVideo/{videoId}")
+    public String unsubscribedFromChannelInVideo(@PathVariable String name, @PathVariable long videoId) throws IllegalAccessException {
+        channelService.unsubscribeChannel(name);
+        Video video = videoRepository.findById(videoId).get();
+        video.setViews(video.getViews() - 1);
+        videoRepository.save(video);
+        return "redirect:/videos/"+videoId;
+    }
+
+    @Operation(summary = "Unsubscribe from the channel", description = "Unsubscribe from the channel by using channel name")
+    @GetMapping("/channel/{name}/subscribeFromVideo/{videoId}")
+    public String subscribedFromChannelInVideo(@PathVariable String name, @PathVariable long videoId) throws IllegalAccessException {
+        channelService.subscribeChannel(name);
+        Video video = videoRepository.findById(videoId).get();
+        video.setViews(video.getViews() - 1);
+        videoRepository.save(video);
+        return "redirect:/videos/"+videoId;
+    }
+
+
 }
