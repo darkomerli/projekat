@@ -31,59 +31,91 @@
     <main>
         <h2 id = "mainTitle">Today's top picks</h2>
         <br>
-        <div id = "items">
-            <div id="items1">
-                <div class = item th:each = "video, iStat : ${videos}" th:if="${iStat.index <= 4}">
-                    <a th:href="'/videos/'+${video.getId()}">
-                    <img src="https://www.ef.uns.ac.rs/za-buduce-studente/slike/efsu2015x2.jpg" class="imgThumb">
-                        <div class="underPhoto">
-                            <div class="titleDiv">
-                                <h3 class="title" th:text="${video.getTitle()}"></h3>
-                            </div>
-                            <div class="dataDiv">
-                                <div class="usersname">
-                                    <a class="userName" th:text="${video.getPostedChannel().getChannelName()}" th:href="'/channel/'+${video.getPostedChannel().getChannelName()}"></a>
+<!--        <div id = "items">-->
+<!--            <div id="items1">-->
+<!--                <div class = item th:each = "video, iStat : ${videos}" th:if="${iStat.index <= 4}">-->
+<!--                    <a th:href="'/videos/'+${video.getId()}">-->
+<!--                    <img src="https://www.ef.uns.ac.rs/za-buduce-studente/slike/efsu2015x2.jpg" class="imgThumb">-->
+<!--                        <div class="underPhoto">-->
+<!--                            <div class="titleDiv">-->
+<!--                                <h3 class="title" th:text="${video.getTitle()}"></h3>-->
+<!--                            </div>-->
+<!--                            <div class="dataDiv">-->
+<!--                                <div class="usersname">-->
+<!--                                    <a class="userName" th:text="${video.getPostedChannel().getChannelName()}" th:href="'/channel/'+${video.getPostedChannel().getChannelName()}"></a>-->
+<!--                                </div>-->
+<!--                                <a th:href="'/videos/'+${video.getId()}">-->
+<!--                                    <div>-->
+<!--                                        <br>-->
+<!--                                    </div>-->
+<!--                                    <div class="underUsername">-->
+<!--                                        <p class="views" th:text="${video.getViews()} + ' views'"></p>-->
+<!--                                        <p class="date" th:text="${video.getDatePosted()}"></p>-->
+<!--                                    </div>-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <br>-->
+<!--            <br>-->
+<!--            <div id="items2">-->
+<!--                <div class = item th:each = "video, iStat : ${videos}" th:if="${iStat.index > 4 and iStat.index<8}">-->
+<!--                    <a th:href="'/videos/'+${video.getId()}">-->
+<!--                    <img src="https://www.ef.uns.ac.rs/za-buduce-studente/slike/efsu2015x2.jpg" class="imgThumb">-->
+<!--                    <div class="underPhoto">-->
+<!--                        <div class="titleDiv">-->
+<!--                            <h3 class="title" th:text="${video.getTitle()}"></h3>-->
+<!--                        </div>-->
+<!--                        <div class="dataDiv">-->
+<!--                            <a class="userName" th:text="${video.getPostedChannel().getChannelName()}" th:href="'/channel/'+${video.getPostedChannel().getChannelName()}" title="${video.ge}"></a>-->
+<!--                            <a th:href="'/videos/'+${video.getId()}">-->
+<!--                                <div>-->
+<!--                                    <br>-->
+<!--                                </div>-->
+<!--                                <div class="underUsername">-->
+<!--                                    <p class="views" th:text="${video.getViews()} + ' views'"></p>-->
+<!--                                    <p class="date" th:text="${video.getDatePosted()}"></p>-->
+<!--                                </div>-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+        <div id="channel-videos">
+            <ul id="myProfileChannelListsMain">
+                <li th:each="video:${videos}">
+                    <div class="itemChannel">
+                        <a th:href="'/videos/'+${video.getId()}">
+                            <img src="https://www.ef.uns.ac.rs/za-buduce-studente/slike/efsu2015x2.jpg" class="imgThumb">
+                            <div class="underPhoto">
+                                <div class="titleDiv">
+                                    <h3 class="title" th:text="${video.getTitle()}"></h3>
                                 </div>
-                                <a th:href="'/videos/'+${video.getId()}">
-                                    <div>
-                                        <br>
+                                <div class="dataDiv">
+                                    <div class="usersname">
+                                        <a class="userName" th:text="${video.getPostedChannel().getChannelName()}"
+                                           th:href="'/channel/'+${video.getPostedChannel().getChannelName()}"></a>
                                     </div>
-                                    <div class="underUsername">
-                                        <p class="views" th:text="${video.getViews()} + ' views'"></p>
-                                        <p class="date" th:text="${video.getDatePosted()}"></p>
-                                    </div>
-                                </a>
+                                    <a th:href="'/videos/'+${video.getId()}">
+                                        <div>
+                                            <br>
+                                        </div>
+                                        <div class="underUsername">
+                                            <p class="views" th:text="${video.getViews()} + ' views'"></p>
+                                            <p class="date" th:text="${video.getDatePosted()}"></p>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <br>
-            <br>
-            <div id="items2">
-                <div class = item th:each = "video, iStat : ${videos}" th:if="${iStat.index > 4 and iStat.index<8}">
-                    <a th:href="'/videos/'+${video.getId()}">
-                    <img src="https://www.ef.uns.ac.rs/za-buduce-studente/slike/efsu2015x2.jpg" class="imgThumb">
-                    <div class="underPhoto">
-                        <div class="titleDiv">
-                            <h3 class="title" th:text="${video.getTitle()}"></h3>
-                        </div>
-                        <div class="dataDiv">
-                            <a class="userName" th:text="${video.getPostedChannel().getChannelName()}" th:href="'/channel/'+${video.getPostedChannel().getChannelName()}" title="${video.ge}"></a>
-                            <a th:href="'/videos/'+${video.getId()}">
-                                <div>
-                                    <br>
-                                </div>
-                                <div class="underUsername">
-                                    <p class="views" th:text="${video.getViews()} + ' views'"></p>
-                                    <p class="date" th:text="${video.getDatePosted()}"></p>
-                                </div>
-                            </a>
-                        </div>
+                        </a>
                     </div>
-                    </a>
-                </div>
-            </div>
+                    <br>
+                </li>
+            </ul>
         </div>
     </main>
     <br>

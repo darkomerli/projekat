@@ -32,7 +32,6 @@ header {
 
 main{
     display:block;
-    height:750px;
     width:100%;
     background-color:lightblue;
     border-style:solid;
@@ -251,20 +250,19 @@ a{
 
 #video-items{
     width:60%;
-    height:500px;
     padding-left:5%;
 }
 
 .video-player{
     border: solid black;
     width:100%;
-    height:90%;
+    height:500px;
     text-align:center;
+    background-color:lightcyan;
 }
 
 #video-main{
     display:block;
-    height:1500px;
     width:100%;
     background-color:lightblue;
     border-style:solid;
@@ -350,11 +348,77 @@ a{
     margin-right:10%;
     justify-items:center;
     padding-top:-5%;
-    height:1000px;
 }
 
 .video-list{
     width:80%;
     height:150px;
 }
+
+#mainInfo{
+    display:flex;
+    width:90%;
+    padding-left:30px;
+    justify-content: space-between;
+}
+
+#subscriptionsAndInfo{
+    width:20%;
+    align-items:center;
+    text-align:center;
+    margin-top:-20px;
+}
+
+#channel-description, #desc{
+    margin-left:5%;
+    margin-right:5%;
+}
+
+#desc{
+    border:1px solid black;
+}
+
+#channel-description{
+    text-align:center;
+}
+
+#channel-videos{
+    text-align:center;
+    align-items:center;
+    align-content:center;
+}
+
+#myProfileChannelListsMain{
+    list-style-type:none;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-around;
+    padding-left:0;
+    width:85%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+#myProfileChannelListsChannel{
+    list-style-type:none;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-around;
+    padding-left:0;
+    width:75%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.itemChannel{
+    text-align:left;
+    width:300px;
+    height:250px;
+    border:solid;
+    border-width:1px;
+    border-color:black;
+}
+
+
+
 

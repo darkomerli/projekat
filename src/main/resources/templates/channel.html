@@ -4,40 +4,92 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Youtube Page - My Profile</title>
-  <link th:rel="stylesheet" th:href="@{/css/styles.css}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Youtube Page - My Profile</title>
+    <link th:rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 
 <header>
-  <a th:href="@{/}" class="titlesLink"><h1 class="titles"> Darko's YouTube copy</h1></a>
-  <div class = "users">
-    <ul class="navigation">
-      <li class="nav"><a th:href="@{/}"><button class="buttonsUsers"> Back to Home Page </button></a></li>
-    </ul>
-  </div>
+    <a th:href="@{/}" class="titlesLink"><h1 class="titles"> Darko's YouTube copy</h1></a>
+    <div class="users">
+        <ul class="navigation">
+            <li class="nav"><a th:href="@{/}">
+                <button class="buttonsUsers"> Back to Home Page</button>
+            </a></li>
+        </ul>
+    </div>
 </header>
 <br>
 <!--'/users/'+${users.getUser_id()}-->
 <main>
-  <th:block th:each="channel : ${channels}">
-    <h2 th:text="${channel.getChannelName()}" class="greeting"></h2>
-    <p th:text="${channel.getDescription()}" class="channel-description"></p>
-    <h4 th:text="${channel.getSubscribers()} + ' Subscribers'" class="channel-subscribers"></h4>
-  </th:block>
-  <th:block th:each="channel : ${channels}">
-    <a sec:authorize="isAuthenticated()" th:if="${channel.getUser().getUsername()} != ${username} and ${!exists}"  th:href="'/channel/'+${channel.getChannelName()}+'/subscribe'"><button class="buttonsUsers">Subscribe</button></a>
-    <a sec:authorize="isAuthenticated()" th:if="${exists}" th:href="'/channel/'+${channel.getChannelName()}+'/unsubscribe'"><button class="buttonsUsers">Unsubscribe</button></a>
-  </th:block>
-
+    <th:block th:each="channel : ${channels}">
+        <div id="mainInfo">
+            <h2 th:text="${channel.getChannelName()}" class="greeting"></h2>
+            <div id="subscriptionsAndInfo">
+                <h3 th:text="${channel.getSubscribers()} + ' Subscribers'" class="channel-subscribers"></h3>
+                <a sec:authorize="isAuthenticated()"
+                   th:if="${channel.getUser().getUsername()} != ${username} and ${!exists}"
+                   th:href="'/channel/'+${channel.getChannelName()}+'/subscribe'">
+                    <button class="buttonsUsers">Subscribe</button>
+                </a>
+                <a sec:authorize="isAuthenticated()" th:if="${exists}"
+                   th:href="'/channel/'+${channel.getChannelName()}+'/unsubscribe'">
+                    <button class="buttonsUsers">Unsubscribe</button>
+                </a>
+            </div>
+        </div>
+    </th:block>
+    <br>
+    <th:block th:each="channel : ${channels}">
+        <div id="channel-description">
+            <h3>Channel description</h3>
+            <div id="desc">
+                <p th:text="${channel.getDescription()}"></p>
+            </div>
+        </div>
+    </th:block>
+    <br>
+    <div id="channel-videos">
+        <h3>Channel videos</h3>
+        <ul id="myProfileChannelListsChannel">
+            <li th:each="video:${videos}">
+                <div class="itemChannel">
+                    <a th:href="'/videos/'+${video.getId()}">
+                        <img src="https://www.ef.uns.ac.rs/za-buduce-studente/slike/efsu2015x2.jpg" class="imgThumb">
+                        <div class="underPhoto">
+                            <div class="titleDiv">
+                                <h3 class="title" th:text="${video.getTitle()}"></h3>
+                            </div>
+                            <div class="dataDiv">
+                                <div class="usersname">
+                                    <a class="userName" th:text="${video.getPostedChannel().getChannelName()}"
+                                       th:href="'/channel/'+${video.getPostedChannel().getChannelName()}"></a>
+                                </div>
+                                <a th:href="'/videos/'+${video.getId()}">
+                                    <div>
+                                        <br>
+                                    </div>
+                                    <div class="underUsername">
+                                        <p class="views" th:text="${video.getViews()} + ' views'"></p>
+                                        <p class="date" th:text="${video.getDatePosted()}"></p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <br>
+            </li>
+        </ul>
+    </div>
 </main>
 <br>
 
 <footer>
-  <div class = "contents">
-    <p id = "contents_text">This site was made by a student from Subotica</p>
-  </div>
+    <div class="contents">
+        <p id="contents_text">This site was made by a student from Subotica</p>
+    </div>
 </footer>
 </body>

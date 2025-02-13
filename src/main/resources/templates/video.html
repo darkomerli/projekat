@@ -23,7 +23,7 @@
 </header>
 <br>
 
-<main id="video-main">
+<main>
     <p th:text="${video.getTitle()}" class="greeting"></p>
     <div class="contentsOfPage">
         <div id="left-side">
@@ -65,7 +65,7 @@
                     </th:block>
                     <th:block th:if="${commentsCheck}">
                         <ul class="myProfileChannelLists">
-                            <li th:each="comment, iStat : ${comments}" th:if="${iStat.index}<5" class="comment-item">
+                            <li th:each="comment, iStat : ${comments}" class="comment-item">
                                 <div class="pokusaj">
                                     <p th:text="${comment.getUserComm().getUsername()}"></p>
                                     <div id="comment-contents">
@@ -87,7 +87,7 @@
             </div>
         </div>
         <div id="right-side">
-            <ul th:each="video, iStat : ${listOfVideos}" th:if="${video.getId()} != ${MainId} and ${iStat.index<5}" class="myProfileChannelLists">
+            <ul th:each="video, iStat : ${listOfVideos}" th:if="${video.getId()} != ${MainId}" class="myProfileChannelLists">
                 <br>
                 <li>
                     <div class="item">
