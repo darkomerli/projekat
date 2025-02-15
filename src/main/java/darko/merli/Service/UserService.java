@@ -25,4 +25,6 @@ public interface UserService {
     File smallCron() throws IOException, CsvRequiredFieldEmptyException, CsvDataTypeMismatchException;
 
     public String newUsers();
+
+    void deleteUserAll() throws IllegalAccessException;
 }

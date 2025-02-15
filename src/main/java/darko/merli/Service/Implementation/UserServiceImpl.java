@@ -6,10 +6,14 @@ import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import darko.merli.Model.ChannelDTOS.Channel;
 import darko.merli.Model.ChannelDTOS.ChannelSearch;
+import darko.merli.Model.CommentDTOS.Comment;
 import darko.merli.Model.UserDTOS.*;
+import darko.merli.Model.VideoDTOS.Video;
 import darko.merli.Repository.UserRepository;
 import darko.merli.Service.ChannelService;
+import darko.merli.Service.CommentService;
 import darko.merli.Service.UserService;
+import darko.merli.Service.VideoService;
 import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -36,6 +40,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     ChannelService channelService;
+
+    @Autowired
+    VideoService videoService;
+
+    @Autowired
+    CommentService commentService;
 
     public Users createUser(UserCreation users) {
         Users user = new Users();
@@ -85,6 +95,20 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.delete(userCurrent);
         return "You have successfully deleted your account!";
+    }
+
+    public void deleteUserAll() throws IllegalAccessException {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Users userCurrent = userRepository.findByUsername(auth.getName()).get();
+        List<Channel> channelList = userCurrent.getChannelList();
+        for(Channel channel : channelList){
+            channelService.deleteChannel(channel.getChannelName());
+        }
+        channelService.unsubscribeChannels(userCurrent);
+        videoService.unlikeVideos(userCurrent);
+        List<Comment> listOfComments = userCurrent.getCommentList();
+        commentService.deleteOneComment(listOfComments);
+        userRepository.delete(userCurrent);
     }
 
     public UserSearch searchUser(String name){

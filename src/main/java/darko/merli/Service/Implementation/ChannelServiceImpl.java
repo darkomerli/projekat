@@ -145,6 +145,26 @@ public class ChannelServiceImpl implements ChannelService {
         }
     }
 
+    public void unsubscribeChannels(Users user) {
+        List<Channel> listOfChannels = user.getSubscribedChannelsList();
+        List<Channel> listOfChannelsSecond = user.getSubscribedChannelsList();
+        for(Channel channel : listOfChannels){
+            System.out.println(listOfChannels.indexOf(channel));
+            List<Users> users = channel.getUsers();
+            users.remove(user);
+            channel.setUsers(users);
+            System.out.println("cao");
+            channel.setSubscribers(channel.getSubscribers() - 1);
+            System.out.println("cao2");
+            channelRepository.save(channel);
+            System.out.println("success");
+        }
+        listOfChannelsSecond.clear();
+        user.setSubscribedChannelsList(listOfChannelsSecond);
+        userRepository.save(user);
+        System.out.println("kraj");
+    }
+
     //channel to searched channel
     public ChannelSearch channelToChannelSearch(Channel channel) {
         ChannelSearch searchedChannel = new ChannelSearch();
