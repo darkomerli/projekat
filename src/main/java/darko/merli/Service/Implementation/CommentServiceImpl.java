@@ -3,6 +3,7 @@ package darko.merli.Service.Implementation;
 import darko.merli.Model.CommentDTOS.Comment;
 import darko.merli.Model.CommentDTOS.CommentCreate;
 import darko.merli.Model.CommentDTOS.CommentReturn;
+import darko.merli.Model.UserDTOS.Users;
 import darko.merli.Model.VideoDTOS.Video;
 import darko.merli.Repository.CommentRepository;
 import darko.merli.Repository.UserRepository;
@@ -80,6 +81,12 @@ public class CommentServiceImpl implements CommentService {
             }
         } else {
             throw new IllegalArgumentException("Video with id " + id + " not found");
+        }
+    }
+
+    public void deleteOneComment(List<Comment> comment){
+        for(Comment comment1 : comment) {
+            commentRepository.delete(comment1);
         }
     }
 

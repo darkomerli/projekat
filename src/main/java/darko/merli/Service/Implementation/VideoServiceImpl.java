@@ -213,4 +213,23 @@ public class VideoServiceImpl implements VideoService {
         videoReal.setViews(0);
         return videoReal;
     }
+
+    public void unlikeVideos(Users user) {
+        List<Video> listOfVideos = user.getLikedVideoList();
+        for(Video video : listOfVideos){
+            System.out.println(listOfVideos.indexOf(video));
+            List<Users> users = video.getUsers();
+            users.remove(user);
+            video.setUsers(users);
+            System.out.println("caoVideo");
+            video.setLikes(video.getLikes() - 1);
+            System.out.println("cao2Video");
+            videoRepository.save(video);
+            System.out.println("successVideo");
+        }
+        listOfVideos.clear();
+        user.setLikedVideoList(listOfVideos);
+        userRepository.save(user);
+        System.out.println("kraj");
+    }
 }

@@ -38,6 +38,7 @@ main{
     border-color:black;
     padding-bottom:1%;
     padding-top:2%;
+    min-height:670px;
 }
 
 footer{
@@ -125,7 +126,6 @@ footer{
 
 .form{
     width:40%;
-    height:60%;
     border:2px solid black;
     text-align: center;
     margin-left:30%;

@@ -1,5 +1,6 @@
 package darko.merli.Service;
 
+import darko.merli.Model.UserDTOS.Users;
 import darko.merli.Model.VideoDTOS.VideoSearch;
 import darko.merli.Model.VideoDTOS.VideoUpdate;
 import darko.merli.Model.VideoDTOS.VideoUpload;
@@ -18,4 +19,6 @@ public interface VideoService {
     String likeVideo(long id) throws IllegalAccessException;
 
     String unlikeVideo(long id) throws IllegalAccessException;
+
+    void unlikeVideos(Users userCurrent);
 }

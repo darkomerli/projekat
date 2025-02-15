@@ -13,9 +13,13 @@ import darko.merli.Service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -46,8 +50,14 @@ public class UserController {
     @SecurityRequirements
     //inside paramateres I have removed @RequestBody, which was causing an error when i send data from the browser in my custom register page
     public String createUser(UserCreation user) throws IllegalAccessException {
-        userService.createUser(user);
-        return "successfullCreation";
+        String returnedPage;
+        try{
+            userService.createUser(user);
+            returnedPage = "successfullCreation";
+        } catch (Exception e) {
+            returnedPage = "alreadyExists";
+        }
+        return returnedPage;
     }
 
     @GetMapping("/users/{id}")
@@ -62,7 +72,12 @@ public class UserController {
         model.addAttribute("subscribedTo", subscribedTo);
         List<Video> likedVideos = user.getLikedVideoList();
         model.addAttribute("likedVideos", likedVideos);
-        return "myProfile";
+        String notAllowed = "error";
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth.getName().equals(user.getUsername())) {
+            notAllowed = "myProfile";
+        }
+        return notAllowed;
     }
 
     @Operation(summary = "Update the user", description = "Update the current logged in user")
@@ -72,10 +87,22 @@ public class UserController {
     }
 
     @Operation(summary = "Delete the user", description = "Delete the current logged in user")
-    @DeleteMapping("users/delete")
-    public String deleteUser() throws IllegalAccessException {
-        return userService.deleteUser();
+    @GetMapping("/users/deletePage")
+    public String deleteUser(Model model){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("user", userRepository.findByUsername(auth.getName()).get());
+        return "confirmDeletion";
     }
+
+    @Operation(summary = "Delete the user", description = "Delete the current logged in user")
+    @GetMapping("/users/delete")
+    public String deleteUserConfirmation(HttpServletRequest request, HttpServletResponse response) throws IllegalAccessException {
+        userService.deleteUserAll();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        new SecurityContextLogoutHandler().logout(request, response, auth);
+        return "redirect:/";
+    }
+
 
     @Operation(summary = "Search the user", description = "Get the user with selected name")
     @GetMapping("users/search/{name}")
