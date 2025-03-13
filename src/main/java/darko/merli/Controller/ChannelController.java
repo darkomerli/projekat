@@ -65,11 +65,18 @@ public class ChannelController {
         return "channel";
     }
 
+    @Operation(summary = "Get to channel creation page", description = "Create the new channel by selecting its name and description.")
+    @GetMapping("/channel/creation")
+    public String createChannel(){
+//        channelService.createChannel(channel);
+        return "channelCreation";
+    }
+
     @Operation(summary = "Create a new channel", description = "Create the new channel by selecting its name and description.")
-    @PostMapping("/channel/createChannel")
-    public String createChannel(@RequestBody ChannelCreation channel){
-        channelService.createChannel(channel);
-        return "Channel created successfully.";
+    @PostMapping("/channel/create")
+    public String createChannelData(@ModelAttribute("channelCreate") ChannelCreation channelCreate){
+        channelService.createChannel(channelCreate);
+        return "redirect:/channel/" + channelCreate.getChannelName();
     }
 
     //deletion of the channel

@@ -53,6 +53,9 @@
     <br>
     <div id="channel-videos">
         <h3>Channel videos</h3>
+        <th:block th:each="channel : ${channels}" th:if="${channel.getUser().getUsername()} == ${username}">
+            <a th:href="'/channel/' + ${channel.getChannelName()} + '/videos/upload'"> <button class="buttonsUsers"> Upload a video</button> </a>
+        </th:block>
         <ul id="myProfileChannelListsChannel">
             <li th:each="video:${videos}">
                 <div class="itemChannel">
@@ -61,6 +64,8 @@
                         <div class="underPhoto">
                             <div class="titleDiv">
                                 <h3 class="title" th:text="${video.getTitle()}"></h3>
+                                <div class="contextMenuToggle">
+                                </div>
                             </div>
                             <div class="dataDiv">
                                 <div class="usersname">
@@ -79,6 +84,9 @@
                             </div>
                         </div>
                     </a>
+                    <div id="videoContextMenu">
+
+                    </div>
                 </div>
                 <br>
             </li>

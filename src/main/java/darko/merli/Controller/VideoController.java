@@ -1,6 +1,7 @@
 package darko.merli.Controller;
 
 import darko.merli.Model.ChannelDTOS.Channel;
+import darko.merli.Model.ChannelDTOS.ChannelCreation;
 import darko.merli.Model.CommentDTOS.Comment;
 import darko.merli.Model.CommentDTOS.CommentCreate;
 import darko.merli.Model.UserDTOS.Users;
@@ -42,9 +43,11 @@ public class VideoController {
     private UserRepository userRepository;
 
     @Operation(summary = "Post a video to channel", description = "Post a video to the channel with selected name")
-    @PostMapping("{name}/videos/post")
-    public String postVideo(@PathVariable String name, @RequestBody VideoUpload video) throws IllegalAccessException {
-        return videoService.postVideo(name, video);
+    @PostMapping("/channel/{name}/videos/post")
+    public String postVideo(@PathVariable String name, @ModelAttribute("videoUpload") VideoUpload videoUpload) throws IllegalAccessException {
+        System.out.println("cao");
+        videoService.postVideo(name, videoUpload);
+        return "redirect:/channel/" + name;
     }
 
     @Operation(summary = "Find a video with id", description = "Find a video that has selected video id")
@@ -140,4 +143,13 @@ public class VideoController {
         videoRepository.save(video);
         return "redirect:/videos/"+id;
     }
+
+
+    @Operation(summary = "Upload video page", description = "Go to a upload video page")
+    @GetMapping("/channel/{name}/videos/upload")
+    public String uploadVideoPage(@PathVariable String name, Model model) {
+        model.addAttribute("channelName", name);
+        return "videoCreation";
+    }
+
 }
