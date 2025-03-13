@@ -1,4 +1,4 @@
-KASNO JE, NECU DA DUZIM, SUTRA CU POSTAVITI CITAV README. Uglavnom, kreirao sam frontend i pokusavam da citav backend napravim funkcionalnim sa html stranicama. Sutra vise o tome.
+KASNO JE, NECU DA DUZIM, TEK CU POSTAVITI CITAV README. Uglavnom, kreirao sam frontend i pokusavam da citav backend napravim funkcionalnim sa html stranicama.
 
 Ovo je projekat koji radim u Javi pomoću Spring Boot-a. 😃
 
