@@ -214,8 +214,41 @@ a{
     word-wrap:break-word;
 }
 
+.contextMenuToggle{
+    margin-top:5%;
+    margin-right:15%;
+    gap:1px;
+    position:relative;
+    width:2%;
+    top:-190%;
+    left:90%;
+}
+
+.contextMenuToggle:hover{
+    border:1px solid black;
+    margin-top:5%;
+    margin-right:15%;
+    gap:1px;
+    position:relative;
+    width:2%;
+    top:-190%;
+    left:90%;
+}
+
+.contextMenuToggle:
+
+#videoContextMenu{
+    display:block;
+    border:2px solid black;
+}
+
 .title{
     font-size:17px;
+}
+
+.contextMenuLine{
+    width:2%;
+    height:2%;
 }
 
 .userName,.date,.views{

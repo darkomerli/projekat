@@ -10,33 +10,37 @@
 </head>
 <body>
 <header>
-  <h1> Channel creation </h1>
+  <h1> Video upload </h1>
   <div class = "users">
     <a th:href="@{/}"><button class="buttonsUsers"> Back to Main Page </button></a>
   </div>
 </header>
 <br>
 <main>
-  <form action="/channel/create" method="post" class="form">
+  <form th:action="'/channel/' + ${channelName} + '/videos/post'" method="post" class="form">
     <br>
-    <h2>Create a new channel</h2>
+    <h2>Upload a new video</h2>
     <br>
     <br>
     <br>
     <div class = "forms">
-      <label style="font-size:20px;">Channel name:</label>
-      <input type = "text" name="channelName">
+      <label style="font-size:20px;">Video title:</label>
+      <input type = "text" name="title">
     </div>
     <br>
     <br>
     <br>
     <div class = "forms">
-      <label style="font-size:20px;">Channel Description:</label>
+      <label style="font-size:20px;">Video Description:</label>
       <input type = "text" name="description">
     </div>
     <br>
     <br>
     <br>
+    <div class = "forms">
+      <label style="font-size:20px;">Video url:</label>
+      <input type = "text" name="videoUrl">
+    </div>
     <br>
     <div>
       <button type="submit" class="buttonsConfirm"> Submit </button>
