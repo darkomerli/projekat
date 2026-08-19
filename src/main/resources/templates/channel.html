@@ -27,7 +27,6 @@
 </header>
 
 <main>
-    <!-- Channel Header Info -->
     <th:block th:each="channel : ${channels}">
         <div id="mainInfo">
             <h2 th:text="${channel.getChannelName()}" class="greeting"></h2>
@@ -47,7 +46,6 @@
         </div>
     </th:block>
 
-    <!-- Channel Description -->
     <th:block th:each="channel : ${channels}">
         <div id="channel-description">
             <h3>Channel description</h3>
@@ -57,7 +55,6 @@
         </div>
     </th:block>
 
-    <!-- Channel Videos & Upload -->
     <div id="channel-videos">
         <h3>Channel videos</h3>
 
@@ -73,14 +70,19 @@
             <li th:each="video:${videos}">
                 <div class="itemChannel">
                     <a th:href="'/videos/' + ${video.getId()}">
-                        <img src="https://www.ef.uns.ac.rs/za-buduce-studente/slike/efsu2015x2.jpg" class="imgThumb" alt="Video Thumbnail">
+                        <img th:src="${video.thumbnailData != null ? '/videos/thumbnail/' + video.getId() : 'data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot;></svg>'}"
+                             class="imgThumb" alt="Video Thumbnail">
                     </a>
                     <div class="underPhoto">
                         <div class="titleDiv">
                             <a th:href="'/videos/' + ${video.getId()}">
                                 <h3 class="title" th:text="${video.getTitle()}"></h3>
                             </a>
-                            <div class="contextMenuToggle"></div>
+                            <div class="buttonForDeleting" sec:authorize="isAuthenticated()" th:if="${video.getPostedChannel().getUser().getUsername()} == ${username}">
+                                <a th:href="@{'/videos/' + ${video.getId()} + '/deleteFromChannel'}" title="Delete Video">
+                                    <button type="button" class="btn-delete-comment">✕</button>
+                                </a>
+                            </div>
                         </div>
                         <div class="dataDiv">
                             <div class="usersname">
@@ -94,7 +96,6 @@
                             </div>
                         </div>
                     </div>
-                    <div id="videoContextMenu"></div>
                 </div>
             </li>
         </ul>

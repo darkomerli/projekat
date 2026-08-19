@@ -11,7 +11,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//we use object of this class to search for a video
 public class VideoSearch {
 
     private String title;

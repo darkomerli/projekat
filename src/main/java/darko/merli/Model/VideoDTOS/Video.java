@@ -16,20 +16,34 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "video")
-//we use objects of this type to see which videos the user uploaded to a certain channel
 public class Video {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(nullable = false)
     private String title;
+
     @Column(nullable = false)
     private String description;
+
     private long likes;
     private long noOfComments;
     private long views;
     private String videoUrl;
     private LocalDateTime datePosted;
+
+    private String contentType;
+
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] data;
+
+    private String thumbnailContentType;
+
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] thumbnailData;
 
     @ManyToOne
     @JoinColumn(name = "channel_id")
@@ -45,5 +59,4 @@ public class Video {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private List<Users> users;
-
 }

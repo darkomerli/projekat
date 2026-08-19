@@ -10,12 +10,10 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-//used for getters and setters
 @Data
 @Table(name="Channel")
 @AllArgsConstructor
 @NoArgsConstructor
-//channel class which represents the channel which a user owns
 public class Channel {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

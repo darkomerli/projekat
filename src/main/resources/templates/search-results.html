@@ -48,7 +48,7 @@
             <li class="item" th:each="v : ${videos}">
                 <a th:href="@{/videos/{id}(id=${v.id})}">
                     <img class="imgThumb"
-                         th:src="${v.videoUrl != null and !v.videoUrl.isEmpty() ? v.videoUrl : '/images/default-thumbnail.jpg'}"
+                         th:src="${v.thumbnailData != null ? '/videos/thumbnail/' + v.id : 'data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot;></svg>'}"
                          alt="Video Thumbnail" />
                 </a>
 
@@ -77,7 +77,6 @@
             </li>
         </ul>
     </section>
-
 
     <div class="no-results-box" th:if="${(channels == null or channels.isEmpty()) and (videos == null or videos.isEmpty())}">
         <p>No channels or videos found matching your search term.</p>

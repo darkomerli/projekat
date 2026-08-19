@@ -1,7 +1,6 @@
 package darko.merli.Controller;
 
 import darko.merli.Model.ChannelDTOS.Channel;
-import darko.merli.Model.ChannelDTOS.ChannelCreation;
 import darko.merli.Model.CommentDTOS.Comment;
 import darko.merli.Model.CommentDTOS.CommentCreate;
 import darko.merli.Model.UserDTOS.Users;
@@ -17,19 +16,24 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
 @Validated
 @Tag(name="4. Videos")
-//controller class which holds the apis for videos
 public class VideoController {
 
     @Autowired
@@ -44,10 +48,59 @@ public class VideoController {
 
     @Operation(summary = "Post a video to channel", description = "Post a video to the channel with selected name")
     @PostMapping("/channel/{name}/videos/post")
-    public String postVideo(@PathVariable String name, @ModelAttribute("videoUpload") VideoUpload videoUpload) throws IllegalAccessException {
-        System.out.println("cao");
-        videoService.postVideo(name, videoUpload);
+    public String postVideo(@PathVariable String name,
+                            @ModelAttribute("videoUpload") VideoUpload videoUpload,
+                            @RequestParam(value = "file", required = false) MultipartFile file,
+                            @RequestParam(value = "thumbnail", required = false) MultipartFile thumbnail) throws IllegalAccessException, IOException {
+        videoService.postVideo(name, videoUpload, file, thumbnail);
         return "redirect:/channel/" + name;
+    }
+
+    @Operation(summary = "Stream video file data", description = "Get raw video byte stream for HTML5 player")
+    @GetMapping("/videos/stream/{id}")
+    @ResponseBody
+    @SecurityRequirements
+    public ResponseEntity<byte[]> streamVideo(@PathVariable long id) {
+        Video video = videoService.getVideoById(id);
+
+        if (video == null || video.getData() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        String contentType = video.getContentType();
+        if (contentType == null || contentType.isEmpty()) {
+            contentType = "video/mp4";
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType(contentType));
+        headers.setContentLength(video.getData().length);
+        headers.set("Accept-Ranges", "bytes");
+
+        return new ResponseEntity<>(video.getData(), headers, HttpStatus.OK);
+    }
+
+    @Operation(summary = "Stream video thumbnail image", description = "Get thumbnail byte stream for rendering images")
+    @GetMapping("/videos/thumbnail/{id}")
+    @ResponseBody
+    @SecurityRequirements
+    public ResponseEntity<byte[]> getThumbnail(@PathVariable long id) {
+        Video video = videoService.getVideoById(id);
+
+        if (video == null || video.getThumbnailData() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        String contentType = video.getThumbnailContentType();
+        if (contentType == null || contentType.isEmpty()) {
+            contentType = "image/jpeg";
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType(contentType));
+        headers.setContentLength(video.getThumbnailData().length);
+
+        return new ResponseEntity<>(video.getThumbnailData(), headers, HttpStatus.OK);
     }
 
     @Operation(summary = "Find a video with id", description = "Find a video that has selected video id")
@@ -62,7 +115,6 @@ public class VideoController {
         if(!auth.getName().equals("anonymousUser")){
             Users user = userRepository.findByUsername(auth.getName()).get();
             long idOfUser = user.getUser_id();
-            System.out.println(idOfUser);
             model.addAttribute("idOfUser", idOfUser);
             Channel channel = video.getPostedChannel();
             List<Users> listOfSubscribed = channel.getUsers();
@@ -101,6 +153,16 @@ public class VideoController {
         return videoService.deleteVideo(id);
     }
 
+    @Operation(summary = "Delete video from channel page", description = "Delete video from channel page view")
+    @GetMapping("/videos/{id}/deleteFromChannel")
+    public String deleteVideoFromChannel(@PathVariable long id) throws IllegalAccessException {
+        Video video = videoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Video with id " + id + " not found"));
+        String channelName = video.getPostedChannel().getChannelName();
+        videoService.deleteVideo(id);
+        return "redirect:/channel/" + channelName;
+    }
+
     @Operation(summary = "Update the video with id", description = "Update the video with selected id")
     @PutMapping("/videos/{id}")
     public VideoSearch updateVideo(@PathVariable long id, @RequestBody VideoUpdate video) throws IllegalAccessException {
@@ -116,13 +178,6 @@ public class VideoController {
         videoRepository.save(video);
         return "redirect:/videos/"+id;
     }
-
-//    @Operation(summary = "Remove a like from video", description = "Remove a like from video with selected id")
-//    @PutMapping("/videos/{id}/unlike")
-//    public String unlikeVideo(@PathVariable long id) throws IllegalAccessException {
-//        videoService.unlikeVideo(id);
-//        return "redirect:/videos/" + id;
-//    }
 
     @Operation(summary = "Remove a like from video", description = "Remove a like from video with selected id")
     @GetMapping("/videos/{id}/unlike")
@@ -143,7 +198,6 @@ public class VideoController {
         videoRepository.save(video);
         return "redirect:/videos/"+id;
     }
-
 
     @Operation(summary = "Upload video page", description = "Go to a upload video page")
     @GetMapping("/channel/{name}/videos/upload")

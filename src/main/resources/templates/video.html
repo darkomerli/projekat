@@ -50,7 +50,10 @@
         <div id="left-side">
             <div id="video-items">
                 <div class="video-player">
-                    <p id="this-is-the-video">This is the video.</p>
+                    <video controls style="border-radius: 8px;">
+                        <source th:src="@{'/videos/stream/' + ${video.getId()}}" th:type="${video.getContentType() != null ? video.getContentType() : 'video/mp4'}">
+                        Your browser does not support HTML5 video streaming.
+                    </video>
                 </div>
 
                 <div id="under-vid">
@@ -64,20 +67,22 @@
                     <div class="video-actions">
                         <th:block sec:authorize="isAuthenticated()">
                             <a th:if="${video.getPostedChannel().getUser().getUsername()} != ${username} and ${!exists}"
-                               th:href="@{'/channel/' + ${video.getPostedChannel().getChannelName()} + '/subscribeFromVideo/' + ${video.getId()}}">
+                               th:href="@{'/channel/' + ${video.getPostedChannel().getChannelName()} + '/subscribeFromVideo/' + ${video.getId()}}"
+                               class="ajax-action">
                                 <button type="button" class="buttonsUsers">Subscribe</button>
                             </a>
                             <a th:if="${exists}"
-                               th:href="@{'/channel/' + ${video.getPostedChannel().getChannelName()} + '/unsubscribeFromVideo/' + ${video.getId()}}">
+                               th:href="@{'/channel/' + ${video.getPostedChannel().getChannelName()} + '/unsubscribeFromVideo/' + ${video.getId()}}"
+                               class="ajax-action">
                                 <button type="button" class="buttonsUsers">Unsubscribe</button>
                             </a>
                         </th:block>
 
                         <th:block sec:authorize="isAuthenticated()">
-                            <a th:if="${!hasLiked}" th:href="@{'/videos/' + ${video.getId()} + '/like'}">
+                            <a th:if="${!hasLiked}" th:href="@{'/videos/' + ${video.getId()} + '/like'}" class="ajax-action">
                                 <button type="button" class="buttonsUsers">Like</button>
                             </a>
-                            <a th:if="${hasLiked}" th:href="@{'/videos/' + ${video.getId()} + '/unlikeFromVideo'}">
+                            <a th:if="${hasLiked}" th:href="@{'/videos/' + ${video.getId()} + '/unlikeFromVideo'}" class="ajax-action">
                                 <button type="button" class="buttonsUsers">Unlike</button>
                             </a>
                         </th:block>
@@ -119,6 +124,7 @@
                                                 <a th:href="@{'/videos/' + ${video.getId()} + '/comment/' + ${comment.getId()}}"
                                                    th:if="${comment.getUserComm().getUser_id()} == ${idOfUser}"
                                                    id="delete-Comment"
+                                                   class="ajax-action"
                                                    title="Delete Comment">
                                                     <button type="button" class="btn-delete-comment">✕</button>
                                                 </a>
@@ -142,7 +148,8 @@
                 <li th:each="video : ${listOfVideos}" th:if="${video.getId()} != ${MainId}">
                     <div class="item">
                         <a th:href="@{'/videos/' + ${video.getId()}}">
-                            <img src="https://www.ef.uns.ac.rs/za-buduce-studente/slike/efsu2015x2.jpg" class="imgThumb" alt="Video Thumbnail">
+                            <img th:src="${video.thumbnailData != null ? '/videos/thumbnail/' + video.getId() : 'data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot;></svg>'}"
+                                 class="imgThumb" alt="Video Thumbnail">
                         </a>
                         <div class="underPhoto">
                             <div class="titleDiv">
@@ -174,6 +181,59 @@
         <p id="contents_text">This site was made by a student from Subotica</p>
     </div>
 </footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+        async function executeAjax(url, method = 'GET', body = null) {
+            try {
+                const options = { method };
+                if (body) options.body = body;
+
+                const response = await fetch(url, options);
+                if (!response.ok) return;
+
+                const htmlText = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlText, 'text/html');
+
+                const newUnderVid = doc.querySelector('#under-vid');
+                if (newUnderVid) {
+                    document.querySelector('#under-vid').innerHTML = newUnderVid.innerHTML;
+                }
+
+                const newComments = doc.querySelector('#comments-container');
+                if (newComments) {
+                    document.querySelector('#comments-container').innerHTML = newComments.innerHTML;
+                }
+
+                attachEventListeners();
+            } catch (err) {
+                console.error('AJAX request failed:', err);
+            }
+        }
+
+        function attachEventListeners() {
+            document.querySelectorAll('a.ajax-action').forEach(link => {
+                link.onclick = (e) => {
+                    e.preventDefault();
+                    executeAjax(link.getAttribute('href'), 'GET');
+                };
+            });
+
+            const commentForm = document.getElementById('form-leave-a-comment');
+            if (commentForm) {
+                commentForm.onsubmit = (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(commentForm);
+                    executeAjax(commentForm.getAttribute('action'), 'POST', formData);
+                };
+            }
+        }
+
+        attachEventListeners();
+    });
+</script>
 
 </body>
 </html>

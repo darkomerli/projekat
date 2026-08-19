@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @Validated
 @Tag(name = "3. Comments")
-//controller class which holds the apis regarding comments
 public class CommentController {
 
     @Autowired

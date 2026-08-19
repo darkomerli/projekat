@@ -165,7 +165,6 @@ public class ChannelServiceImpl implements ChannelService {
         System.out.println("kraj");
     }
 
-    //channel to searched channel
     public ChannelSearch channelToChannelSearch(Channel channel) {
         ChannelSearch searchedChannel = new ChannelSearch();
         searchedChannel.setChannelName(channel.getChannelName());
@@ -175,7 +174,6 @@ public class ChannelServiceImpl implements ChannelService {
         return searchedChannel;
     }
 
-    //created channel class to channel class
     public Channel channelCreationToChannel(ChannelCreation creation){
         Channel channel = new Channel();
         Channel chn = channelRepository.findByName(creation.getChannelName());

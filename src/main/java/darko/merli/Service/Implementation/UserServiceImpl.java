@@ -145,13 +145,11 @@ public class UserServiceImpl implements UserService {
     public UserExport userToUserExport(Users user){
         UserExport userExport = new UserExport();
         userExport.setUserName(user.getUsername());
-        //doing this because I have null values in db for created_At
         if(user.getCreated_at() == null){
             userExport.setCreatedAt(LocalDateTime.now());
         } else {
             userExport.setCreatedAt(user.getCreated_at());
         }
-        //doing this because I have null values in db for updated_At
         if(user.getUpdated_at() == null){
             userExport.setUpdatedAt(LocalDateTime.now());
         } else {
@@ -195,7 +193,6 @@ public class UserServiceImpl implements UserService {
         int minute = now.getMinute();
         int second = now.getSecond();
         for(Users user : list){
-            //doing this because I have null values in db for created_At
             if(user.getCreated_at() == null){
                 continue;
             }
