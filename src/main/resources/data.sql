@@ -11,4 +11,4 @@ insert into Channel (channel_name,subscribers,user_id) values ('Mudja1',1800034,
 insert into Channel (channel_name,subscribers,user_id) values ('Darko1231',3232,1);
 insert into Channel (channel_name,subscribers,user_id) values ('CoolChannel1231',5424,1);
 insert into Channel (channel_name,subscribers,user_id) values ('GreatChannel3211',2030434,1);
-insert into Channel (channel_name,subscribers,user_id) values ('AmazingChannel21',430303,1);
+insert into Channel (channel_name,subscribers,user_id) values ('AmazingChannel21',430303,2);
