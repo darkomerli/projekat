@@ -63,6 +63,8 @@ public class SecurityConfiguration{
                         .requestMatchers(HttpMethod.GET, "/register.html").permitAll()
                         .requestMatchers(HttpMethod.GET, "/login.html").permitAll()
                         .requestMatchers(HttpMethod.GET, "/search").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/videos/stream/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/videos/thumbnail/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/").permitAll()
                         .anyRequest().authenticated()
                 )
