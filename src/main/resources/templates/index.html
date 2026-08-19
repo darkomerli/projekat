@@ -11,117 +11,86 @@
 </head>
 <body>
 
-    <header>
-        <a th:href="@{/}" class="titlesLink"><h1 class="titles"> Darko's YouTube copy</h1></a>
-        <div class = "users">
-            <p th:each="string, iStat : ${newUsers}" th:text="${string.toString()}" class="newUsersInHour"></p>
-            <ul class="navigation">
-                <li class="nav" sec:authorize="!isAuthenticated()"><a th:href="@{login.html}"><button class="buttonsUsers"> Login </button></a></li>
-                <li class="nav" sec:authorize="!isAuthenticated()"><a th:href="@{register.html}"><button class="buttonsUsers"> Register </button></a></li>
-                <th:block th:each="users:${listUsers}">
-                    <li class="nav" sec:authorize="isAuthenticated()"><a th:href="'/users/'+${users.getUser_id()}"><button class="buttonsUsers">My Profile</button></a></li>
-                </th:block>
-                <li class="nav" sec:authorize="isAuthenticated()"><a th:href="@{loggedOut.html}"><button class="buttonsUsers"> Log Out</button></a></li>
-            </ul>
+<header class="header-container">
+    <div class="header-left">
+        <a th:href="@{/}" class="titlesLink">
+            <h1 class="titles">Darko's YouTube copy</h1>
+        </a>
+    </div>
 
-        </div>
-    </header>
-    <br>
+    <form th:action="@{/search}" method="get" class="search-form-center">
+        <input
+                type="text"
+                name="keyword"
+                class="form-input"
+                placeholder="Search videos or channels..."
+                th:value="${keyword}"
+                required
+        />
+        <button type="submit" class="buttonsUsers">Search</button>
+    </form>
 
-    <main>
-        <h2 id = "mainTitle">Today's top picks</h2>
-<!--        <div id = "items">-->
-<!--            <div id="items1">-->
-<!--                <div class = item th:each = "video, iStat : ${videos}" th:if="${iStat.index <= 4}">-->
-<!--                    <a th:href="'/videos/'+${video.getId()}">-->
-<!--                    <img src="https://www.ef.uns.ac.rs/za-buduce-studente/slike/efsu2015x2.jpg" class="imgThumb">-->
-<!--                        <div class="underPhoto">-->
-<!--                            <div class="titleDiv">-->
-<!--                                <h3 class="title" th:text="${video.getTitle()}"></h3>-->
-<!--                            </div>-->
-<!--                            <div class="dataDiv">-->
-<!--                                <div class="usersname">-->
-<!--                                    <a class="userName" th:text="${video.getPostedChannel().getChannelName()}" th:href="'/channel/'+${video.getPostedChannel().getChannelName()}"></a>-->
-<!--                                </div>-->
-<!--                                <a th:href="'/videos/'+${video.getId()}">-->
-<!--                                    <div>-->
-<!--                                        <br>-->
-<!--                                    </div>-->
-<!--                                    <div class="underUsername">-->
-<!--                                        <p class="views" th:text="${video.getViews()} + ' views'"></p>-->
-<!--                                        <p class="date" th:text="${video.getDatePosted()}"></p>-->
-<!--                                    </div>-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </a>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <br>-->
-<!--            <br>-->
-<!--            <div id="items2">-->
-<!--                <div class = item th:each = "video, iStat : ${videos}" th:if="${iStat.index > 4 and iStat.index<8}">-->
-<!--                    <a th:href="'/videos/'+${video.getId()}">-->
-<!--                    <img src="https://www.ef.uns.ac.rs/za-buduce-studente/slike/efsu2015x2.jpg" class="imgThumb">-->
-<!--                    <div class="underPhoto">-->
-<!--                        <div class="titleDiv">-->
-<!--                            <h3 class="title" th:text="${video.getTitle()}"></h3>-->
-<!--                        </div>-->
-<!--                        <div class="dataDiv">-->
-<!--                            <a class="userName" th:text="${video.getPostedChannel().getChannelName()}" th:href="'/channel/'+${video.getPostedChannel().getChannelName()}" title="${video.ge}"></a>-->
-<!--                            <a th:href="'/videos/'+${video.getId()}">-->
-<!--                                <div>-->
-<!--                                    <br>-->
-<!--                                </div>-->
-<!--                                <div class="underUsername">-->
-<!--                                    <p class="views" th:text="${video.getViews()} + ' views'"></p>-->
-<!--                                    <p class="date" th:text="${video.getDatePosted()}"></p>-->
-<!--                                </div>-->
-<!--                            </a>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    </a>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-        <div id="channel-videos">
-            <ul id="myProfileChannelListsMain">
-                <li th:each="video:${videos}">
-                    <div class="itemChannel">
-                        <a th:href="'/videos/'+${video.getId()}">
-                            <img src="https://www.ef.uns.ac.rs/za-buduce-studente/slike/efsu2015x2.jpg" class="imgThumb">
-                            <div class="underPhoto">
-                                <div class="titleDiv">
-                                    <h3 class="title" th:text="${video.getTitle()}"></h3>
-                                </div>
-                                <div class="dataDiv">
-                                    <div class="usersname">
-                                        <a class="userName" th:text="${video.getPostedChannel().getChannelName()}"
-                                           th:href="'/channel/'+${video.getPostedChannel().getChannelName()}"></a>
-                                    </div>
-                                    <a th:href="'/videos/'+${video.getId()}">
-                                        <div>
-                                            <br>
-                                        </div>
-                                        <div class="underUsername">
-                                            <p class="views" th:text="${video.getViews()} + ' views'"></p>
-                                            <p class="date" th:text="${video.getDatePosted()}"></p>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <br>
+    <div class="users header-right">
+        <p th:each="string, iStat : ${newUsers}" th:text="${string.toString()}" class="newUsersInHour"></p>
+        <ul class="navigation">
+            <li class="nav" sec:authorize="!isAuthenticated()">
+                <a th:href="@{login.html}"><button class="buttonsUsers"> Login </button></a>
+            </li>
+            <li class="nav" sec:authorize="!isAuthenticated()">
+                <a th:href="@{register.html}"><button class="buttonsUsers"> Register </button></a>
+            </li>
+            <th:block th:each="users:${listUsers}">
+                <li class="nav" sec:authorize="isAuthenticated()">
+                    <a th:href="'/users/'+${users.getUser_id()}"><button class="buttonsUsers">My Profile</button></a>
                 </li>
-            </ul>
-        </div>
-    </main>
-    <br>
+            </th:block>
+            <li class="nav" sec:authorize="isAuthenticated()">
+                <a th:href="@{loggedOut.html}"><button class="buttonsUsers"> Log Out</button></a>
+            </li>
+        </ul>
+    </div>
+</header>
 
-    <footer>
-        <div class = "contents">
-            <p id = "contents_text">This site was made by a student from Subotica</p>
-        </div>
-    </footer>
+<main>
+    <h2 id="mainTitle">Today's top picks</h2>
+
+    <div id="channel-videos">
+        <ul id="myProfileChannelListsMain">
+            <li th:each="video:${videos}">
+                <div class="itemChannel">
+                    <a th:href="'/videos/'+${video.getId()}">
+                        <img src="https://www.ef.uns.ac.rs/za-buduce-studente/slike/efsu2015x2.jpg" class="imgThumb" alt="Video Thumbnail">
+                    </a>
+                    <div class="underPhoto">
+                        <div class="titleDiv">
+                            <a th:href="'/videos/'+${video.getId()}">
+                                <h3 class="title" th:text="${video.getTitle()}"></h3>
+                            </a>
+                        </div>
+                        <div class="dataDiv">
+                            <div class="usersname">
+                                <a class="userName"
+                                   th:text="${video.getPostedChannel().getChannelName()}"
+                                   th:href="'/channel/'+${video.getPostedChannel().getChannelName()}"></a>
+                            </div>
+                            <div class="underUsername">
+                                <p class="views" th:text="${video.getViews()} + ' views'"></p>
+                                <p class="date"
+                                   th:if="${video.getDatePosted() != null}"
+                                   th:text="${#temporals.format(video.getDatePosted(), 'dd.MM.yyyy.')}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</main>
+
+<footer>
+    <div class="contents">
+        <p id="contents_text">This site was made by a student from Subotica</p>
+    </div>
+</footer>
 </body>
+</html>

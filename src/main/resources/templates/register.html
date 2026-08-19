@@ -3,52 +3,45 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Youtube Page - Register</title>
-  <link th:rel="stylesheet" th:href="@{/css/styles.css}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Youtube Page - Register</title>
+    <link th:rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-  <header>
-      <h1> Registration </h1>
-      <div class = "users">
-        <a th:href="@{/}"><button class="buttonsUsers"> Back to Main Page </button></a>
-      </div>
-  </header>
-  <br>
-  <main>
-          <form action="users/create" method="post" class="form">
-              <br>
-              <h2>Register a new user</h2>
-              <br>
-              <br>
-              <br>
-              <div class = "forms">
-                  <label style="font-size:20px;">User Name:</label>
-                  <input type = "text" name="username">
-              </div>
-              <br>
-              <br>
-              <br>
-              <div class = "forms">
-                  <label style="font-size:20px;">Password:</label>
-                  <input type = "text" name="password">
-              </div>
-              <br>
-              <br>
-              <br>
-              <br>
-              <div>
-                  <button type="submit" class="buttonsConfirm"> Submit </button>
-              </div>
-              <br>
-          </form>
-  </main>
-  <br>
-  <footer>
-      <div class = "contents">
-          <p id = "contents_text">This site was made by a student from Subotica</p>
-      </div>
-  </footer>
+
+<header>
+    <h1>Registration</h1>
+    <div class="users">
+        <a th:href="@{/}"><button type="button" class="buttonsUsers">Back to Main Page</button></a>
+    </div>
+</header>
+
+<main>
+    <form th:action="@{/users/create}" method="post" class="form">
+        <h2>Register a new user</h2>
+
+        <div class="form-group">
+            <label for="username">User Name</label>
+            <input type="text" id="username" name="username" class="form-input" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" class="form-input" required>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="buttonsConfirm">Submit</button>
+        </div>
+    </form>
+</main>
+
+<footer>
+    <div class="contents">
+        <p id="contents_text">This site was made by a student from Subotica</p>
+    </div>
+</footer>
+
 </body>
 </html>

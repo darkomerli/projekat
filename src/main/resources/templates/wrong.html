@@ -5,13 +5,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Youtube Page</title>
+  <title>Login Error - My Youtube Page</title>
   <link th:rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-  <div style="display:block; width:100%; height:100%; justify-content: center; justify-items: center;">
-    <h1 style="text-align:center;">Wrong username and password!</h1>
-    <a th:href="@{login.html}" style="margin:auto;"><button class="buttonsUsers" style="margin:auto;">Go Back To Login</button></a>
+
+<main>
+  <div class="error-container">
+    <h1 id="mainTitle">Wrong username and password!</h1>
+    <a th:href="@{login.html}">
+      <button type="button" class="buttonsUsers">Go Back To Login</button>
+    </a>
   </div>
+</main>
+
 </body>
 </html>

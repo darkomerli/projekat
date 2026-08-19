@@ -5,16 +5,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Youtube Page</title>
+  <title>Confirm Account Deletion - My Youtube Page</title>
   <link th:rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<div style="display:block; width:100%; height:100%; justify-content: center; justify-items: center;">
-  <h1 style="text-align:center;">Are you sure you want to delete your account?</h1>
-  <div>
-    <a th:href="'/users/delete'" style="margin:auto;"><button class="buttonsUsers" style="margin:auto;">Yes</button></a>
-    <a th:href="'/users/'+${user.getUser_id()}" style="margin:auto;"><button class="buttonsUsers" style="margin:auto;">No</button></a>
+
+<main class="error-container">
+  <h1 id="mainTitle">Are you sure you want to delete your account?</h1>
+  <div class="confirmation-actions">
+    <a th:href="'/users/delete'">
+      <button class="buttonsUsers btn-danger">Yes</button>
+    </a>
+    <a th:href="'/users/'+${user.getUser_id()}">
+      <button class="buttonsUsers">No</button>
+    </a>
   </div>
-</div>
+</main>
+
 </body>
 </html>

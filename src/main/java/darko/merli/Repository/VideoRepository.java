@@ -6,11 +6,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @EnableJpaRepositories
 @Repository
 public interface VideoRepository extends JpaRepository<Video, Long> {
+
     @Query(value = "DELETE FROM liked_videos WHERE video_id = ?1", nativeQuery = true)
     @Transactional
     @Modifying
@@ -20,4 +24,9 @@ public interface VideoRepository extends JpaRepository<Video, Long> {
     @Modifying
     @Transactional
     void deleteFromComments(long video_id);
+
+    @Query("SELECT DISTINCT v FROM Video v LEFT JOIN FETCH v.postedChannel " +
+            "WHERE LOWER(v.title) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+            "OR LOWER(COALESCE(v.description, '')) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<Video> searchByKeyword(@Param("keyword") String keyword);
 }

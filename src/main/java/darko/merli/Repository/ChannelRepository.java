@@ -6,7 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @EnableJpaRepositories
 @Repository
@@ -18,4 +21,9 @@ public interface ChannelRepository extends JpaRepository<Channel, Long> {
     @Modifying
     @Transactional
     void deleteFromVideos(long channel_id);
+
+    @Query("SELECT DISTINCT c FROM Channel c LEFT JOIN FETCH c.user " +
+            "WHERE LOWER(c.channelName) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+            "OR LOWER(COALESCE(c.description, '')) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<Channel> searchByKeyword(@Param("keyword") String keyword);
 }

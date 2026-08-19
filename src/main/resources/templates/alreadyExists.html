@@ -5,13 +5,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Youtube Page</title>
+  <title>User Exists - My Youtube Page</title>
   <link th:rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<div style="display:block; width:100%; height:100%; justify-content: center; justify-items: center;">
-  <h1 style="text-align:center;">An user with this email or password already exists!</h1>
-  <a th:href="@{/register.html}" style="margin:auto;"><button class="buttonsUsers" style="margin:auto;">Go Back To Registration</button></a>
-</div>
+
+<main class="error-container">
+  <h1 id="mainTitle">A user with this username already exists!</h1>
+  <a th:href="@{/register.html}">
+    <button class="buttonsUsers">Go Back To Registration</button>
+  </a>
+</main>
+
 </body>
 </html>

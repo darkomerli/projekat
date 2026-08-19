@@ -6,25 +6,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Youtube Page - My Profile</title>
+    <title th:text="${video.getTitle()} + ' - My Youtube Page'">My Youtube Page - Video</title>
     <link th:rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
 
-<header>
-    <a th:href="@{/}" class="titlesLink"><h1 class="titles"> Darko's YouTube copy</h1></a>
-    <div class="users">
-        <ul class="navigation">
-            <li class="nav"><a th:href="@{/}">
-                <button class="buttonsUsers"> Back to Home Page</button>
-            </a></li>
-        </ul>
+<header class="header-container">
+    <div class="header-left">
+        <a th:href="@{/}" class="titlesLink">
+            <h1 class="titles">Darko's YouTube copy</h1>
+        </a>
+    </div>
+
+    <form th:action="@{/search}" method="get" class="search-form-center">
+        <input
+                type="text"
+                name="keyword"
+                class="form-input"
+                placeholder="Search videos or channels..."
+                th:value="${keyword}"
+                required
+        />
+        <button type="submit" class="buttonsUsers">Search</button>
+    </form>
+
+    <div class="header-right">
+        <div class="users">
+            <ul class="navigation">
+                <li class="nav">
+                    <a th:href="@{/}">
+                        <button type="button" class="buttonsUsers">Back to Home Page</button>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </header>
-<br>
 
 <main>
-    <p th:text="${video.getTitle()}" class="greeting"></p>
+    <h2 th:text="${video.getTitle()}" class="greeting video-main-title"></h2>
+
     <div class="contentsOfPage">
         <div id="left-side">
             <div id="video-items">
@@ -33,98 +54,126 @@
                 </div>
 
                 <div id="under-vid">
-                    <a th:href="'/channel/' + ${video.getPostedChannel().getChannelName()}"
-                       th:text="${video.getPostedChannel().getChannelName()}" id="channel-name"></a>
-                    <p th:text="'Subscribers: '+${video.getPostedChannel().getSubscribers()}"></p>
-                    <th:block>
-                        <a sec:authorize="isAuthenticated()" th:if="${video.getPostedChannel().getUser().getUsername()} != ${username} and ${!exists}"  th:href="'/channel/'+${video.getPostedChannel().getChannelName()}+'/subscribeFromVideo/'+${video.getId()}"><button class="buttonsUsers">Subscribe</button></a>
-                        <a sec:authorize="isAuthenticated()" th:if="${exists}" th:href="'/channel/'+${video.getPostedChannel().getChannelName()}+'/unsubscribeFromVideo/'+${video.getId()}"><button class="buttonsUsers">Unsubscribe</button></a>
-                    </th:block>
-                    <th:block>
-                        <a sec:authorize="isAuthenticated()" th:if="${!hasLiked}"  th:href="'/videos/'+${video.getId()}+'/like'"><button class="buttonsUsers">Like</button></a>
-                        <a sec:authorize="isAuthenticated()" th:if="${hasLiked}" th:href="'/videos/'+${video.getId()}+'/unlikeFromVideo'"><button class="buttonsUsers">Unlike</button></a>
-                    </th:block>
-                    <p th:text="'Likes: ' + ${video.getLikes()}"></p>
-                    <p th:text="'Views: ' + ${video.getViews()}"></p>
+                    <div>
+                        <a th:href="@{'/channel/' + ${video.getPostedChannel().getChannelName()}}"
+                           th:text="${video.getPostedChannel().getChannelName()}"
+                           id="channel-name" class="channel-link"></a>
+                        <p th:text="'Subscribers: ' + ${video.getPostedChannel().getSubscribers()}"></p>
+                    </div>
+
+                    <div class="video-actions">
+                        <th:block sec:authorize="isAuthenticated()">
+                            <a th:if="${video.getPostedChannel().getUser().getUsername()} != ${username} and ${!exists}"
+                               th:href="@{'/channel/' + ${video.getPostedChannel().getChannelName()} + '/subscribeFromVideo/' + ${video.getId()}}">
+                                <button type="button" class="buttonsUsers">Subscribe</button>
+                            </a>
+                            <a th:if="${exists}"
+                               th:href="@{'/channel/' + ${video.getPostedChannel().getChannelName()} + '/unsubscribeFromVideo/' + ${video.getId()}}">
+                                <button type="button" class="buttonsUsers">Unsubscribe</button>
+                            </a>
+                        </th:block>
+
+                        <th:block sec:authorize="isAuthenticated()">
+                            <a th:if="${!hasLiked}" th:href="@{'/videos/' + ${video.getId()} + '/like'}">
+                                <button type="button" class="buttonsUsers">Like</button>
+                            </a>
+                            <a th:if="${hasLiked}" th:href="@{'/videos/' + ${video.getId()} + '/unlikeFromVideo'}">
+                                <button type="button" class="buttonsUsers">Unlike</button>
+                            </a>
+                        </th:block>
+                    </div>
+
+                    <div>
+                        <p th:text="'Likes: ' + ${video.getLikes()}"></p>
+                        <p th:text="'Views: ' + ${video.getViews()}"></p>
+                    </div>
                 </div>
-                <p class="video-desc-comments"><b>Description: </b></p>
-                <p th:text="${video.getDescription()}" id="video-desc"></p>
-                <br>
-                <br>
-                <p class="video-desc-comments"><b>Comments:</b></p>
-                <br>
-                <div id="leave-a-comment" sec:authorize="isAuthenticated()">
-                    <form th:action="'/videos/' + ${video.getId()}" method="post" id="form-leave-a-comment">
-                        <input type="text" name="content" style="width:600px;">
-                        <button type="submit" class="buttonsConfirm"> Submit a Comment</button>
-                    </form>
+
+                <div id="video-desc-container">
+                    <p class="video-desc-comments"><b>Description:</b></p>
+                    <p th:text="${video.getDescription()}" id="video-desc"></p>
                 </div>
-                <div id="comments">
-                    <th:block th:if="${!commentsCheck}">
-                        <p>This video has no comments.</p>
-                    </th:block>
-                    <th:block th:if="${commentsCheck}">
-                        <ul class="myProfileChannelLists">
-                            <li th:each="comment, iStat : ${comments}" class="comment-item">
-                                <div class="pokusaj">
-                                    <p th:text="${comment.getUserComm().getUsername()}"></p>
-                                    <div id="comment-contents">
-                                        <p th:text="${comment.getContent()}"><br></p>
-                                        <div class="buttonForDeleting">
-                                            <a th:href="'/videos/'+${video.getId()}+'/comment/'+${comment.getId()}"
-                                               th:if="${comment.getUserComm().getUser_id()} == ${idOfUser}"
-                                               id="delete-Comment">
-                                                <button>X</button>
-                                            </a>
+
+                <div id="comments-container">
+                    <p class="video-desc-comments"><b>Comments:</b></p>
+
+                    <div id="leave-a-comment" sec:authorize="isAuthenticated()">
+                        <form th:action="@{'/videos/' + ${video.getId()}}" method="post" id="form-leave-a-comment">
+                            <input type="text" name="content" placeholder="Add a comment..." required class="form-input comment-input">
+                            <button type="submit" class="buttonsConfirm">Submit a Comment</button>
+                        </form>
+                    </div>
+
+                    <div id="comments">
+                        <th:block th:if="${!commentsCheck}">
+                            <p class="no-comments">This video has no comments.</p>
+                        </th:block>
+                        <th:block th:if="${commentsCheck}">
+                            <ul class="comments-list">
+                                <li th:each="comment : ${comments}" class="comment-item">
+                                    <div class="comment-card">
+                                        <div class="comment-header">
+                                            <strong class="comment-author" th:text="${comment.getUserComm().getUsername()}"></strong>
+
+                                            <div class="buttonForDeleting">
+                                                <a th:href="@{'/videos/' + ${video.getId()} + '/comment/' + ${comment.getId()}}"
+                                                   th:if="${comment.getUserComm().getUser_id()} == ${idOfUser}"
+                                                   id="delete-Comment"
+                                                   title="Delete Comment">
+                                                    <button type="button" class="btn-delete-comment">✕</button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="comment-body">
+                                            <p th:text="${comment.getContent()}"></p>
                                         </div>
                                     </div>
-                                    <br>
-                                </div>
-                            </li>
-                        </ul>
-                    </th:block>
+                                </li>
+                            </ul>
+                        </th:block>
+                    </div>
                 </div>
             </div>
         </div>
+
         <div id="right-side">
-            <ul th:each="video, iStat : ${listOfVideos}" th:if="${video.getId()} != ${MainId}" class="myProfileChannelLists">
-                <br>
-                <li>
+            <h3 class="sidebar-heading">Up Next</h3>
+            <ul class="myProfileChannelLists sidebar-list">
+                <li th:each="video : ${listOfVideos}" th:if="${video.getId()} != ${MainId}">
                     <div class="item">
-                        <a th:href="'/videos/'+${video.getId()}">
-                            <img src="https://www.ef.uns.ac.rs/za-buduce-studente/slike/efsu2015x2.jpg" class="imgThumb">
-                            <div class="underPhoto">
-                                <div class="titleDiv">
+                        <a th:href="@{'/videos/' + ${video.getId()}}">
+                            <img src="https://www.ef.uns.ac.rs/za-buduce-studente/slike/efsu2015x2.jpg" class="imgThumb" alt="Video Thumbnail">
+                        </a>
+                        <div class="underPhoto">
+                            <div class="titleDiv">
+                                <a th:href="@{'/videos/' + ${video.getId()}}">
                                     <h3 class="title" th:text="${video.getTitle()}"></h3>
+                                </a>
+                            </div>
+                            <div class="dataDiv">
+                                <div class="usersname">
+                                    <a class="userName"
+                                       th:text="${video.getPostedChannel().getChannelName()}"
+                                       th:href="@{'/channel/' + ${video.getPostedChannel().getChannelName()}}"></a>
                                 </div>
-                                <div class="dataDiv">
-                                    <div class="usersname">
-                                        <a class="userName" th:text="${video.getPostedChannel().getChannelName()}" th:href="'/channel/'+${video.getPostedChannel().getChannelName()}"></a>
-                                    </div>
-                                    <a th:href="'/videos/'+${video.getId()}">
-                                        <div>
-                                            <br>
-                                        </div>
-                                        <div class="underUsername">
-                                            <p class="views" th:text="${video.getViews()} + ' views'"></p>
-                                            <p class="date" th:text="${video.getDatePosted()}"></p>
-                                        </div>
-                                    </a>
+                                <div class="underUsername">
+                                    <p class="views" th:text="${video.getViews()} + ' views'"></p>
+                                    <p class="date" th:text="${#temporals.format(video.getDatePosted(), 'dd.MM.yyyy.')}"></p>
                                 </div>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </li>
             </ul>
         </div>
     </div>
-
 </main>
-<br>
 
 <footer>
     <div class="contents">
         <p id="contents_text">This site was made by a student from Subotica</p>
     </div>
 </footer>
+
 </body>
+</html>

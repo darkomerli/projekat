@@ -9,46 +9,41 @@
   <link th:rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-  <header>
-    <h1> Login </h1>
-    <div class = "users">
-      <a th:href="@{/}"><button class="buttonsUsers"> Back to Main Page </button></a>
+
+<header>
+  <h1>Login</h1>
+  <div class="users">
+    <a th:href="@{/}">
+      <button class="buttonsUsers">Back to Main Page</button>
+    </a>
+  </div>
+</header>
+
+<main>
+  <form th:action="@{/login}" method="post" class="form">
+    <h2>Login as an existing user</h2>
+
+    <div class="form-group">
+      <label for="username">User Name</label>
+      <input type="text" id="username" name="username" class="form-input" required>
     </div>
-  </header>
-  <br>
-  <main>
-    <form action="/login" method="post" class="form">
-      <br>
-      <h2>Login as an existing user</h2>
-      <br>
-      <br>
-      <br>
-      <div class = "forms">
-        <label style="font-size:20px;">User Name:</label>
-        <input type = "text" name="username">
-      </div>
-      <br>
-      <br>
-      <br>
-      <div class = "forms">
-        <label style="font-size:20px;">Password:</label>
-        <input type = "password" name="password">
-      </div>
-      <br>
-      <br>
-      <br>
-      <br>
-      <div>
-        <button type="submit" class="buttonsConfirm"> Submit </button>
-      </div>
-      <br>
-    </form>
-  </main>
-  <br>
-  <footer>
-    <div class = "contents">
-      <p id = "contents_text">This site was made by a student from Subotica</p>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" class="form-input" required>
     </div>
-  </footer>
+
+    <div class="form-actions">
+      <button type="submit" class="buttonsConfirm">Submit</button>
+    </div>
+  </form>
+</main>
+
+<footer>
+  <div class="contents">
+    <p id="contents_text">This site was made by a student from Subotica</p>
+  </div>
+</footer>
+
 </body>
 </html>
