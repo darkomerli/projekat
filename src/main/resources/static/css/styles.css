@@ -41,7 +41,6 @@ a:visited {
     color: var(--primary-btn-hover);
 }
 
-/* Header & Centered Search Layout */
 header,
 header.header-container {
     display: flex;
@@ -228,12 +227,21 @@ main,
     object-fit: cover;
 }
 
-.underPhoto,
-.titleDiv {
+.underPhoto {
     padding: 0.75rem;
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+}
+
+.titleDiv {
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    width: 100%;
 }
 
 .title {
@@ -318,7 +326,6 @@ main,
     border-color: var(--primary-btn);
 }
 
-/* Form Additions */
 .form-textarea {
     resize: vertical;
     min-height: 100px;
@@ -338,8 +345,8 @@ main,
 .contentsOfPage {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    max-width: 1200px;
+    gap: 3rem;
+    max-width: 1400px;
     margin: 0 auto;
     width: 100%;
 }
@@ -350,12 +357,21 @@ main,
 }
 
 .video-player {
-    border: 2px solid var(--border-color);
     width: 100%;
     aspect-ratio: 16 / 9;
-    height: auto;
-    background-color: var(--bg-player);
+    background-color: #000000;
     border-radius: var(--border-radius);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-player video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    outline: none;
 }
 
 #under-vid {
@@ -390,7 +406,6 @@ main,
     padding: 0;
 }
 
-/* Comments Section Styling */
 #comments-container {
     padding-top: 1rem;
 }
@@ -462,7 +477,6 @@ main,
     word-break: break-word;
 }
 
-/* Fixed-size wrapper prevents layout movement on hover */
 .buttonForDeleting {
     width: 24px;
     height: 24px;
@@ -503,7 +517,6 @@ main,
     background-color: var(--danger-btn-hover);
 }
 
-/* Sidebar Styles */
 .sidebar-heading {
     margin-bottom: 1rem;
 }
@@ -628,7 +641,6 @@ footer {
     font-weight: 500;
 }
 
-/* Media Queries */
 @media (min-width: 576px) {
     .form-actions .buttonsConfirm {
         width: auto;
@@ -642,11 +654,11 @@ footer {
     }
 
     #left-side {
-        width: 65%;
+        width: 72%;
     }
 
     #right-side {
-        width: 35%;
+        width: 28%;
     }
 
     #mainInfo {

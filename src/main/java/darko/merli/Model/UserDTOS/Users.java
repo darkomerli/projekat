@@ -16,7 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "User")
-//user class which represents the user of the site
 public class Users {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long user_id;

@@ -8,7 +8,6 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-//DTO class for user search, returns only username
 public class UserSearch {
     private String username;
     private List<ChannelSearch> channelList;

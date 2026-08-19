@@ -32,7 +32,6 @@
     <h2 th:text="'Hello, '+ ${users.getUsername()}" class="greeting"></h2>
 
     <div class="myProfileLists">
-      <!-- Column 1: Owned Channels -->
       <div class="listColumn">
         <h3>Channels you own</h3>
         <ul class="myProfileChannelLists">
@@ -44,7 +43,6 @@
         <a th:href="@{/channel/creation}"><button type="button" class="buttonsUsers"> Create a new Channel </button></a>
       </div>
 
-      <!-- Column 2: Subscriptions -->
       <div class="listColumn">
         <h3>Channels you have subscribed to</h3>
         <ul class="myProfileChannelLists">
@@ -58,7 +56,6 @@
         </ul>
       </div>
 
-      <!-- Column 3: Liked Videos -->
       <div class="listColumn">
         <h3>Some of the videos you have liked</h3>
         <ul class="myProfileChannelLists">

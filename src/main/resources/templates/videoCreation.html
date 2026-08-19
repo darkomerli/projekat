@@ -26,7 +26,10 @@
 </header>
 
 <main>
-  <form th:action="@{'/channel/' + ${channelName} + '/videos/post'}" method="post" class="form">
+  <form th:action="@{'/channel/' + ${channelName} + '/videos/post'}"
+        method="post"
+        enctype="multipart/form-data"
+        class="form">
     <h2>Upload a new video</h2>
 
     <div class="form-group">
@@ -40,8 +43,18 @@
     </div>
 
     <div class="form-group">
-      <label for="videoUrl">Video URL</label>
-      <input type="url" id="videoUrl" name="videoUrl" required class="form-input" placeholder="https://example.com/video">
+      <label for="file">Video File</label>
+      <input type="file" id="file" name="file" accept="video/*" required class="form-input">
+    </div>
+
+    <div class="form-group">
+      <label for="thumbnail">Thumbnail Image</label>
+      <input type="file" id="thumbnail" name="thumbnail" accept="image/*" required class="form-input">
+    </div>
+
+    <div class="form-group">
+      <label for="videoUrl">External Video URL (Optional)</label>
+      <input type="url" id="videoUrl" name="videoUrl" class="form-input" placeholder="https://example.com/video">
     </div>
 
     <div class="form-actions">

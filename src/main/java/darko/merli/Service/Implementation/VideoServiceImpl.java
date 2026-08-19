@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +39,8 @@ public class VideoServiceImpl implements VideoService {
     @Autowired
     private CommentServiceImpl commentService;
 
-    //upload a video to selected channel name
-    public String postVideo(String name, VideoUpload video) throws IllegalAccessException {
+    @Override
+    public String postVideo(String name, VideoUpload video, MultipartFile file, MultipartFile thumbnail) throws IllegalAccessException, IOException {
         Channel channel = channelRepository.findByName(name);
         if(channel == null){
             throw new IllegalArgumentException("Channel not found");
@@ -47,14 +49,25 @@ public class VideoServiceImpl implements VideoService {
         if(channel.getUser().getUser_id() != userRepository.findByUsername(auth.getName()).get().getUser_id()){
             throw new IllegalAccessException("You cannot upload to this channel.");
         }
+
         Video videoReal = uploadToVideo(video);
+
+        if (file != null && !file.isEmpty()) {
+            videoReal.setData(file.getBytes());
+            videoReal.setContentType(file.getContentType());
+        }
+
+        if (thumbnail != null && !thumbnail.isEmpty()) {
+            videoReal.setThumbnailData(thumbnail.getBytes());
+            videoReal.setThumbnailContentType(thumbnail.getContentType());
+        }
+
         videoReal.setPostedChannel(channel);
         videoReal.setDatePosted(LocalDateTime.now());
         videoRepository.save(videoReal);
         return "Video posted";
     }
 
-    //search the video with id
     @Override
     public VideoSearch searchVideo(long id) {
         Optional<Video> video = videoRepository.findById(id);
@@ -68,7 +81,12 @@ public class VideoServiceImpl implements VideoService {
         }
     }
 
-    //delete the video with id
+    @Override
+    public Video getVideoById(long id) {
+        return videoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Video with id: " + id + " not found"));
+    }
+
     @Override
     public String deleteVideo(long id) throws IllegalAccessException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -89,7 +107,6 @@ public class VideoServiceImpl implements VideoService {
         }
     }
 
-    //update the video with id
     @Override
     public VideoSearch updateVideo(long id, VideoUpdate video) throws IllegalAccessException {
         Optional<Video> videoReal = videoRepository.findById(id);
@@ -123,7 +140,6 @@ public class VideoServiceImpl implements VideoService {
         }
     }
 
-    //like the video with id
     @Override
     public String likeVideo(long id) throws IllegalAccessException {
         Optional<Video> video = videoRepository.findById(id);
@@ -151,7 +167,6 @@ public class VideoServiceImpl implements VideoService {
         }
     }
 
-    //remove the like from video with id
     @Override
     public String unlikeVideo(long id) throws IllegalAccessException {
         Optional<Video> video = videoRepository.findById(id);
@@ -178,7 +193,6 @@ public class VideoServiceImpl implements VideoService {
         }
     }
 
-    //object mapping, Video -> VideoSearch
     public VideoSearch videoToSearch(Video video){
         VideoSearch videoSearch = new VideoSearch();
         videoSearch.setTitle(video.getTitle());
@@ -201,7 +215,6 @@ public class VideoServiceImpl implements VideoService {
         return videoSearch;
     }
 
-    //object mapping: VideoUpload -> Video
     public Video uploadToVideo(VideoUpload video) {
         Video videoReal = new Video();
         videoReal.setTitle(video.getTitle());
@@ -217,20 +230,15 @@ public class VideoServiceImpl implements VideoService {
     public void unlikeVideos(Users user) {
         List<Video> listOfVideos = user.getLikedVideoList();
         for(Video video : listOfVideos){
-            System.out.println(listOfVideos.indexOf(video));
             List<Users> users = video.getUsers();
             users.remove(user);
             video.setUsers(users);
-            System.out.println("caoVideo");
             video.setLikes(video.getLikes() - 1);
-            System.out.println("cao2Video");
             videoRepository.save(video);
-            System.out.println("successVideo");
         }
         listOfVideos.clear();
         user.setLikedVideoList(listOfVideos);
         userRepository.save(user);
-        System.out.println("kraj");
     }
 
     @Override

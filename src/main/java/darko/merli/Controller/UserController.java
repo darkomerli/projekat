@@ -36,7 +36,6 @@ import java.util.Optional;
 @Controller
 @Validated
 @Tag(name = "2. Users")
-//controller class which holds the apis for user
 public class UserController {
 
     @Autowired
@@ -48,7 +47,6 @@ public class UserController {
     @Operation(summary = "Create a User", description = "Create the user with username and password")
     @PostMapping("/users/create")
     @SecurityRequirements
-    //inside paramateres I have removed @RequestBody, which was causing an error when i send data from the browser in my custom register page
     public String createUser(UserCreation user) throws IllegalAccessException {
         String returnedPage;
         try{

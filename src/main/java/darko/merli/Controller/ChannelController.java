@@ -29,7 +29,6 @@ import java.util.List;
 @Controller
 @Validated
 @Tag(name = "1. Channels")
-//controller class that hold the apis regarding the channels
 public class ChannelController {
 
     @Autowired
@@ -41,7 +40,6 @@ public class ChannelController {
     @Autowired
     VideoRepository videoRepository;
 
-    //searching the channel by channel name
     @Operation(summary = "Search the channel", description = "Search the channel by its name")
     @GetMapping("/channel/{name}")
     @SecurityRequirements
@@ -79,21 +77,18 @@ public class ChannelController {
         return "redirect:/channel/" + channelCreate.getChannelName();
     }
 
-    //deletion of the channel
     @Operation(summary = "Delete the channel", description = "Delete the channel by typing in channel name.")
     @DeleteMapping("/channel/deleteChannel/{name}")
     public String deleteChannel(@PathVariable String name) throws IllegalAccessException {
         return channelService.deleteChannel(name);
     }
 
-    //updating the channel data such as name and description
     @Operation(summary = "Update the channel", description = "Update channel name or description")
     @PutMapping("/channel/updateChannel/{name}")
     public ChannelSearch updateChannel(@PathVariable String name, @RequestBody ChannelUpdate channel) throws IllegalAccessException {
         return channelService.updateChannel(name, channel);
     }
 
-    //subscribing to a channel
     @Operation(summary = "Subscribe to the channel", description = "Subscribe to the channel with channel name")
     @GetMapping("/channel/{name}/subscribe")
     public String subscribeToChannel(@PathVariable String name) throws IllegalAccessException {
@@ -101,7 +96,6 @@ public class ChannelController {
         return "redirect:/channel/" + name;
     }
 
-    //unsubscribing from a channel
     @Operation(summary = "Unsubscribe from the channel", description = "Unsubscribe from the channel by using channel name")
     @GetMapping("/channel/{name}/unsubscribe")
     public String unsubscribeFromChannel(@PathVariable String name) throws IllegalAccessException {
