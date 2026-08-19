@@ -1,10 +1,13 @@
 package darko.merli.Service;
 
 import darko.merli.Model.UserDTOS.Users;
+import darko.merli.Model.VideoDTOS.Video;
 import darko.merli.Model.VideoDTOS.VideoSearch;
 import darko.merli.Model.VideoDTOS.VideoUpdate;
 import darko.merli.Model.VideoDTOS.VideoUpload;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface VideoService {
@@ -21,4 +24,6 @@ public interface VideoService {
     String unlikeVideo(long id) throws IllegalAccessException;
 
     void unlikeVideos(Users userCurrent);
+
+    List<Video> searchVideosByKeyword(String keyword);
 }

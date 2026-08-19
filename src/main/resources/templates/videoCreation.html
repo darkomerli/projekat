@@ -5,54 +5,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Youtube Page - Register</title>
+  <title>Video Upload - My Youtube Page</title>
   <link th:rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
+
 <header>
-  <h1> Video upload </h1>
-  <div class = "users">
-    <a th:href="@{/}"><button class="buttonsUsers"> Back to Main Page </button></a>
+  <a th:href="@{/}" class="titlesLink">
+    <h1 class="titles">Darko's YouTube copy</h1>
+  </a>
+  <div class="users">
+    <ul class="navigation">
+      <li class="nav">
+        <a th:href="@{/}">
+          <button type="button" class="buttonsUsers">Back to Home Page</button>
+        </a>
+      </li>
+    </ul>
   </div>
 </header>
-<br>
+
 <main>
-  <form th:action="'/channel/' + ${channelName} + '/videos/post'" method="post" class="form">
-    <br>
+  <form th:action="@{'/channel/' + ${channelName} + '/videos/post'}" method="post" class="form">
     <h2>Upload a new video</h2>
-    <br>
-    <br>
-    <br>
-    <div class = "forms">
-      <label style="font-size:20px;">Video title:</label>
-      <input type = "text" name="title">
+
+    <div class="form-group">
+      <label for="title">Video Title</label>
+      <input type="text" id="title" name="title" required class="form-input" placeholder="Enter video title...">
     </div>
-    <br>
-    <br>
-    <br>
-    <div class = "forms">
-      <label style="font-size:20px;">Video Description:</label>
-      <input type = "text" name="description">
+
+    <div class="form-group">
+      <label for="description">Video Description</label>
+      <textarea id="description" name="description" rows="4" required class="form-input form-textarea" placeholder="Enter video description..."></textarea>
     </div>
-    <br>
-    <br>
-    <br>
-    <div class = "forms">
-      <label style="font-size:20px;">Video url:</label>
-      <input type = "text" name="videoUrl">
+
+    <div class="form-group">
+      <label for="videoUrl">Video URL</label>
+      <input type="url" id="videoUrl" name="videoUrl" required class="form-input" placeholder="https://example.com/video">
     </div>
-    <br>
-    <div>
-      <button type="submit" class="buttonsConfirm"> Submit </button>
+
+    <div class="form-actions">
+      <button type="submit" class="buttonsConfirm">Upload Video</button>
     </div>
-    <br>
   </form>
 </main>
-<br>
+
 <footer>
-  <div class = "contents">
-    <p id = "contents_text">This site was made by a student from Subotica</p>
+  <div class="contents">
+    <p id="contents_text">This site was made by a student from Subotica</p>
   </div>
 </footer>
+
 </body>
 </html>

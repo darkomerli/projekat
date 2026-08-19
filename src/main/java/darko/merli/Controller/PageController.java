@@ -1,7 +1,9 @@
 package darko.merli.Controller;
 
+import darko.merli.Model.ChannelDTOS.Channel;
 import darko.merli.Model.UserDTOS.Users;
 import darko.merli.Model.VideoDTOS.Video;
+import darko.merli.Repository.ChannelRepository;
 import darko.merli.Repository.UserRepository;
 import darko.merli.Repository.VideoRepository;
 import darko.merli.Service.UserService;
@@ -13,9 +15,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +39,9 @@ public class PageController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ChannelRepository channelRepository;
 
 
     @GetMapping ("/index.html")
@@ -105,5 +112,24 @@ public class PageController {
     @GetMapping("/successfullCreation.html")
     public String confirmedRegistration(){
         return "successfullCreation";
+    }
+
+    @GetMapping("/search")
+    @Transactional(readOnly = true)
+    public String search(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            String query = keyword.trim();
+            List<Video> videos = videoService.searchVideosByKeyword(query);
+            List<Channel> channels = channelRepository.searchByKeyword(query);
+
+            model.addAttribute("videos", videos);
+            model.addAttribute("channels", channels);
+            model.addAttribute("keyword", query);
+        } else {
+            model.addAttribute("videos", new ArrayList<Video>());
+            model.addAttribute("channels", new ArrayList<Channel>());
+            model.addAttribute("keyword", "");
+        }
+        return "search-results";
     }
 }

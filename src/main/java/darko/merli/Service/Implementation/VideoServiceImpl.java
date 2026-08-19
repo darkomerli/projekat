@@ -232,4 +232,12 @@ public class VideoServiceImpl implements VideoService {
         userRepository.save(user);
         System.out.println("kraj");
     }
+
+    @Override
+    public List<Video> searchVideosByKeyword(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return new ArrayList<>();
+        }
+        return videoRepository.searchByKeyword(keyword.trim());
+    }
 }

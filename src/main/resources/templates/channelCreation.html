@@ -5,50 +5,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Youtube Page - Register</title>
+  <title>My Youtube Page - Channel Creation</title>
   <link th:rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
+
 <header>
-  <h1> Channel creation </h1>
-  <div class = "users">
-    <a th:href="@{/}"><button class="buttonsUsers"> Back to Main Page </button></a>
+  <h1>Channel Creation</h1>
+  <div class="users">
+    <a th:href="@{/}"><button type="button" class="buttonsUsers">Back to Main Page</button></a>
   </div>
 </header>
-<br>
+
 <main>
-  <form action="/channel/create" method="post" class="form">
-    <br>
+  <form th:action="@{/channel/create}" method="post" class="form">
     <h2>Create a new channel</h2>
-    <br>
-    <br>
-    <br>
-    <div class = "forms">
-      <label style="font-size:20px;">Channel name:</label>
-      <input type = "text" name="channelName">
+
+    <div class="form-group">
+      <label for="channelName">Channel name</label>
+      <input type="text" id="channelName" name="channelName" class="form-input" required>
     </div>
-    <br>
-    <br>
-    <br>
-    <div class = "forms">
-      <label style="font-size:20px;">Channel Description:</label>
-      <input type = "text" name="description">
+
+    <div class="form-group">
+      <label for="description">Channel Description</label>
+      <textarea id="description" name="description" class="form-input form-textarea" rows="4" required></textarea>
     </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <div>
-      <button type="submit" class="buttonsConfirm"> Submit </button>
+
+    <div class="form-actions">
+      <button type="submit" class="buttonsConfirm">Submit</button>
     </div>
-    <br>
   </form>
 </main>
-<br>
+
 <footer>
-  <div class = "contents">
-    <p id = "contents_text">This site was made by a student from Subotica</p>
+  <div class="contents">
+    <p id="contents_text">This site was made by a student from Subotica</p>
   </div>
 </footer>
+
 </body>
 </html>

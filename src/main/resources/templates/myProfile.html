@@ -12,67 +12,74 @@
 <body>
 
 <header>
-  <a th:href="@{/}" class="titlesLink"><h1 class="titles"> Darko's YouTube copy</h1></a>
-  <div class = "users">
+  <a th:href="@{/}" class="titlesLink">
+    <h1 class="titles">Darko's YouTube copy</h1>
+  </a>
+  <div class="users">
     <ul class="navigation">
-      <li class="nav" sec:authorize="isAuthenticated()"><a th:href="'/users/deletePage'"><button class="buttonsUsers"> Delete Account </button></a></li>
-      <li class="nav" sec:authorize="isAuthenticated()"><a th:href="@{/}"><button class="buttonsUsers"> Back to Home Page </button></a></li>
+      <li class="nav" sec:authorize="isAuthenticated()">
+        <a th:href="@{/users/deletePage}"><button type="button" class="buttonsUsers btn-danger"> Delete Account </button></a>
+      </li>
+      <li class="nav" sec:authorize="isAuthenticated()">
+        <a th:href="@{/}"><button type="button" class="buttonsUsers"> Back to Home Page </button></a>
+      </li>
     </ul>
   </div>
 </header>
-<br>
 
 <main>
   <th:block th:each="users:${usersList}">
     <h2 th:text="'Hello, '+ ${users.getUsername()}" class="greeting"></h2>
-    <div class = "myProfileLists">
+
+    <div class="myProfileLists">
+      <!-- Column 1: Owned Channels -->
       <div class="listColumn">
         <h3>Channels you own</h3>
         <ul class="myProfileChannelLists">
-          <li th:if="${channels.isEmpty()}">You dont have any channels yet.</li>
+          <li th:if="${channels.isEmpty()}">You don't have any channels yet.</li>
           <li th:each="channel:${channels}">
-            <a th:href="'/channel/'+${channel.getChannelName()}" th:text="${channel.getChannelName()}"></a>
-          </li>
-          <li>
-            <a href=""></a>
+            <a th:href="@{'/channel/' + ${channel.getChannelName()}}" th:text="${channel.getChannelName()}"></a>
           </li>
         </ul>
-        <a th:href="'/channel/creation'"><button class="buttonsUsers"> Create a new Channel </button></a>
+        <a th:href="@{/channel/creation}"><button type="button" class="buttonsUsers"> Create a new Channel </button></a>
       </div>
+
+      <!-- Column 2: Subscriptions -->
       <div class="listColumn">
         <h3>Channels you have subscribed to</h3>
         <ul class="myProfileChannelLists">
           <li th:if="${subscribedTo.isEmpty()}">You haven't subscribed to any channel yet.</li>
           <li th:each="channel:${subscribedTo}">
             <div class="itemChannelsVideos">
-              <a th:href="'/channel/'+${channel.getChannelName()}" th:text="${channel.getChannelName()}"></a>
-              <a th:href="'/channel/'+${channel.getChannelName()}+'/unsubscribeFrom'"><button>X</button></a>
+              <a th:href="@{'/channel/' + ${channel.getChannelName()}}" th:text="${channel.getChannelName()}"></a>
+              <a th:href="@{'/channel/' + ${channel.getChannelName()} + '/unsubscribeFrom'}" class="btn-sm-action">X</a>
             </div>
           </li>
         </ul>
       </div>
+
+      <!-- Column 3: Liked Videos -->
       <div class="listColumn">
         <h3>Some of the videos you have liked</h3>
         <ul class="myProfileChannelLists">
           <li th:if="${likedVideos.isEmpty()}">You haven't liked any videos yet.</li>
-          <li th:each="video, iStat:${likedVideos}" th:if="${iStat.index<5}">
+          <li th:each="video, iStat:${likedVideos}" th:if="${iStat.index < 5}">
             <div class="itemChannelsVideos">
-              <a th:href="'/videos/'+${video.getId()}" th:text="${video.getTitle()}"></a>
-              <a th:href="'/videos/'+${video.getId()}+'/unlike'"><button>X</button></a>
+              <a th:href="@{'/videos/' + ${video.getId()}}" th:text="${video.getTitle()}"></a>
+              <a th:href="@{'/videos/' + ${video.getId()} + '/unlike'}" class="btn-sm-action">X</a>
             </div>
           </li>
         </ul>
       </div>
     </div>
   </th:block>
-  <br>
-
 </main>
-<br>
 
 <footer>
-  <div class = "contents">
-    <p id = "contents_text">This site was made by a student from Subotica</p>
+  <div class="contents">
+    <p id="contents_text">This site was made by a student from Subotica</p>
   </div>
 </footer>
+
 </body>
+</html>

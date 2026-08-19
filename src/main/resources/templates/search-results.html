@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${'Search Results for: ' + keyword}">Search Results</title>
+    <link th:rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<header class="header-container">
+    <div class="header-left">
+        <a th:href="@{/}" class="titlesLink">
+            <h1 class="titles">Darko's YouTube copy</h1>
+        </a>
+    </div>
+
+    <form th:action="@{/search}" method="get" class="search-form-center">
+        <input type="text" name="keyword" class="form-input" placeholder="Search..." th:value="${keyword}" required />
+        <button type="submit" class="buttonsUsers">Search</button>
+    </form>
+
+    <div class="header-right">
+        <div class="users">
+            <a th:href="@{/}"><button type="button" class="buttonsUsers">Back to Home Page</button></a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <h2 class="search-title" th:text="${'Search Results for: &quot;' + keyword + '&quot;'}">Search Results</h2>
+
+    <section class="search-section" th:if="${channels != null and !channels.isEmpty()}">
+        <h3 class="section-heading">Channels Found</h3>
+        <ul id="items2">
+            <li class="itemChannel" th:each="c : ${channels}">
+                <div class="underPhoto">
+                    <a class="title" th:href="@{/channel/{name}(name=${c.channelName})}" th:text="${c.channelName}">Channel Name</a>
+                    <span class="views" th:text="${c.subscribers + ' subscribers'}">0 subscribers</span>
+                    <p class="search-desc" th:if="${c.description != null}" th:text="${c.description}">Channel Description</p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <section class="search-section" th:if="${videos != null and !videos.isEmpty()}">
+        <h3 class="section-heading">Videos Found</h3>
+        <ul id="items">
+            <li class="item" th:each="v : ${videos}">
+                <a th:href="@{/videos/{id}(id=${v.id})}">
+                    <img class="imgThumb"
+                         th:src="${v.videoUrl != null and !v.videoUrl.isEmpty() ? v.videoUrl : '/images/default-thumbnail.jpg'}"
+                         alt="Video Thumbnail" />
+                </a>
+
+                <div class="underPhoto">
+                    <a class="title" th:href="@{/videos/{id}(id=${v.id})}" th:text="${v.title}">Video Title</a>
+
+                    <a class="userName"
+                       th:if="${v.postedChannel != null}"
+                       th:href="@{/channel/{name}(name=${v.postedChannel.channelName})}"
+                       th:text="${v.postedChannel.channelName}">
+                        Channel Name
+                    </a>
+
+                    <div class="search-video-meta">
+                        <span class="views" th:text="${v.views + ' views'}">0 views</span>
+                        <span class="date" th:if="${v.datePosted != null}"
+                              th:text="${#temporals.format(v.datePosted, 'dd.MM.yyyy')}">
+                            01-01-2026
+                        </span>
+                    </div>
+
+                    <p class="search-desc" th:if="${v.description != null}" th:text="${v.description}">
+                        Video Description
+                    </p>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <div class="no-results-box" th:if="${(channels == null or channels.isEmpty()) and (videos == null or videos.isEmpty())}">
+        <p>No channels or videos found matching your search term.</p>
+    </div>
+</main>
+
+</body>
+</html>
