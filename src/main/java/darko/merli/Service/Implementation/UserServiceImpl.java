@@ -21,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -97,17 +98,21 @@ public class UserServiceImpl implements UserService {
         return "You have successfully deleted your account!";
     }
 
+    @Transactional
     public void deleteUserAll() throws IllegalAccessException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Users userCurrent = userRepository.findByUsername(auth.getName()).get();
-        List<Channel> channelList = userCurrent.getChannelList();
-        for(Channel channel : channelList){
+        Users userCurrent = userRepository.findByUsername(auth.getName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        List<Channel> channelList = new ArrayList<>(userCurrent.getChannelList());
+        for (Channel channel : channelList) {
             channelService.deleteChannel(channel.getChannelName());
         }
+        userCurrent.getChannelList().clear();
         channelService.unsubscribeChannels(userCurrent);
         videoService.unlikeVideos(userCurrent);
-        List<Comment> listOfComments = userCurrent.getCommentList();
+        List<Comment> listOfComments = new ArrayList<>(userCurrent.getCommentList());
         commentService.deleteOneComment(listOfComments);
+        userCurrent.getCommentList().clear();
         userRepository.delete(userCurrent);
     }
 
