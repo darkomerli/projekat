@@ -13,5 +13,4 @@ public class MerliApplication {
 		SpringApplication.run(MerliApplication.class, args);
 	}
 
-
 }
