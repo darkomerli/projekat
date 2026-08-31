@@ -7,7 +7,7 @@ import darko.merli.Model.ChannelDTOS.ChannelUpdate;
 import darko.merli.Model.UserDTOS.Users;
 import org.springframework.stereotype.Service;
 
-@Service
+
 public interface ChannelService{
 
 
